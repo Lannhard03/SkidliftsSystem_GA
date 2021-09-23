@@ -7,7 +7,7 @@ namespace Test1
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            //this code is great
+            //this code is terrible, pls fix it quickly
         }
     }
 }
