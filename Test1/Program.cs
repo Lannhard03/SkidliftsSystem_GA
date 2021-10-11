@@ -6,8 +6,18 @@ namespace Test1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            //this code is terrible, pls fix it quickly
+            int x = int.Parse(Console.ReadLine());
+            int y = int.Parse(Console.ReadLine());
+            int z = x;
+            for (int a = 0, a < z, a++) 
+            {
+                for (int b = 0, b < z, b++)
+                {
+                    Console.Write(x);
+                }
+            }
+            Console.WriteLine();
+            z--;
         }
     }
 }
