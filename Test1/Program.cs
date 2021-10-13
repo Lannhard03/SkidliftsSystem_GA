@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Test1
+namespace SkidliftSys
 {
     class Program
     {
