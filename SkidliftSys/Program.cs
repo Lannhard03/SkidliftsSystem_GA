@@ -8,6 +8,7 @@ namespace SkidliftSys
     // Locations will govern possible movements (maybe with connections).
     // People will be in a location, and decide one of the possible movements based on either Decisions or Location (depending on were the are).
     // Decisions are governed by people but restricted by Location.
+
     class Program
     {
         static void Main(string[] args)
@@ -15,6 +16,7 @@ namespace SkidliftSys
             int time = 0; //time 0 is the start of the skiday
             int timestep = 1; //one second?
 
+            //initialize
 
             while (true) //We Loop through for an entire day?
             {
