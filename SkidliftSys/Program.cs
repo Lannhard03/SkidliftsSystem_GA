@@ -12,7 +12,9 @@ namespace SkidliftSys
     class Program
     {
         static void Main(string[] args)
+
         {
+            
             int time = 0; //time 0 is the start of the skiday
             int timestep = 1; //one second?
 

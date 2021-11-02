@@ -11,8 +11,8 @@ namespace SkidliftSys
         //So they might be a two different locations (going from the first to the second)
         //Ex. Going from Lift "Racerliften" till restaurant "Smarriga korv"
 
-        Location start;
-        Location end;
+        public Location start;
+        public Location end;
 
     }
 }
