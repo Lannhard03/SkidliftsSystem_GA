@@ -6,6 +6,6 @@ namespace SkidliftSys
 {
     class Decision
     {
-        Connections decision = new Connections();
+        Location decision;
     }
 }

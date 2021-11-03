@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SkidliftSys
 {
-    class Person
+    public class Person
     {
         string name; //for estetic?
         int person_number; //for keeping track of who is where.
@@ -20,7 +20,7 @@ namespace SkidliftSys
 
 
         List<Decision> future_decisions = new List<Decision>(); // do decisions require there own class?
-
+        List<Location> location_history = new List<Location>();
         
 
       

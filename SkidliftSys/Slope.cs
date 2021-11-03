@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SkidliftSys
 {
-    class Slope
+    class Slope : Location
     {
         List<Person> occupants = new List<Person>();
         int slopetime;
