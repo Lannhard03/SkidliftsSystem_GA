@@ -20,6 +20,8 @@ namespace SkidliftSys
 
             //initialize
 
+            
+
             while (true) //We Loop through for an entire day?
             {
                 //Slopemovement (people get to lifts)

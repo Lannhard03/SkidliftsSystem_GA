@@ -11,7 +11,10 @@ namespace SkidliftSys
         int waittime;   //Time between each lifting
         int running_waittime; //=waittime;
 
-        List<Location> possiblemovements = new List<Location>(); //How to express location? Absolute location might be useful for pathfinding but how do you express it? Relative position probably enough?
+        public Lift()
+        {
+
+        }
         
         public void Liftpeople(int timestep) //move people from queue to associated lift And if someone is at the top of lift/ at an exit they must/may exit the lift.
         {
