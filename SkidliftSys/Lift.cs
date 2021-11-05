@@ -6,7 +6,7 @@ namespace SkidliftSys
 {
     class Lift : Location
     {
-        //You may exit certainlifts in the middle, then the person makes a decision too contunie (enter the next lift) or leave.
+        //You may exit certainlifts in the middle, then the person makes a decision too contunie* (enter the next lift) or leave.
         int timelength;
 
         public void MoveLift(int timestep)
@@ -17,10 +17,14 @@ namespace SkidliftSys
                 i.time_location += timestep; //increase the time in the location by timestep and move person if nessecary.
                 if (i.time_location >= timelength)
                 {
-                    i.MakeDecision(possiblemovements);
+                    movingpeople.Add(i);
                 }
             }
-
+            movingpeople.Sort((x,y) => y.time_location.CompareTo(x.time_location)); //note that x,y change places, then we sort from highest to lowest (with respect to time_location)
+            foreach(Person i in movingpeople)
+            {
+                i.MakeDecision(possiblemovements, this); //How to refer to itself (we need to know where the Person i is, this may work can't really test.
+            }
         }
 
 
