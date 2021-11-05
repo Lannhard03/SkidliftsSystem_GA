@@ -22,7 +22,10 @@ namespace SkidliftSys
         List<Decision> future_decisions = new List<Decision>(); // do decisions require there own class?
         List<Location> location_history = new List<Location>();
 
-
+        public void MakeDecision(List<Location> possiblemovements)
+        {
+            //Look through Persons values, location & history and move him.
+        }
         
         
 

@@ -4,35 +4,27 @@ using System.Text;
 
 namespace SkidliftSys
 {
-    public class Lift : Location
+    class Lift : Location
     {
-        
-        int liftamount; //how much one lifting lifts
-        int waittime;   //Time between each lifting
-        int running_waittime; //=waittime;
+        //You may exit certainlifts in the middle, then the person makes a decision too contunie (enter the next lift) or leave.
+        int timelength;
 
-        public Lift()
+        public void MoveLift(int timestep)
         {
-
-        }
-        
-        public void Liftpeople(int timestep) //move people from queue to associated lift And if someone is at the top of lift/ at an exit they must/may exit the lift.
-        {
-            running_waittime -= timestep;    
-            if (running_waittime <= 0)       //if the waittime is elapsed we lift people.
+            List<Person> movingpeople = new List<Person>(); //temp
+            foreach (Person i in occupants)
             {
-                running_waittime += waittime;                   //reset running_waittime
-                List<Person> movingpeople = new List<Person>();
-
-                for(int i = 0; i < liftamount; i++)
+                i.time_location += timestep; //increase the time in the location by timestep and move person if nessecary.
+                if (i.time_location >= timelength)
                 {
-                    movingpeople.Add(occupants[i]); //lift always takes from the front of the queue.
+                    i.MakeDecision(possiblemovements);
                 }
-
-                possiblemovements[0].AddPeople(movingpeople);      //Maybe the first in the list of movements is the associated queue?
-                RemovePeople(movingpeople);                        //Remove the people from this queue
             }
+
         }
+
+
+
 
 
     }

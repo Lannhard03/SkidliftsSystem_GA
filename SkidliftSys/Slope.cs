@@ -20,7 +20,7 @@ namespace SkidliftSys
             List<Person> movingpeople = new List<Person>(); //temp
             foreach(Person i in occupants)
             {
-                i.time_location += timestep; //increase the time in the location by timestep and move person i nessecary.
+                i.time_location += timestep; //increase the time in the location by timestep and move person if nessecary.
                 if (i.time_location >= totalslopetime)
                 {
                     movingpeople.Add(i);

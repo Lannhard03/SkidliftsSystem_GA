@@ -17,12 +17,13 @@ namespace SkidliftSys
             
             int time = 0; //time 0 is the start of the skiday
             int timestep = 1; //one second?
+            int endtime = 28800;
 
             //initialize
 
             
 
-            while (true) //We Loop through for an entire day?
+            while (time<=endtime) //We Loop through for an entire day?
             {
                 //Slopemovement (people get to lifts)
                 //Liftmovement (lifts lift people)
