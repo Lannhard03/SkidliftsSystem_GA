@@ -25,7 +25,8 @@ namespace SkidliftSys
             
             foreach(Person i in movingpeople)
             {
-                i.DecisionHandler(possiblemovements, this); //How to refer to itself (we need to know where the Person i is, this may work can't really test.
+                i.DecisionHandler(possiblemovements, this).AddPerson(i); //How to refer to itself (we need to know where the Person i is, this may work can't really test.
+                RemovePerson(i);
             }
         }
        

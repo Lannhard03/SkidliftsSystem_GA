@@ -26,9 +26,11 @@ namespace SkidliftSys
                     movingpeople.Add(i);
                 }
             }
-            possiblemovements[0].AddPeople(movingpeople);      //Maybe the first in the list of movements is the associated queue?
-            RemovePeople(movingpeople);                        //Remove the people from this queue
-
+            foreach(Person i in movingpeople)
+            {
+                i.DecisionHandler(possiblemovements, this).AddPerson(i);
+                RemovePerson(i);
+            }
         }
 
 

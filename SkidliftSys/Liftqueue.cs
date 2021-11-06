@@ -23,8 +23,17 @@ namespace SkidliftSys
             {
                 running_waittime += waittime;                   //reset running_waittime
                 List<Person> movingpeople = new List<Person>();
+                int actuallift;
+                if (occupants.Count > liftamount)
+                {
+                    actuallift = liftamount;
+                }
+                else
+                {
+                    actuallift = occupants.Count;
+                }
 
-                for(int i = 0; i < liftamount; i++)
+                for(int i = 0; i < actuallift; i++)
                 {
                     movingpeople.Add(occupants[i]); //lift always takes from the front of the queue.
                 }
@@ -32,11 +41,14 @@ namespace SkidliftSys
                 {
                     if(i is Lift)
                     {
-                        i.AddPeople(movingpeople); //find the first Lift in the list of possiblemovements, there should only be one.
+                        foreach(Person j in movingpeople)
+                        {
+                            i.AddPerson(j);
+                            RemovePerson(j);
+                        }
                         break;
                     }
                 }
-                RemovePeople(movingpeople);//Remove the people from this queue
             }
         }
 

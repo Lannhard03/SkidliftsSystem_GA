@@ -22,7 +22,7 @@ namespace SkidliftSys
         List<Decision> future_decisions = new List<Decision>(); // do decisions require there own class?
         List<Location> location_history = new List<Location>();
 
-        public void DecisionHandler(List<Location> possiblemovements, Location occupying)
+        public Location DecisionHandler(List<Location> possiblemovements, Location occupying)
         {
 
             //Depending in which Location type Person is occupying we make different decisions.
@@ -30,36 +30,33 @@ namespace SkidliftSys
             switch (occupying) //Switch statement to determine what derived class occupying is.
             {
                 case Lift l:
-                    LiftDecision(possiblemovements);
-                    break;
+                    return(LiftDecision(possiblemovements));
+                    
                 case Slope l:
-                    SlopeDecision(possiblemovements);
-                    break;
+                    return(SlopeDecision(possiblemovements));
                 default:
                     throw new ArgumentException("Invalid Location");
             }
-
-
-            /* //if else statment to do the samething.
-            if (occupying is Lift)
-            {
-                LiftDecision(possiblemovements);
-            }
-            else if(occupying is Slope)
-            {
-                SlopeDecision(possiblemovements);
-            }
-            */
         }
         
-        private void LiftDecision(List<Location> possiblemovements)
+        private Location LiftDecision(List<Location> possiblemovements)
         {
-
+            //Disregarding top of mountain location for now we can say that the person will look for the first slopes in the list and pick one.
+            List<Slope> possibleslopes = new List<Slope>();
+            foreach(Location i in possiblemovements)
+            {
+                if(i is Slope slope)
+                {
+                    possibleslopes.Add(slope); //This may cause a problem (i should be Slope but maybe i still "converts" it?
+                }
+            }
+            Random rnd = new Random();
+            return(possibleslopes[rnd.Next(0, possibleslopes.Count - 1)]);
         }
 
-        private void SlopeDecision(List<Location> possiblemovements)
+        private Location SlopeDecision(List<Location> possiblemovements)
         {
-
+            return ();
         }
 
 
