@@ -22,6 +22,10 @@ namespace SkidliftSys
         List<Decision> future_decisions = new List<Decision>(); // do decisions require there own class?
         List<Location> location_history = new List<Location>();
 
+        public Person(int number)
+        {
+            person_number = number;
+        }
         public Location DecisionHandler(List<Location> possiblemovements, Location occupying)
         {
 
@@ -51,12 +55,21 @@ namespace SkidliftSys
                 }
             }
             Random rnd = new Random();
-            return(possibleslopes[rnd.Next(0, possibleslopes.Count - 1)]);
+            return(possibleslopes[rnd.Next(0, possibleslopes.Count - 1)]); //Basic behaivour, pick a random slope.
         }
 
         private Location SlopeDecision(List<Location> possiblemovements)
         {
-            return ();
+            List<Liftqueue> possiblequeues = new List<Liftqueue>();
+            foreach(Location i in possiblemovements)
+            {
+                if(i is Liftqueue queue)
+                {
+                    possiblequeues.Add(queue);
+                }
+            }
+            Random rnd = new Random();
+            return (possiblequeues[rnd.Next(0,possiblequeues.Count-1)]); //Basic behaivour, pick a random queue
         }
 
 

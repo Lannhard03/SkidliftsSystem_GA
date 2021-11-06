@@ -20,9 +20,44 @@ namespace SkidliftSys
             int endtime = 28800;
 
             //initialize
+            List<Person> alloccupants = new List<Person>();
+            for(int i = 0; i<200; i++)
+            {
+                alloccupants.Add(new Person(i));
+            }
+            Liftqueue superko = new Liftqueue(alloccupants, 2, 10);
+            Lift superliften = new Lift(200);
+            Slope superbacken = new Slope(500);
+
+            //make connections
+            superko.possiblemovements.Add(superliften);
+            superliften.possiblemovements.Add(superbacken);
+            superbacken.possiblemovements.Add(superko);
+
+
+            while(time <= endtime)
+            {
+                superko.Liftpeople(timestep);
+                superliften.MoveLift(timestep);
+                superbacken.SlopeMovement(timestep);
+                if(time%100 == 0)
+                {
+                    Console.WriteLine("Time: {0}", time);
+                    Console.WriteLine("Superko har {0} köande", superko.occupants.Count);
+                    Console.WriteLine("SuperLiften har {0} personer i sig", superliften.occupants.Count);
+                    Console.WriteLine("Superbacken har {0} åkande", superbacken.occupants.Count);
+                }
+                
+
+                time += timestep;
+            }
 
             
 
+
+
+            
+            /*
             while (time<=endtime) //We Loop through for an entire day?
             {
                 //Slopemovement (people get to lifts)
@@ -32,6 +67,8 @@ namespace SkidliftSys
                 // Collect/store data
                 time +=timestep;
             }
+            */
         }
+
     }
 }

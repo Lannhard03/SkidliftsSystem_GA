@@ -9,7 +9,15 @@ namespace SkidliftSys
         //You may exit certainlifts in the middle, then the person makes a decision too contunie* (enter the next lift) or leave.
         int timelength;
         int maxoccupants; //if lift has this many people, don't add more.
-
+        public Lift(List<Person> people, int lenghttime)
+        {
+            occupants = people;
+            timelength = lenghttime;
+        }
+        public Lift(int lenghttime)
+        {
+            timelength = lenghttime;
+        }
         public void MoveLift(int timestep)
         {
             List<Person> movingpeople = new List<Person>(); //temp
