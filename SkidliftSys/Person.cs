@@ -5,7 +5,7 @@ namespace SkidliftSys
 {
     public class Person
     {
-        string name; //for estetic?
+        string name; //for esthetics?
         public int person_number; //for keeping track of who is where.
 
         int morningness; //from 0-1? How early do they start skiing.
