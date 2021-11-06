@@ -33,10 +33,10 @@ namespace SkidliftSys
 
             switch (occupying) //Switch statement to determine what derived class occupying is.
             {
-                case Lift l:
-                    return(LiftDecision(possiblemovements));
+                case Lift _:
+                    return (LiftDecision(possiblemovements));
                     
-                case Slope l:
+                case Slope _:
                     return(SlopeDecision(possiblemovements));
                 default:
                     throw new ArgumentException("Invalid Location");
