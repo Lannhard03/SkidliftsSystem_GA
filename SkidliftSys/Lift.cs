@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace SkidliftSys
 {
@@ -8,6 +8,7 @@ namespace SkidliftSys
     {
         //You may exit certainlifts in the middle, then the person makes a decision too contunie* (enter the next lift) or leave.
         int timelength;
+        int maxoccupants; //if lift has this many people, don't add more.
 
         public void MoveLift(int timestep)
         {
@@ -21,11 +22,13 @@ namespace SkidliftSys
                 }
             }
             movingpeople.Sort((x,y) => y.time_location.CompareTo(x.time_location)); //note that x,y change places, then we sort from highest to lowest (with respect to time_location)
+            
             foreach(Person i in movingpeople)
             {
-                i.MakeDecision(possiblemovements, this); //How to refer to itself (we need to know where the Person i is, this may work can't really test.
+                i.DecisionHandler(possiblemovements, this); //How to refer to itself (we need to know where the Person i is, this may work can't really test.
             }
         }
+       
 
 
 

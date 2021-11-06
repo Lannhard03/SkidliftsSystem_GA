@@ -22,13 +22,46 @@ namespace SkidliftSys
         List<Decision> future_decisions = new List<Decision>(); // do decisions require there own class?
         List<Location> location_history = new List<Location>();
 
-        public void MakeDecision(List<Location> possiblemovements, Location occupying)
+        public void DecisionHandler(List<Location> possiblemovements, Location occupying)
         {
-            //Look through Persons values, location & history and move him.
+
+            //Depending in which Location type Person is occupying we make different decisions.
+
+            switch (occupying) //Switch statement to determine what derived class occupying is.
+            {
+                case Lift l:
+                    LiftDecision(possiblemovements);
+                    break;
+                case Slope l:
+                    SlopeDecision(possiblemovements);
+                    break;
+                default:
+                    throw new ArgumentException("Invalid Location");
+            }
+
+
+            /* //if else statment to do the samething.
+            if (occupying is Lift)
+            {
+                LiftDecision(possiblemovements);
+            }
+            else if(occupying is Slope)
+            {
+                SlopeDecision(possiblemovements);
+            }
+            */
         }
         
-        
+        private void LiftDecision(List<Location> possiblemovements)
+        {
 
-      
+        }
+
+        private void SlopeDecision(List<Location> possiblemovements)
+        {
+
+        }
+
+
     }
 }
