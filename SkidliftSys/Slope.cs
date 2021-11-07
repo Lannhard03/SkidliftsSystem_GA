@@ -32,8 +32,7 @@ namespace SkidliftSys
             }
             foreach(Person i in movingpeople)
             {
-                i.DecisionHandler(possiblemovements, this).AddPerson(i);
-                RemovePerson(i);
+                i.DecisionHandler(possiblemovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
             }
         }
 

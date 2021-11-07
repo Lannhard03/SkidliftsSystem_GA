@@ -46,8 +46,7 @@ namespace SkidliftSys
                     {
                         foreach(Person j in movingpeople)
                         {
-                            i.AddPerson(j);
-                            RemovePerson(j);
+                            i.MovePerson(j, this);
                         }
                         break;
                     }
