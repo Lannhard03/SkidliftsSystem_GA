@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace SkidliftSys
 {
     public class Person
     {
-        string name; //for esthetics?
+        string name = "Alfonso Miguerna"; //for esthetics?
         public int person_number; //for keeping track of who is where.
 
         int morningness; //from 0-1? How early do they start skiing.
@@ -71,7 +73,5 @@ namespace SkidliftSys
             Random rnd = new Random();
             return (possiblequeues[rnd.Next(0,possiblequeues.Count-1)]); //Basic behaivour, pick a random queue
         }
-
-
     }
 }
