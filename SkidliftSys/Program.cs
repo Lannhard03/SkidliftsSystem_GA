@@ -51,7 +51,10 @@ namespace SkidliftSys
 
                 time += timestep;
             }
-
+            foreach(Location i in alloccupants[5].location_history)
+            {
+                Console.WriteLine(i.LogLocationName());
+            }
             
 
 
