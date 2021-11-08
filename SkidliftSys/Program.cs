@@ -21,7 +21,7 @@ namespace SkidliftSys
 
             //initialize
             List<Person> alloccupants = new List<Person>();
-            for(int i = 0; i<200; i++)
+            for(int i = 0; i<1000; i++)
             {
                 alloccupants.Add(new Person(i));
             }
@@ -33,19 +33,16 @@ namespace SkidliftSys
             superko.possiblemovements.Add(superliften);
             superliften.possiblemovements.Add(superbacken);
             superbacken.possiblemovements.Add(superko);
-
-
-            while(time <= endtime)
+            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till superliften:", "Åkande i superliften:", "Åkande i superbacken:"));
+            while (time <= endtime)
             {
                 superko.Liftpeople(timestep);
                 superliften.MoveLift(timestep);
                 superbacken.SlopeMovement(timestep);
-                if(time%100 == 0)
+                if (time%100 == 0)
                 {
-                    Console.WriteLine("Time: {0}", time);
-                    Console.WriteLine("Superko har {0} köande", superko.occupants.Count);
-                    Console.WriteLine("SuperLiften har {0} personer i sig", superliften.occupants.Count);
-                    Console.WriteLine("Superbacken har {0} åkande", superbacken.occupants.Count);
+                    Console.WriteLine("{0, 10:N0} {1, 40:N0} {2, 50:N0} {3, 60:N0}\n",
+                        time, superko.occupants.Count, superliften.occupants.Count, superbacken.occupants.Count);
                 }
                 
 
