@@ -11,8 +11,9 @@ namespace SkidliftSys
         int waittime;   //Time between each lifting
         int running_waittime; //=waittime;
 
-        public Liftqueue(List<Person> people, int amountlift, int timewait)
+        public Liftqueue(List<Person> people, int amountlift, int timewait, string referenceName)
         {
+            nameReference = referenceName;
             occupants = people;
             liftamount = amountlift;
             waittime = timewait;

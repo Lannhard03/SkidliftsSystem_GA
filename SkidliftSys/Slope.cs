@@ -9,13 +9,15 @@ namespace SkidliftSys
         
         int totalslopetime;
         
-        public Slope(List<Person> people, int timetoslope)
+        public Slope(List<Person> people, int timetoslope, string referenceName)
         {
+            nameReference = referenceName;
             occupants = people;
             totalslopetime = timetoslope;
         }
-        public Slope(int timetoslope)
+        public Slope(int timetoslope, string referenceName)
         {
+            nameReference = referenceName;
             totalslopetime = timetoslope;
         }
 

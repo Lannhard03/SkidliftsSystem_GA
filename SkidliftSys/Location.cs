@@ -6,9 +6,10 @@ namespace SkidliftSys
 {
     public abstract class Location
     {
-       
+        public string nameReference;
         public List<Person> occupants = new List<Person>();
         public List<Location> possiblemovements = new List<Location>(); //How to express location? Absolute location might be useful for pathfinding but how do you express it? Relative position probably enough?
+        
         
         public virtual void MovePerson(Person people, Location comingfrom)
         {
@@ -28,10 +29,6 @@ namespace SkidliftSys
             
         }
 
-        public string LogLocationName()
-        {
-            return(this.GetType().Name);
-        }
 
     }
 }
