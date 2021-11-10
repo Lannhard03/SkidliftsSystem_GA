@@ -34,9 +34,9 @@ namespace SkidliftSys
 
 
             //make connections
-            superKo.possibleMovements.Add(superLiften);
-            superLiften.possibleMovements.Add(superBacken);
-            superBacken.possibleMovements.Add(superKo);
+            superKo.possibleMovements.Add(new Connection(superLiften));
+            superLiften.possibleMovements.Add(new Connection(superBacken));
+            superBacken.possibleMovements.Add(new Connection(superKo));
             Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endTime)
             {

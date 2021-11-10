@@ -28,7 +28,7 @@ namespace SkidliftSys
         {
             this.personNumber = personNumber;
         }
-        public Location DecisionHandler(List<Location> possibleMovements, Location occupying)
+        public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
 
             //Depending in which Location type Person is occupying we make different decisions.
@@ -45,13 +45,13 @@ namespace SkidliftSys
             }
         }
         
-        private Location LiftDecision(List<Location> possibleMovements)
+        private Location LiftDecision(List<Connection> possibleMovements)
         {
             //Disregarding top of mountain location for now we can say that the person will look for the first slopes in the list and pick one.
             List<Slope> possibleSlopes = new List<Slope>();
-            foreach(Location i in possibleMovements)
+            foreach(Connection i in possibleMovements)
             {
-                if(i is Slope slope)
+                if(i.leadingTo is Slope slope && !i.closed)
                 {
                     possibleSlopes.Add(slope); 
                 }
@@ -60,12 +60,12 @@ namespace SkidliftSys
             return(possibleSlopes[rnd.Next(0, possibleSlopes.Count - 1)]); //Basic behaivour, pick a random slope.
         }
 
-        private Location SlopeDecision(List<Location> possibleMovements)
+        private Location SlopeDecision(List<Connection> possibleMovements)
         {
             List<Liftqueue> possibleQueues = new List<Liftqueue>();
-            foreach(Location i in possibleMovements)
+            foreach(Connection i in possibleMovements)
             {
-                if(i is Liftqueue queue)
+                if(i.leadingTo is Liftqueue queue && !i.closed)
                 {
                     possibleQueues.Add(queue);
                 }

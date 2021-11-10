@@ -41,13 +41,13 @@ namespace SkidliftSys
                 {
                     movingPeople.Add(occupants[i]); //lift always takes from the front of the queue.
                 }
-                foreach(Location i in possibleMovements)
+                foreach(Connection i in possibleMovements)
                 {
-                    if(i is Lift)
+                    if(i.leadingTo is Lift)
                     {
                         foreach(Person j in movingPeople)
                         {
-                            i.MovePerson(j, this);
+                            i.leadingTo.MovePerson(j, this);
                         }
                         break;
                     }
