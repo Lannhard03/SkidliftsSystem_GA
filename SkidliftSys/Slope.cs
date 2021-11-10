@@ -7,35 +7,37 @@ namespace SkidliftSys
     class Slope : Location
     {
         
-        int totalslopetime;
+        int slopeTime;
         
-        public Slope(List<Person> people, int timetoslope, string referenceName)
+        public Slope(List<Person> occupants, int slopeTime, string name)
         {
-            nameReference = referenceName;
-            occupants = people;
-            totalslopetime = timetoslope;
+            this.name = name;
+            this.occupants = occupants;
+            this.slopeTime = slopeTime;
         }
-        public Slope(int timetoslope, string referenceName)
+        public Slope(int slopeTime, string name)
         {
-            nameReference = referenceName;
-            totalslopetime = timetoslope;
+            this.name = name;
+            this.slopeTime = slopeTime;
         }
 
-        public void SlopeMovement(int timestep)
+        public void SlopeMovement(int timeStep)
         {
-            List<Person> movingpeople = new List<Person>(); //temp
+            List<Person> movingPeople = new List<Person>(); //temp
             foreach(Person i in occupants)
             {
-                i.time_location += timestep; //increase the time in the location by timestep and move person if nessecary.
-                if (i.time_location >= totalslopetime)
+                i.timeLocation += timeStep; //increase the time in the location by timestep and move person if nessecary.
+                if (i.timeLocation >= slopeTime)
                 {
-                    movingpeople.Add(i);
+                    movingPeople.Add(i);
                 }
             }
-            foreach(Person i in movingpeople)
+            foreach(Person i in movingPeople) //why are there two foreach loops (and a temporary list) here when one is enough?
             {
-                i.DecisionHandler(possiblemovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
             }
+
+            
         }
 
 
