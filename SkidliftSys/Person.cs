@@ -57,21 +57,30 @@ namespace SkidliftSys
                 }
             }
             Random rnd = new Random();
-            return(possibleSlopes[rnd.Next(0, possibleSlopes.Count - 1)]); //Basic behaivour, pick a random slope.
+            return(possibleSlopes[rnd.Next(0, possibleSlopes.Count)]); //Basic behaivour, pick a random slope.
         }
 
         private Location SlopeDecision(List<Connection> possibleMovements)
         {
-            List<Liftqueue> possibleQueues = new List<Liftqueue>();
             foreach(Connection i in possibleMovements)
             {
-                if(i.leadingTo is Liftqueue queue && !i.closed)
+                if(i.leadingTo is Slope slope && !i.closed)
+                {
+                    return slope;
+                }
+            }
+            List<LiftQueue> possibleQueues = new List<LiftQueue>();
+            foreach(Connection i in possibleMovements)
+            {
+                if(i.leadingTo is LiftQueue queue && !i.closed)
                 {
                     possibleQueues.Add(queue);
                 }
             }
             Random rnd = new Random();
-            return (possibleQueues[rnd.Next(0,possibleQueues.Count-1)]); //Basic behaivour, pick a random queue
+            return possibleQueues[rnd.Next(0,possibleQueues.Count)]; //Basic behaivour, pick a random queue
+
+
         }
     }
 }

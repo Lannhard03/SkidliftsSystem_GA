@@ -4,14 +4,14 @@ using System.Text;
 
 namespace SkidliftSys
 {
-    public class Liftqueue : Location
+    public class LiftQueue : Location
     {
         
         int liftAmount; //how much one lifting lifts
         int waitTime;   //Time between each lifting
         int currentWaitTime; //=waittime;
 
-        public Liftqueue(List<Person> occupants, int liftAmount, int waitTime, string name)
+        public LiftQueue(List<Person> occupants, int liftAmount, int waitTime, string name)
         {
             this.name = name;
             this.occupants = occupants;
