@@ -11,8 +11,9 @@ namespace SkidliftSys
         int waittime;   //Time between each lifting
         int running_waittime; //=waittime;
 
-        public Liftqueue(List<Person> people, int amountlift, int timewait)
+        public Liftqueue(List<Person> people, int amountlift, int timewait, string referenceName)
         {
+            nameReference = referenceName;
             occupants = people;
             liftamount = amountlift;
             waittime = timewait;
@@ -46,8 +47,7 @@ namespace SkidliftSys
                     {
                         foreach(Person j in movingpeople)
                         {
-                            i.AddPerson(j);
-                            RemovePerson(j);
+                            i.MovePerson(j, this);
                         }
                         break;
                     }
