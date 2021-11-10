@@ -9,13 +9,15 @@ namespace SkidliftSys
         
         int totalslopetime;
         
-        public Slope(List<Person> people, int timetoslope)
+        public Slope(List<Person> people, int timetoslope, string referenceName)
         {
+            nameReference = referenceName;
             occupants = people;
             totalslopetime = timetoslope;
         }
-        public Slope(int timetoslope)
+        public Slope(int timetoslope, string referenceName)
         {
+            nameReference = referenceName;
             totalslopetime = timetoslope;
         }
 
@@ -32,8 +34,7 @@ namespace SkidliftSys
             }
             foreach(Person i in movingpeople)
             {
-                i.DecisionHandler(possiblemovements, this).AddPerson(i);
-                RemovePerson(i);
+                i.DecisionHandler(possiblemovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
             }
         }
 

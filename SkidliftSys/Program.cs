@@ -25,9 +25,9 @@ namespace SkidliftSys
             {
                 alloccupants.Add(new Person(i));
             }
-            Liftqueue superko = new Liftqueue(alloccupants, 2, 10);
-            Lift superliften = new Lift(200);
-            Slope superbacken = new Slope(500);
+            Liftqueue superko = new Liftqueue(alloccupants, 2, 10, "superkö");
+            Lift superliften = new Lift(200, "superliften");
+            Slope superbacken = new Slope(500, "superbacken");
 
             //make connections
             superko.possiblemovements.Add(superliften);
@@ -51,7 +51,10 @@ namespace SkidliftSys
 
                 time += timestep;
             }
-
+            foreach(Location i in alloccupants[5].location_history)
+            {
+                Console.WriteLine(i.nameReference);
+            }
             
 
 

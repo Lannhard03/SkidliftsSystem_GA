@@ -20,7 +20,7 @@ namespace SkidliftSys
 
 
         List<Decision> future_decisions = new List<Decision>(); // do decisions require there own class?
-        List<Location> location_history = new List<Location>();
+        public List<Location> location_history = new List<Location>();
 
         public Person(int number)
         {
