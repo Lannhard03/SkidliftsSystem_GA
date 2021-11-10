@@ -18,12 +18,25 @@ namespace SkidliftSys
             int time = 0; //time 0 is the start of the skiday
             int timestep = 1; //one second?
             int endtime = 28800;
-
+            
             //initialize
             List<Person> alloccupants = new List<Person>();
             for(int i = 0; i<1000; i++)
             {
                 alloccupants.Add(new Person(i));
+            }
+
+            //add group/method containing all queues, make a "liftmaker"
+            //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
+            //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
+            static object Liftmaker(int amount)
+            {
+                List<Liftqueue> queues = new List<Liftqueue>();
+                List<Lift> lifts = new List<Lift>();
+                List<Slope> slopes = new List<Slope>();
+
+                return queues;
+
             }
             Liftqueue superko = new Liftqueue(alloccupants, 2, 10);
             Lift superliften = new Lift(200);
@@ -33,7 +46,7 @@ namespace SkidliftSys
             superko.possiblemovements.Add(superliften);
             superliften.possiblemovements.Add(superbacken);
             superbacken.possiblemovements.Add(superko);
-            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till superliften:", "Åkande i superliften:", "Åkande i superbacken:"));
+            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endtime)
             {
                 superko.Liftpeople(timestep);
