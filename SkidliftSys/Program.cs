@@ -26,18 +26,7 @@ namespace SkidliftSys
                 alloccupants.Add(new Person(i));
             }
 
-            //add group/method containing all queues, make a "liftmaker"
-            //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
-            //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
-            static object Liftmaker(int amount)
-            {
-                List<Liftqueue> queues = new List<Liftqueue>();
-                List<Lift> lifts = new List<Lift>();
-                List<Slope> slopes = new List<Slope>();
 
-                return queues;
-
-            }
 
             Liftqueue superko = new Liftqueue(alloccupants, 2, 10, "superkö");
             Lift superliften = new Lift(200, "superliften");
@@ -83,6 +72,19 @@ namespace SkidliftSys
                 time +=timestep;
             }
             */
+        }
+
+        //add group/method containing all queues, make a "liftmaker"
+        //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
+        //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
+        static object Liftmaker(int amount)
+        {
+            List<Liftqueue> queues = new List<Liftqueue>();
+            List<Lift> lifts = new List<Lift>();
+            List<Slope> slopes = new List<Slope>();
+
+            return queues;
+
         }
 
     }
