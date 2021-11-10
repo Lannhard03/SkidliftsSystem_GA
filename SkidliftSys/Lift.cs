@@ -6,7 +6,7 @@ namespace SkidliftSys
 {
     class Lift : Location
     {
-        //You may exit certainlifts in the middle, then the person makes a decision too contunie* (enter the next lift) or leave.
+        //You may exit certain lifts in the middle, then the person makes a decision to continue (enter the next lift) or leave.
         int timelength;
         int maxoccupants; //if lift has this many people, don't add more.
         public Lift(List<Person> people, int lenghttime, string referenceName)
