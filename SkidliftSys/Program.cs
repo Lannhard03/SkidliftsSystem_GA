@@ -39,9 +39,13 @@ namespace SkidliftSys
 
             }
 
+            */
+
+
             Liftqueue superko = new Liftqueue(alloccupants, 2, 10, "superkö");
             Lift superliften = new Lift(200, "superliften");
             Slope superbacken = new Slope(500, "superbacken");
+
 
 
             //make connections
