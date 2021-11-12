@@ -36,10 +36,13 @@ namespace SkidliftSys
             switch (occupying) //Switch statement to determine what derived class occupying is.
             {
                 case Lift _:
-                    return (LiftDecision(possibleMovements));
-                    
+                    return LiftDecision(possibleMovements);
                 case Slope _:
-                    return(SlopeDecision(possibleMovements));
+                    return SlopeDecision(possibleMovements);
+                case LiftQueue _:
+                    return LiftQueueDecision(possibleMovements);
+                case Restaurant _:
+                    return MountainTopDecision(possibleMovements);
                 default:
                     throw new ArgumentException("Invalid Location");
             }
@@ -79,8 +82,16 @@ namespace SkidliftSys
             }
             Random rnd = new Random();
             return possibleQueues[rnd.Next(0,possibleQueues.Count)]; //Basic behaivour, pick a random queue
+        }
 
+        private Location LiftQueueDecision(List<Connection> possibleMovements)
+        {
+            return;
+        }
 
+        private Location MountainTopDecision(List<Connection> possibleMovements)
+        {
+            return;
         }
     }
 }
