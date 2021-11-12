@@ -6,16 +6,16 @@ namespace SkidliftSys
 {
     public abstract class Location
     {
-        public string nameReference;
+        public string name;
         public List<Person> occupants = new List<Person>();
-        public List<Location> possiblemovements = new List<Location>(); //How to express location? Absolute location might be useful for pathfinding but how do you express it? Relative position probably enough?
+        public List<Location> possibleMovements = new List<Location>(); //How to express location? Absolute location might be useful for pathfinding but how do you express it? Relative position probably enough?
         
         
-        public virtual void MovePerson(Person people, Location comingfrom)
+        public virtual void MovePerson(Person person, Location comingFrom) //Take Person coming from a location and puts it in the one calling the method
         {
-            AddPerson(people);
-            comingfrom.RemovePerson(people);
-            people.location_history.Add(comingfrom);
+            AddPerson(person);
+            comingFrom.RemovePerson(person);
+            person.locationHistory.Add(comingFrom);
         }
         public virtual void RemovePerson(Person people)
         {
@@ -25,7 +25,7 @@ namespace SkidliftSys
         public virtual void AddPerson(Person people)
         {
             occupants.Add(people);
-            people.time_location = 0;
+            people.timeLocation = 0;
             
         }
 

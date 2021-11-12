@@ -7,36 +7,36 @@ namespace SkidliftSys
     class Lift : Location
     {
         //You may exit certain lifts in the middle, then the person makes a decision to continue (enter the next lift) or leave.
-        int timelength;
+        int liftingTime;
         int maxoccupants; //if lift has this many people, don't add more.
-        public Lift(List<Person> people, int lenghttime, string referenceName)
+        public Lift(List<Person> occupants, int liftingTime, string name)
         {
-            nameReference = referenceName;
-            occupants = people;
-            timelength = lenghttime;
+            this.name = name;
+            this.occupants = occupants;
+            this.liftingTime = liftingTime;
         }
-        public Lift(int lenghttime, string referenceName)
+        public Lift(int liftingTime, string name)
         {
-            nameReference = referenceName;
-            timelength = lenghttime;
+            this.name = name;
+            this.liftingTime = liftingTime;
         }
-        public void MoveLift(int timestep)
+        public void MoveLift(int timeStep)
         {
-            List<Person> movingpeople = new List<Person>(); //temp
+            List<Person> movingPeople = new List<Person>(); //temp
             foreach (Person i in occupants)
             {
-                i.time_location += timestep; //increase the time in the location by timestep and move person if nessecary.
-                if (i.time_location >= timelength)
+                i.timeLocation += timeStep; //increase the time in the location by timestep and move person if nessecary.
+                if (i.timeLocation >= liftingTime)
                 {
-                    movingpeople.Add(i);
+                    movingPeople.Add(i);
                 }
             }
-            movingpeople.Sort((x,y) => y.time_location.CompareTo(x.time_location)); //note that x,y change places, then we sort from highest to lowest (with respect to time_location)
+            movingPeople.Sort((x,y) => y.timeLocation.CompareTo(x.timeLocation)); //note that x,y change places, then we sort from highest to lowest (with respect to time_location)
             
-            foreach(Person i in movingpeople)
+            foreach(Person i in movingPeople)
             {
                 
-                i.DecisionHandler(possiblemovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
             }
         }
        

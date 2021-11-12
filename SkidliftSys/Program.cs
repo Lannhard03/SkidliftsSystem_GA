@@ -16,77 +16,66 @@ namespace SkidliftSys
         {
             
             int time = 0; //time 0 is the start of the skiday
-            int timestep = 1; //one second?
-            int endtime = 28800;
+            int timeStep = 1; //one second?
+            int endTime = 28800;
             
             //initialize
-            List<Person> alloccupants = new List<Person>();
+            List<Person> allOccupants = new List<Person>();
             for(int i = 0; i<1000; i++)
             {
-                alloccupants.Add(new Person(i));
+                allOccupants.Add(new Person(i));
             }
 
-            //add group/method containing all queues, make a "liftmaker"
-            //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
-            //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
-            /* static object Liftmaker(int amount)
-            {
-                List<Liftqueue> queues = new List<Liftqueue>();
-                List<Lift> lifts = new List<Lift>();
-                List<Slope> slopes = new List<Slope>();
-
-                return queues;
-
-            }
-
-            */
 
 
-            Liftqueue superko = new Liftqueue(alloccupants, 2, 10, "superkö");
-            Lift superliften = new Lift(200, "superliften");
-            Slope superbacken = new Slope(500, "superbacken");
+
+            Liftqueue superKo = new Liftqueue(allOccupants, 2, 10, "superkö");
+            Lift superLiften = new Lift(200, "superliften");
+            Slope superBacken = new Slope(500, "superbacken");
 
 
 
             //make connections
-            superko.possiblemovements.Add(superliften);
-            superliften.possiblemovements.Add(superbacken);
-            superbacken.possiblemovements.Add(superko);
+            superKo.possibleMovements.Add(superLiften);
+            superLiften.possibleMovements.Add(superBacken);
+            superBacken.possibleMovements.Add(superKo);
             Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
-            while (time <= endtime)
+            while (time <= endTime)
             {
-                superko.Liftpeople(timestep);
-                superliften.MoveLift(timestep);
-                superbacken.SlopeMovement(timestep);
+                superKo.Liftpeople(timeStep);
+                superLiften.MoveLift(timeStep);
+                superBacken.SlopeMovement(timeStep);
                 if (time%100 == 0)
                 {
                     Console.WriteLine("{0, 10:N0} {1, 40:N0} {2, 50:N0} {3, 60:N0}\n",
-                        time, superko.occupants.Count, superliften.occupants.Count, superbacken.occupants.Count);
+                        time, superKo.occupants.Count, superLiften.occupants.Count, superBacken.occupants.Count);
                 }
                 
 
-                time += timestep;
+                time += timeStep;
             }
-            foreach(Location i in alloccupants[5].location_history)
+            foreach(Location i in allOccupants[5].locationHistory)
             {
-                Console.WriteLine(i.nameReference);
+                Console.WriteLine(i.name);
             }
             
 
 
 
-            
-            /*
-            while (time<=endtime) //We Loop through for an entire day?
-            {
-                //Slopemovement (people get to lifts)
-                //Liftmovement (lifts lift people)
-                //PeopleDecisions (people decide were to go)
-                    // Pathfinding, ex. Person wants to get from point A to B, we need to calculate what decisions are required and store them for next decision?
-                // Collect/store data
-                time +=timestep;
-            }
-            */
+
+        }
+
+        //add group/method containing all queues, make a "liftmaker"
+        //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
+        //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
+        static object Liftmaker(int amount)
+        {
+            List<Liftqueue> queues = new List<Liftqueue>();
+            List<Lift> lifts = new List<Lift>();
+            List<Slope> slopes = new List<Slope>();
+
+            return queues;
+
         }
 
     }

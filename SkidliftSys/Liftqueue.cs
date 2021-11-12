@@ -7,45 +7,45 @@ namespace SkidliftSys
     public class Liftqueue : Location
     {
         
-        int liftamount; //how much one lifting lifts
-        int waittime;   //Time between each lifting
-        int running_waittime; //=waittime;
+        int liftAmount; //how much one lifting lifts
+        int waitTime;   //Time between each lifting
+        int currentWaitTime; //=waittime;
 
-        public Liftqueue(List<Person> people, int amountlift, int timewait, string referenceName)
+        public Liftqueue(List<Person> occupants, int liftAmount, int waitTime, string name)
         {
-            nameReference = referenceName;
-            occupants = people;
-            liftamount = amountlift;
-            waittime = timewait;
-            running_waittime = timewait;
+            this.name = name;
+            this.occupants = occupants;
+            this.liftAmount = liftAmount;
+            this.waitTime = waitTime;
+            currentWaitTime = waitTime;
         }
         
-        public void Liftpeople(int timestep) 
+        public void Liftpeople(int timeStep) 
         {
-            running_waittime -= timestep;    
-            if (running_waittime <= 0)       //if the waittime is elapsed we lift people.
+            currentWaitTime -= timeStep;    
+            if (currentWaitTime <= 0)       //if the waittime is elapsed we lift people.
             {
-                running_waittime += waittime;                   //reset running_waittime
-                List<Person> movingpeople = new List<Person>();
-                int actuallift;
-                if (occupants.Count > liftamount)
+                currentWaitTime += waitTime;                   //reset running_waittime
+                List<Person> movingPeople = new List<Person>();
+                int actualLiftAmount;
+                if (occupants.Count > liftAmount)
                 {
-                    actuallift = liftamount;
+                    actualLiftAmount = liftAmount;
                 }
                 else
                 {
-                    actuallift = occupants.Count;
+                    actualLiftAmount = occupants.Count;
                 }
 
-                for(int i = 0; i < actuallift; i++)
+                for(int i = 0; i < actualLiftAmount; i++)
                 {
-                    movingpeople.Add(occupants[i]); //lift always takes from the front of the queue.
+                    movingPeople.Add(occupants[i]); //lift always takes from the front of the queue.
                 }
-                foreach(Location i in possiblemovements)
+                foreach(Location i in possibleMovements)
                 {
                     if(i is Lift)
                     {
-                        foreach(Person j in movingpeople)
+                        foreach(Person j in movingPeople)
                         {
                             i.MovePerson(j, this);
                         }
