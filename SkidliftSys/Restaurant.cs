@@ -8,6 +8,27 @@ namespace SkidliftSys
     {
         public int maxOccupants;
 
+        //remember that this is movement away from restaurant and that MovePerson overide affects incoming people
+        public void RestaurantMovement(int timeStep) 
+        {
+            foreach(Person i in occupants)
+            {
+                i.timeLocation += timeStep;
+            }
+
+            foreach (Person i in occupants)
+            {
+                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+            }
+
+
+        }
+
+
+
+
+
+
         public override void MovePerson(Person person, Location comingFrom)
         {
             if (occupants.Count > maxOccupants)
@@ -20,8 +41,6 @@ namespace SkidliftSys
             {
                 base.MovePerson(person, comingFrom);
             }
-
-            
         }
     }
 }

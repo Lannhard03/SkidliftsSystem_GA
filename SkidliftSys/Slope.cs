@@ -8,7 +8,7 @@ namespace SkidliftSys
     {
         
         int slopeTime;
-        
+        int difficulty;
         public Slope(List<Person> occupants, int slopeTime, string name)
         {
             this.name = name;

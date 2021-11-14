@@ -11,35 +11,40 @@ namespace SkidliftSys
 
     class Program
     {
+        //create meta lists
+
+
         static void Main(string[] args)
 
         {
-            
+            //initialize
+            #region
             int time = 0; //time 0 is the start of the skiday
             int timeStep = 1; //one second?
             int endTime = 28800;
-            
-            //initialize
+
             List<Person> allOccupants = new List<Person>();
-            for(int i = 0; i<1000; i++)
+            List<Location> allLocations = new List<Location>();
+
+            for (int i = 0; i < 1000; i++)
             {
                 allOccupants.Add(new Person(i));
             }
 
             List<Person> superKoStart = new List<Person>();
-            for(int i = 0; i<100; i++)
+            for (int i = 0; i < 200; i++)
             {
                 superKoStart.Add(allOccupants[i]);
             }
 
             List<Person> springKoStart = new List<Person>();
-            for (int i = 100; i < allOccupants.Count; i++)
+            for (int i = 200; i < allOccupants.Count; i++)
             {
                 springKoStart.Add(allOccupants[i]);
             }
 
             LiftQueue superKo = new LiftQueue(superKoStart, 2, 10, "superkö");
-            LiftQueue springKo = new LiftQueue(springKoStart,6, 20, "springkö");
+            LiftQueue springKo = new LiftQueue(springKoStart, 6, 20, "springkö");
 
             Lift superLiften = new Lift(200, "superliften");
             Lift springLiften = new Lift(500, "springliften");
@@ -58,20 +63,21 @@ namespace SkidliftSys
             springLiften.possibleMovements.Add(new Connection(springBacken));
             springBacken.possibleMovements.Add(new Connection(superBacken));
 
-
+            //add Locations to meta list
+            allLocations.Add(superKo);
+            allLocations.Add(springKo);
+            allLocations.Add(superLiften);
+            allLocations.Add(springLiften);
+            allLocations.Add(superBacken);
+            allLocations.Add(springBacken);
+            #endregion
 
 
             Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endTime)
             {
-                superKo.Liftpeople(timeStep);
-                springKo.Liftpeople(timeStep);
+                UpdateSystem(timeStep, allLocations);
 
-                superLiften.MoveLift(timeStep);
-                springLiften.MoveLift(timeStep);
-
-                superBacken.SlopeMovement(timeStep);
-                springBacken.SlopeMovement(timeStep);
 
                 if (time%100 == 0)
                 {
@@ -99,6 +105,68 @@ namespace SkidliftSys
             return queues;
 
         }
+
+
+        static public void UpdateSystem(int timeStep, List<Location> allLocations)
+        {
+            //we would like to update ceratain types of places before others.
+            //Restaurant (and places that are full last) movement last
+            //uppdate connections: Lifts may open restaurants may no longer be full
+
+            List<Lift> allLifts = new List<Lift>();
+            List<LiftQueue> allLiftQueues = new List<LiftQueue>();
+            List<MountainTop> allMountainTops = new List<MountainTop>();
+            List<Restaurant> allRestaurants = new List<Restaurant>();
+            List<Slope> allSlopes = new List<Slope>();
+            
+            foreach (Location i in allLocations)
+            {
+                switch (i) 
+                {
+                    case Lift j:
+                        allLifts.Add(j);
+                        break;
+                    case Slope j:
+                        allSlopes.Add(j);
+                        break;
+                    case LiftQueue j:
+                        allLiftQueues.Add(j);
+                        break;
+                    case Restaurant j:
+                        allRestaurants.Add(j);
+                        break;
+                    case MountainTop j:
+                        allMountainTops.Add(j);
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid Location");
+                }
+                
+            }
+            
+
+            foreach(MountainTop i in allMountainTops)
+            {
+                i.TopOfMountainMove(timeStep);
+            }
+            foreach(Slope i in allSlopes)
+            {
+                i.SlopeMovement(timeStep);
+            }
+            foreach(LiftQueue i in allLiftQueues)
+            {
+                i.Liftpeople(timeStep);
+            }
+            foreach(Lift i in allLifts)
+            {
+                i.MoveLift(timeStep);
+            }
+            foreach(Restaurant i in allRestaurants)
+            {
+                i.RestaurantMovement(timeStep);
+            }
+        }
+
 
     }
 }

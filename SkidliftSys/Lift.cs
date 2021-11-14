@@ -35,7 +35,6 @@ namespace SkidliftSys
             
             foreach(Person i in movingPeople)
             {
-                
                 i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
             }
         }

@@ -86,12 +86,12 @@ namespace SkidliftSys
 
         private Location LiftQueueDecision(List<Connection> possibleMovements)
         {
-            return;
+            return (possibleMovements[1].leadingTo);
         }
 
         private Location MountainTopDecision(List<Connection> possibleMovements)
         {
-            return;
+            return (possibleMovements[1].leadingTo);
         }
     }
 }
