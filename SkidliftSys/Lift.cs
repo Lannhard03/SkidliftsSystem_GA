@@ -20,7 +20,7 @@ namespace SkidliftSys
             this.name = name;
             this.liftingTime = liftingTime;
         }
-        public void MoveLift(int timeStep)
+        public void LiftMove(int timeStep)
         {
             List<Person> movingPeople = new List<Person>(); //temp
             foreach (Person i in occupants)

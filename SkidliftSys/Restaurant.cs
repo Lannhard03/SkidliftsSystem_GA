@@ -8,8 +8,22 @@ namespace SkidliftSys
     {
         public int maxOccupants;
 
+        public Restaurant(List<Person> occupants, int maxOccupants, string name)
+        {
+            this.occupants = occupants;
+            this.maxOccupants = maxOccupants;
+            this.name = name;
+        }
+        public Restaurant(int maxOccupants, string name)
+        {
+            this.maxOccupants = maxOccupants;
+            this.name = name;
+        }
+
+
+
         //remember that this is movement away from restaurant and that MovePerson overide affects incoming people
-        public void RestaurantMovement(int timeStep) 
+        public void RestaurantMove(int timeStep) 
         {
             foreach(Person i in occupants)
             {
@@ -20,14 +34,7 @@ namespace SkidliftSys
             {
                 i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
             }
-
-
         }
-
-
-
-
-
 
         public override void MovePerson(Person person, Location comingFrom)
         {

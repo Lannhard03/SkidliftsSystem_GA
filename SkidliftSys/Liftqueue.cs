@@ -20,12 +20,12 @@ namespace SkidliftSys
             currentWaitTime = waitTime;
         }
         
-        public void Liftpeople(int timeStep) 
+        public void LiftQueueMove(int timeStep) 
         {
             currentWaitTime -= timeStep;    
-            if (currentWaitTime <= 0)       //if the waittime is elapsed we lift people.
+            if (currentWaitTime <= 0)   //if the waittime is elapsed we lift people.
             {
-                currentWaitTime += waitTime;                   //reset running_waittime
+                currentWaitTime += waitTime;    //reset running_waittime
                 List<Person> movingPeople = new List<Person>();
                 int actualLiftAmount;
                 if (occupants.Count > liftAmount)

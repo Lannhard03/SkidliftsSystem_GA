@@ -21,7 +21,7 @@ namespace SkidliftSys
             this.slopeTime = slopeTime;
         }
 
-        public void SlopeMovement(int timeStep)
+        public void SlopeMove(int timeStep)
         {
             List<Person> movingPeople = new List<Person>(); //temp
             foreach(Person i in occupants)

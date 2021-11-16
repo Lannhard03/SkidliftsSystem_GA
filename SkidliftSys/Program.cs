@@ -96,7 +96,7 @@ namespace SkidliftSys
         //add group/method containing all queues, make a "liftmaker"
         //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
         //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
-        static object Liftmaker(int amount)
+        static object LiftMaker(int amount)
         {
             List<LiftQueue> queues = new List<LiftQueue>();
             List<Lift> lifts = new List<Lift>();
@@ -151,19 +151,19 @@ namespace SkidliftSys
             }
             foreach(Slope i in allSlopes)
             {
-                i.SlopeMovement(timeStep);
+                i.SlopeMove(timeStep);
             }
             foreach(LiftQueue i in allLiftQueues)
             {
-                i.Liftpeople(timeStep);
+                i.LiftQueueMove(timeStep);
             }
             foreach(Lift i in allLifts)
             {
-                i.MoveLift(timeStep);
+                i.LiftMove(timeStep);
             }
             foreach(Restaurant i in allRestaurants)
             {
-                i.RestaurantMovement(timeStep);
+                i.RestaurantMove(timeStep);
             }
         }
 
