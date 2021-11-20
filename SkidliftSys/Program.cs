@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace SkidliftSys
 {
@@ -167,6 +168,34 @@ namespace SkidliftSys
             }
         }
 
+        static public string NameGenerator() //Don't add more names to files, this will cause major issues for anyone running this program how isn't me (gustav) due to file dir
+        {
+            
+            StreamReader firstNames = new StreamReader(@"C:\Users\Gustav\source\repos\Lannhard03\SkidliftsSystem_GA\Files\FirstNames.txt");
+            int numberOfFirstNames = 392;
+            
+            StreamReader lastNames = new StreamReader(@"C:\Users\Gustav\source\repos\Lannhard03\SkidliftsSystem_GA\Files\LastNames.txt");
+            int numberOfLastNames = 203;
 
+
+            Random rnd = new Random();
+            for(int i = 0; i< rnd.Next(0, numberOfFirstNames); i++)
+            {
+                string temp = firstNames.ReadLine();
+                
+            }
+            for (int i = 0; i < rnd.Next(0, numberOfLastNames); i++)
+            {
+                string temp = lastNames.ReadLine();
+                
+            }
+
+            string name = firstNames.ReadLine() + lastNames.ReadLine();
+
+            firstNames.Close();
+            lastNames.Close();
+
+            return name;
+        }
     }
 }

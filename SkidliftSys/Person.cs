@@ -10,10 +10,10 @@ namespace SkidliftSys
         string name; //for esthetics?
         public int personNumber; //for keeping track of who is where.
 
-        int morningness; //from 0-1? How early do they start skiing.
-        int hungryness;  //from 0-1? how hungry they are.
-        int skillLevel; //from 0-1? How good at skiing is the person.
-        int explororness; //from 0-1? How much they want to visit new lifts.
+        double morningness; //from 0-1? How early do they start skiing.
+        double hungryness;  //from 0-1? how hungry they are.
+        double skillLevel; //from 0-1? How good at skiing is the person.
+        double explororness; //from 0-1? How much they want to visit new lifts.
 
         bool hungerState; //if true they want to find a restaurant
         bool doneSkiingState; //if true they want to go home
@@ -26,7 +26,11 @@ namespace SkidliftSys
 
         public Person(int personNumber)
         {
+            Random rnd = new Random();
             this.personNumber = personNumber;
+            this.morningness = rnd.NextDouble();
+            this.hungryness = rnd.NextDouble();
+            this.explororness = rnd.NextDouble();
         }
         public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
