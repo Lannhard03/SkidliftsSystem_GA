@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Reflection;
 
 namespace SkidliftSys
 {
@@ -92,6 +93,11 @@ namespace SkidliftSys
                 Console.WriteLine(i.name);
             }
 
+            for(int i = 0; i<100; i++)
+            {
+                Console.WriteLine(NameGenerator());
+            }
+
         }
 
         //add group/method containing all queues, make a "liftmaker"
@@ -170,11 +176,18 @@ namespace SkidliftSys
 
         static public string NameGenerator() //Don't add more names to files, this will cause major issues for anyone running this program how isn't me (gustav) due to file dir
         {
-            
-            StreamReader firstNames = new StreamReader(@"C:\Users\Gustav\source\repos\Lannhard03\SkidliftsSystem_GA\Files\FirstNames.txt");
+            string outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+            string iconPath = Path.Combine(outputDirectory, "Files\\FirstNames.txt");
+            string icon_path = new Uri(iconPath).LocalPath;
+
+            StreamReader firstNames = new StreamReader(icon_path);
             int numberOfFirstNames = 392;
+
+            outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+            iconPath = Path.Combine(outputDirectory, "Files\\LastNames.txt");
+            icon_path = new Uri(iconPath).LocalPath;
             
-            StreamReader lastNames = new StreamReader(@"C:\Users\Gustav\source\repos\Lannhard03\SkidliftsSystem_GA\Files\LastNames.txt");
+            StreamReader lastNames = new StreamReader(icon_path);
             int numberOfLastNames = 203;
 
 
