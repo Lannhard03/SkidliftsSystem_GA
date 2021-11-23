@@ -7,7 +7,7 @@ namespace SkidliftSys
 {
     public class Person
     {
-        string name; //for esthetics?
+        public string name; //for esthetics?
         public int personNumber; //for keeping track of who is where.
 
         double morningness; //from 0-1? How early do they start skiing.
@@ -31,6 +31,15 @@ namespace SkidliftSys
             this.morningness = rnd.NextDouble();
             this.hungryness = rnd.NextDouble();
             this.explororness = rnd.NextDouble();
+        }
+        public Person(int personNumber, string name)
+        {
+            Random rnd = new Random();
+            this.personNumber = personNumber;
+            this.morningness = rnd.NextDouble();
+            this.hungryness = rnd.NextDouble();
+            this.explororness = rnd.NextDouble();
+            this.name = name;
         }
         public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
@@ -69,31 +78,33 @@ namespace SkidliftSys
 
         private Location SlopeDecision(List<Connection> possibleMovements)
         {
-            foreach(Connection i in possibleMovements)
+            List<Connection> possibleSlopes = new List<Connection>();
+            foreach (Connection i in possibleMovements)
             {
                 if(i.leadingTo is Slope slope && !i.closed)
                 {
-                    return slope;
+                    possibleSlopes.Add(i);
                 }
             }
-            List<LiftQueue> possibleQueues = new List<LiftQueue>();
+
+            List<Connection> possibleQueues = new List<Connection>();
             foreach(Connection i in possibleMovements)
             {
-                if(i.leadingTo is LiftQueue queue && !i.closed)
+                if(i.leadingTo is LiftQueue && !i.closed)
                 {
-                    possibleQueues.Add(queue);
+                    possibleQueues.Add(i);
                 }
             }
             Random rnd = new Random();
-            return possibleQueues[rnd.Next(0,possibleQueues.Count)]; //Basic behaivour, pick a random queue
+            return possibleQueues[rnd.Next(0,possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
         }
 
-        private Location LiftQueueDecision(List<Connection> possibleMovements)
+        private Location LiftQueueDecision(List<Connection> possibleMovements) //note that this should in normal circumstances not be called
         {
             return (possibleMovements[1].leadingTo);
         }
 
-        private Location MountainTopDecision(List<Connection> possibleMovements)
+        private Location MountainTopDecision(List<Connection> possibleMovements) //look for slopes or restaurants primarily.
         {
             return (possibleMovements[1].leadingTo);
         }

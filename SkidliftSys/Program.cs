@@ -13,9 +13,6 @@ namespace SkidliftSys
 
     class Program
     {
-        //create meta lists
-
-
         static void Main(string[] args)
 
         {
@@ -30,7 +27,7 @@ namespace SkidliftSys
 
             for (int i = 0; i < 1000; i++)
             {
-                allOccupants.Add(new Person(i));
+                allOccupants.Add(new Person(i, NameGenerator()));
             }
 
             List<Person> superKoStart = new List<Person>();
@@ -74,12 +71,10 @@ namespace SkidliftSys
             allLocations.Add(springBacken);
             #endregion
 
-
             Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endTime)
             {
                 UpdateSystem(timeStep, allLocations);
-
 
                 if (time%100 == 0)
                 {
@@ -88,16 +83,11 @@ namespace SkidliftSys
                 }
                 time += timeStep;
             }
+            Console.WriteLine(allOccupants[5].name);
             foreach(Location i in allOccupants[5].locationHistory)
             {
                 Console.WriteLine(i.name);
             }
-
-            for(int i = 0; i<100; i++)
-            {
-                Console.WriteLine(NameGenerator());
-            }
-
         }
 
         //add group/method containing all queues, make a "liftmaker"
@@ -112,7 +102,6 @@ namespace SkidliftSys
             return queues;
 
         }
-
 
         static public void UpdateSystem(int timeStep, List<Location> allLocations)
         {
@@ -174,7 +163,7 @@ namespace SkidliftSys
             }
         }
 
-        static public string NameGenerator() //Don't add more names to files, this will cause major issues for anyone running this program how isn't me (gustav) due to file dir
+        static public string NameGenerator() //Don't add more names to files
         {
             string outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
             string iconPath = Path.Combine(outputDirectory, "Files\\FirstNames.txt");
