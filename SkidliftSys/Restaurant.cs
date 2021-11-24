@@ -38,7 +38,7 @@ namespace SkidliftSys
 
         public override void MovePerson(Person person, Location comingFrom)
         {
-            if (occupants.Count > maxOccupants)
+            if (occupants.Count >= maxOccupants)
             {
                 //if the restaurant is full we can't let someone enter it.
                 possibleMovements.Remove(Connection.GetIndexOfLocation(possibleMovements, this));

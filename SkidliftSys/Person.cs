@@ -24,14 +24,6 @@ namespace SkidliftSys
         List<Decision> futureDecisions = new List<Decision>(); // do decisions require there own class?
         public List<Location> locationHistory = new List<Location>();
 
-        public Person(int personNumber)
-        {
-            Random rnd = new Random();
-            this.personNumber = personNumber;
-            this.morningness = rnd.NextDouble();
-            this.hungryness = rnd.NextDouble();
-            this.explororness = rnd.NextDouble();
-        }
         public Person(int personNumber, string name)
         {
             Random rnd = new Random();
@@ -90,13 +82,14 @@ namespace SkidliftSys
             List<Connection> possibleQueues = new List<Connection>();
             foreach(Connection i in possibleMovements)
             {
-                if(i.leadingTo is LiftQueue && !i.closed)
+                if (i.leadingTo is LiftQueue && !i.closed)
                 {
                     possibleQueues.Add(i);
                 }
             }
             Random rnd = new Random();
-            return possibleQueues[rnd.Next(0,possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
+            return possibleMovements[rnd.Next(0, possibleMovements.Count)].leadingTo;
+                //possibleQueues[rnd.Next(0,possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
         }
 
         private Location LiftQueueDecision(List<Connection> possibleMovements) //note that this should in normal circumstances not be called

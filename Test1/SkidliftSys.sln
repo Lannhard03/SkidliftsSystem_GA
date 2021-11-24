@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkidliftSys", "..\SkidliftSys\SkidliftSys.csproj", "{A48645A2-F1BD-4190-B549-B57C81837A4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkidliftSys", "..\SkidliftSys\SkidliftSys.csproj", "{A48645A2-F1BD-4190-B549-B57C81837A4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Informational Charts Tool", "Informational Charts Tool\Informational Charts Tool.csproj", "{EF410F9D-6818-4E65-911B-E84E786DA3E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A48645A2-F1BD-4190-B549-B57C81837A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A48645A2-F1BD-4190-B549-B57C81837A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A48645A2-F1BD-4190-B549-B57C81837A4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF410F9D-6818-4E65-911B-E84E786DA3E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF410F9D-6818-4E65-911B-E84E786DA3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF410F9D-6818-4E65-911B-E84E786DA3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF410F9D-6818-4E65-911B-E84E786DA3E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

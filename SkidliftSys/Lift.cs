@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SkidliftSys
 {
-    class Lift : Location
+    public class Lift : Location
     {
         //You may exit certain lifts in the middle, then the person makes a decision to continue (enter the next lift) or leave.
         int liftingTime;

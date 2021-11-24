@@ -17,15 +17,15 @@ namespace SkidliftSys
             comingFrom.RemovePerson(person);
             person.locationHistory.Add(comingFrom);
         }
-        public virtual void RemovePerson(Person people)
+        public virtual void RemovePerson(Person person)
         {
-            occupants.Remove(people);
+            occupants.Remove(person);
         }
 
-        public virtual void AddPerson(Person people)
+        public virtual void AddPerson(Person person)
         {
-            occupants.Add(people);
-            people.timeLocation = 0;
+            occupants.Add(person);
+            person.timeLocation = 0;
             
         }
 
