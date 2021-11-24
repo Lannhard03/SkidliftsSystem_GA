@@ -70,7 +70,7 @@ namespace SkidliftSys
             allLocations.Add(superBacken);
             allLocations.Add(springBacken);
             #endregion
-
+            
             Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endTime)
             {

@@ -64,6 +64,14 @@ namespace SkidliftSys
         private Location LiftDecision(List<Connection> possibleMovements)
         {
             //Disregarding top of mountain location for now we can say that the person will look for the first slopes in the list and pick one.
+            foreach(Connection i in possibleMovements)
+            {
+                if(i.leadingTo is MountainTop && !i.closed)
+                {
+                    return i.leadingTo;
+                }
+            }
+
             List<Slope> possibleSlopes = new List<Slope>();
             foreach(Connection i in possibleMovements)
             {
