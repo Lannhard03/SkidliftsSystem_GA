@@ -15,7 +15,7 @@ namespace SkidliftSys
         double skillLevel; //from 0-1? How good at skiing is the person.
         double explororness; //from 0-1? How much they want to visit new lifts.
 
-        bool hungerState; //if true they want to find a restaurant
+        bool hungerState; //if true they aim to find a restaurant instead of going skiing
         bool doneSkiingState; //if true they want to go home
 
         public int timeLocation; //It is useful to know how long someone has been in a lift
