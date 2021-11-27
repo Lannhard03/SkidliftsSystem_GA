@@ -122,7 +122,8 @@ namespace SkidliftSys
         {
             int skillFactor = 100;
             int explororFactor = 100;
-
+            double explororExponent = 1;
+            double explororMultiple = 1;
 
             List<Decision> weightedSlopeList = new List<Decision>();
             foreach(Connection i in possibleMovements)
@@ -142,8 +143,8 @@ namespace SkidliftSys
 
                     int occurences = locationHistory.Where(x => x.Equals(i.decision)).Count(); //gets the amount of times Person has been at location
 
-                    i.weight += ((explororness-0.5)*2)
-                        
+                    i.weight += explororFactor / (1 + Math.Exp(Math.Pow(explororMultiple * (explororness - 0.5), explororExponent) * occurences)); //See documenmtation for explanation
+
                     //0.5 explororness means unaffected, 1 means highy, 0 little.
                 }
 
