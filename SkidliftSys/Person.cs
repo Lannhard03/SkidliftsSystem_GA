@@ -142,10 +142,17 @@ namespace SkidliftSys
                     i.weight -= Math.Abs((skillLevel - (s.difficulty / 4)) * skillFactor); //use other function? this depends on differens of skill and difficulty
 
                     int occurences = locationHistory.Where(x => x.Equals(i.decision)).Count(); //gets the amount of times Person has been at location
+                    i.weight += 2 * explororFactor * (explororness - 0.5) * Math.Exp(-occurences) + 
+                                Math.Exp(-occurences) * explororFactor * (1 - explororness) + 
+                                (1 - Math.Exp(-occurences)) * (explororFactor / (1 + Math.Exp(explororMultiple*Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences)));
 
-                    i.weight += explororFactor / (1 + Math.Exp(Math.Pow(explororMultiple * (explororness - 0.5), explororExponent) * occurences)); //See documenmtation for explanation
 
-                    //0.5 explororness means unaffected, 1 means highy, 0 little.
+                    //i.weight += explororFactor / (1 + Math.Exp(Math.Pow(explororMultiple * (explororness - 0.5), explororExponent) * occurences))-explororFactor/2; //See documenmtation for explanation
+                    //i.weight += explororFactor * (1 - explororness) + 2 * explororFactor + (explororness - 0.5) * Math.Exp(-explororMultiple * occurences); // secondary implementaion
+
+
+
+                    
                 }
 
                 
@@ -153,7 +160,7 @@ namespace SkidliftSys
 
 
 
-                i.Item1.difficulty
+                
             }
 
 
