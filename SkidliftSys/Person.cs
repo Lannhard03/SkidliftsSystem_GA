@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace SkidliftSys
 {
@@ -41,6 +42,7 @@ namespace SkidliftSys
             this.explororness = rnd.NextDouble();
             this.name = name;
         }
+
         public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
 
@@ -61,6 +63,7 @@ namespace SkidliftSys
             }
         }
         
+
         private Location LiftDecision(List<Connection> possibleMovements)
         {
             //Disregarding top of mountain location for now we can say that the person will look for the first slopes in the list and pick one.
@@ -83,6 +86,7 @@ namespace SkidliftSys
             Random rnd = new Random();
             return(possibleSlopes[rnd.Next(0, possibleSlopes.Count)]); //Basic behaivour, pick a random slope.
         }
+
 
         private Location SlopeDecision(List<Connection> possibleMovements)
         {
@@ -107,14 +111,51 @@ namespace SkidliftSys
             return possibleQueues[rnd.Next(0,possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
         }
 
+
         private Location LiftQueueDecision(List<Connection> possibleMovements) //note that this should in normal circumstances not be called
         {
             return (possibleMovements[1].leadingTo);
         }
 
+
         private Location MountainTopDecision(List<Connection> possibleMovements) //look for slopes or restaurants primarily.
         {
-            return (possibleMovements[1].leadingTo);
+            int skillFactor = 100;
+            int explororFactor = 100;
+
+
+            List<Decision> weightedSlopeList = new List<Decision>();
+            foreach(Connection i in possibleMovements)
+            {
+                if(!i.closed && i.leadingTo is Slope s)
+                {
+                    weightedSlopeList.Add(new Decision(s,0));
+                }
+            }
+            foreach(Decision i in weightedSlopeList)
+            {
+                //Factor in Skill, Explororness, Hungryness
+                //this solution is terrible, but how else to do it?
+                if(i.decision is Slope s)
+                {
+                    i.weight -= Math.Abs((skillLevel - (s.difficulty / 4)) * skillFactor); //use other function? this depends on differens of skill and difficulty
+
+                    int occurences = locationHistory.Where(x => x.Equals(i.decision)).Count(); //gets the amount of times Person has been at location
+
+                    i.weight += ((explororness-0.5)*2)
+                        
+                    //0.5 explororness means unaffected, 1 means highy, 0 little.
+                }
+
+                
+
+
+
+
+                i.Item1.difficulty
+            }
+
+
         }
     }
 }

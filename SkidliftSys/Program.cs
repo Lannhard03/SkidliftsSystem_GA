@@ -109,58 +109,33 @@ namespace SkidliftSys
             //Restaurant (and places that are full last) movement last
             //uppdate connections: Lifts may open restaurants may no longer be full
 
-            List<Lift> allLifts = new List<Lift>();
-            List<LiftQueue> allLiftQueues = new List<LiftQueue>();
-            List<MountainTop> allMountainTops = new List<MountainTop>();
-            List<Restaurant> allRestaurants = new List<Restaurant>();
-            List<Slope> allSlopes = new List<Slope>();
+
             
             foreach (Location i in allLocations)
             {
                 switch (i) 
                 {
                     case Lift j:
-                        allLifts.Add(j);
+                        j.LiftMove(timeStep);
                         break;
                     case Slope j:
-                        allSlopes.Add(j);
+                        j.SlopeMove(timeStep);
                         break;
                     case LiftQueue j:
-                        allLiftQueues.Add(j);
+                        j.LiftQueueMove(timeStep);
                         break;
                     case Restaurant j:
-                        allRestaurants.Add(j);
+                        j.RestaurantMove(timeStep);
                         break;
                     case MountainTop j:
-                        allMountainTops.Add(j);
+                        j.TopOfMountainMove(timeStep);
                         break;
                     default:
                         throw new ArgumentException("Invalid Location");
                 }
                 
             }
-            
 
-            foreach(MountainTop i in allMountainTops)
-            {
-                i.TopOfMountainMove(timeStep);
-            }
-            foreach(Slope i in allSlopes)
-            {
-                i.SlopeMove(timeStep);
-            }
-            foreach(LiftQueue i in allLiftQueues)
-            {
-                i.LiftQueueMove(timeStep);
-            }
-            foreach(Lift i in allLifts)
-            {
-                i.LiftMove(timeStep);
-            }
-            foreach(Restaurant i in allRestaurants)
-            {
-                i.RestaurantMove(timeStep);
-            }
         }
 
         static public string NameGenerator() //Don't add more names to files

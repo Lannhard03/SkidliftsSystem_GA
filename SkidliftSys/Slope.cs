@@ -8,17 +8,19 @@ namespace SkidliftSys
     {
         
         int slopeTime;
-        int difficulty;
+        public int difficulty; //1,2,3,4 -> green, blue, red, black
         public Slope(List<Person> occupants, int slopeTime, string name)
         {
             this.name = name;
             this.occupants = occupants;
             this.slopeTime = slopeTime;
+            this.difficulty = 2;
         }
         public Slope(int slopeTime, string name)
         {
             this.name = name;
             this.slopeTime = slopeTime;
+            this.difficulty = 2;
         }
 
         public void SlopeMove(int timeStep)

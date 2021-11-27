@@ -6,6 +6,13 @@ namespace SkidliftSys
 {
     class Decision
     {
-        Location decision;
+        public Location decision;
+        public double weight;
+
+        public Decision(Location decision, int weight)
+        {
+            this.decision = decision;
+            this.weight = weight;
+        }
     }
 }
