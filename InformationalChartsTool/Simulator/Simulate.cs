@@ -4,16 +4,16 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 
-namespace SkidliftSys
+namespace InformationalChartsTool
 {
     //4 different types of things are required atleast: People, Locations, Movement and Decisions.
     // Locations will govern possible movements (maybe with connections).
     // People will be in a location, and decide one of the possible movements based on either Decisions or Location (depending on were the are).
     // Decisions are governed by people but restricted by Location.
 
-    class Program
+    public class Simulate
     {
-        static void Main(string[] args)
+        public static void BeginSimulation(string[] args)
 
         {
             //initialize
