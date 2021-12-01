@@ -70,7 +70,6 @@ namespace SkidliftSys
             allLocations.Add(superBacken);
             allLocations.Add(springBacken);
             #endregion
-            
             Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endTime)
             {
@@ -108,9 +107,6 @@ namespace SkidliftSys
             //we would like to update ceratain types of places before others.
             //Restaurant (and places that are full last) movement last
             //uppdate connections: Lifts may open restaurants may no longer be full
-
-
-            
             foreach (Location i in allLocations)
             {
                 switch (i) 
@@ -133,7 +129,6 @@ namespace SkidliftSys
                     default:
                         throw new ArgumentException("Invalid Location");
                 }
-                
             }
 
         }
@@ -144,14 +139,14 @@ namespace SkidliftSys
             string iconPath = Path.Combine(outputDirectory, "Files\\FirstNames.txt");
             string icon_path = new Uri(iconPath).LocalPath;
 
-            StreamReader firstNames = new StreamReader(icon_path);
+            StreamReader firstNames = new StreamReader("Files\\FirstNames.txt");
             int numberOfFirstNames = 392;
 
             outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
             iconPath = Path.Combine(outputDirectory, "Files\\LastNames.txt");
             icon_path = new Uri(iconPath).LocalPath;
             
-            StreamReader lastNames = new StreamReader(icon_path);
+            StreamReader lastNames = new StreamReader("Files\\LastNames.txt");
             int numberOfLastNames = 203;
 
 
