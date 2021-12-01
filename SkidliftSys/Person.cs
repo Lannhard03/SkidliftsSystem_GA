@@ -108,7 +108,15 @@ namespace SkidliftSys
                 }
             }
             Random rnd = new Random();
-            return possibleQueues[rnd.Next(0,possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
+            if (possibleQueues.Count <= 0)
+            {
+                return (possibleSlopes[rnd.Next(0,possibleSlopes.Count)].leadingTo);
+            }
+            else
+            {
+                return possibleQueues[rnd.Next(0, possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
+            }
+            
         }
 
 
@@ -162,7 +170,7 @@ namespace SkidliftSys
 
                 
             }
-
+            return possibleMovements[1].leadingTo;
 
         }
     }
