@@ -49,14 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Simulator\Connection.cs" />
+    <Compile Include="Simulator\Decision.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Simulator\Lift.cs" />
+    <Compile Include="Simulator\Liftqueue.cs" />
+    <Compile Include="Simulator\Location.cs" />
+    <Compile Include="Simulator\MountainTop.cs" />
+    <Compile Include="Simulator\Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Simulator\Restaurant.cs" />
+    <Compile Include="Simulator\Simulate.cs" />
+    <Compile Include="Simulator\Slope.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -83,6 +93,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\FirstNames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\LastNames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="packages\LiveCharts.0.9.7\lib\net40\LiveCharts.dll" />
     <Content Include="packages\LiveCharts.0.9.7\lib\net40\LiveCharts.pdb" />
     <Content Include="packages\LiveCharts.0.9.7\lib\net40\LiveCharts.xml" />
