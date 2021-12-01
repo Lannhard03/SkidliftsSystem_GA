@@ -51,10 +51,10 @@
   <ItemGroup>
     <Compile Include="Simulator\Connection.cs" />
     <Compile Include="Simulator\Decision.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="InfoChartsTools\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="InfoChartsTools\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Simulator\Lift.cs" />
@@ -67,6 +67,7 @@
     <Compile Include="Simulator\Restaurant.cs" />
     <Compile Include="Simulator\Simulate.cs" />
     <Compile Include="Simulator\Slope.cs" />
+    <Compile Include="Simulator\Valley.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -76,7 +77,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="packages.config" />
+    <None Include="InfoChartsTools\packages.config" />
     <None Include="packages\LiveCharts.0.9.7\.signature.p7s" />
     <None Include="packages\LiveCharts.0.9.7\LiveCharts.0.9.7.nupkg" />
     <None Include="Properties\Settings.settings">
@@ -90,7 +91,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="InfoChartsTools\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\FirstNames.txt">
