@@ -151,7 +151,9 @@ namespace InformationalChartsTool
 
                     int occurences = locationHistory.Where(x => x.Equals(i.decision)).Count(); //gets the amount of times Person has been at location
 
-                    i.weight += explororFactor / (1 + Math.Exp(Math.Pow(explororMultiple * (explororness - 0.5), explororExponent) * occurences)); //See documenmtation for explanation
+                    i.weight += 2 * explororFactor * (explororness - 0.5) * Math.Exp(-occurences) +
+                                Math.Exp(-occurences) * explororFactor * (1 - explororness) +
+                                (1 - Math.Exp(-occurences)) * (explororFactor / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences)));
 
                     //0.5 explororness means unaffected, 1 means highy, 0 little.
                 }
