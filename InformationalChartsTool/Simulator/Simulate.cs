@@ -102,35 +102,65 @@ namespace InformationalChartsTool
 
         }
 
-        static public void UpdateSystem(int timeStep, List<Location> allLocations)
+        static public void UpdateSystem(int timeStep, List<Location> allLocations)//This function is hilariously poorly implemented, but (...)Move method isn't virtual
         {
             //we would like to update ceratain types of places before others.
             //Restaurant (and places that are full last) movement last
             //uppdate connections: Lifts may open restaurants may no longer be full
-            foreach (Location i in allLocations)
+            int debugCounter = 0;
+            
+            foreach(Location i in allLocations)
             {
-                switch (i) 
+                if(i is Lift j)
                 {
-                    case Lift j:
-                        j.LiftMove(timeStep);
-                        break;
-                    case Slope j:
-                        j.SlopeMove(timeStep);
-                        break;
-                    case LiftQueue j:
-                        j.LiftQueueMove(timeStep);
-                        break;
-                    case Restaurant j:
-                        j.RestaurantMove(timeStep);
-                        break;
-                    case MountainTop j:
-                        j.TopOfMountainMove(timeStep);
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid Location");
+                    j.LiftMove(timeStep);
+                    debugCounter++;
                 }
             }
-
+            foreach(Location i in allLocations)
+            {
+                if (i is Slope j)
+                {
+                    j.SlopeMove(timeStep);
+                    debugCounter++;
+                }
+            }
+            foreach(Location i in allLocations)
+            {
+                if (i is LiftQueue j)
+                {
+                    j.LiftQueueMove(timeStep);
+                    debugCounter++;
+                }
+            }
+            foreach(Location i in allLocations)
+            {
+                if (i is Restaurant j)
+                {
+                    j.RestaurantMove(timeStep);
+                    debugCounter++;
+                }
+            }
+            foreach(Location i in allLocations)
+            {
+                if (i is MountainTop j)
+                {
+                    j.TopOfMountainMove(timeStep);
+                    debugCounter++;
+                }
+            }
+            foreach(Location i in allLocations)
+            {
+                if (i is Valley j)
+                {
+                    j.ValleyMove(timeStep);
+                    debugCounter++;
+                }
+            }
+            if(debugCounter != allLocations.Count)
+            {
+                Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
+            }
         }
 
         static public string NameGenerator() //Don't add more names to files

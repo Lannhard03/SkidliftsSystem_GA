@@ -6,7 +6,10 @@ namespace InformationalChartsTool
 {
     class Valley : Location
     {
-
+        public void ValleyMove(int timstep)
+        {
+            
+        }
 
 
 
