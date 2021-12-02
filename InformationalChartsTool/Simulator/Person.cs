@@ -141,6 +141,7 @@ namespace InformationalChartsTool
                     weightedSlopeList.Add(new Decision(s,0));
                 }
             }
+
             foreach(Decision i in weightedSlopeList)
             {
                 //Factor in Skill, Explororness, Hungryness
@@ -155,7 +156,7 @@ namespace InformationalChartsTool
                                 Math.Exp(-occurences) * explororFactor * (1 - explororness) +
                                 (1 - Math.Exp(-occurences)) * (explororFactor / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences)));
 
-                    //0.5 explororness means unaffected, 1 means highy, 0 little.
+                    
                 }
             }
             return possibleMovements[1].leadingTo;

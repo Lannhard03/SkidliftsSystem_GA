@@ -41,8 +41,9 @@ namespace InformationalChartsTool
             if (occupants.Count > maxOccupants)
             {
                 //if the restaurant is full we can't let someone enter it.
-                possibleMovements.Remove(Connection.GetIndexOfLocation(possibleMovements, this));
-                person.DecisionHandler(possibleMovements, comingFrom).MovePerson(person, comingFrom); //Person i makes a decision and moves there.
+                comingFrom.possibleMovements[Connection.GetIndexOfLocation(possibleMovements, this)].closed = true;
+                person.DecisionHandler(comingFrom.possibleMovements, comingFrom).MovePerson(person, comingFrom);
+
             }
             else
             {

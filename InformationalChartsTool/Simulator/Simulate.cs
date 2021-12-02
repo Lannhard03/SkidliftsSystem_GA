@@ -70,6 +70,7 @@ namespace InformationalChartsTool
             allLocations.Add(superBacken);
             allLocations.Add(springBacken);
             #endregion
+
             Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endTime)
             {
@@ -107,6 +108,8 @@ namespace InformationalChartsTool
             //we would like to update ceratain types of places before others.
             //Restaurant (and places that are full last) movement last
             //uppdate connections: Lifts may open restaurants may no longer be full
+
+            int debugCheck = allLocations.Count;
             int debugCounter = 0;
             
             foreach(Location i in allLocations)
@@ -115,6 +118,7 @@ namespace InformationalChartsTool
                 {
                     j.LiftMove(timeStep);
                     debugCounter++;
+ 
                 }
             }
             foreach(Location i in allLocations)
@@ -157,7 +161,7 @@ namespace InformationalChartsTool
                     debugCounter++;
                 }
             }
-            if(debugCounter != allLocations.Count)
+            if(debugCounter != debugCheck)
             {
                 Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
             }
