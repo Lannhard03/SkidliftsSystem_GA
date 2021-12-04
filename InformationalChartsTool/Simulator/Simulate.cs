@@ -104,7 +104,9 @@ namespace InformationalChartsTool
 
         }
 
-        static public void UpdateSystem(int timeStep, List<Location> allLocations)//This function is hilariously poorly implemented, but (...)Move method isn't virtual
+
+        //Loops through all location types and calls their respective "move" functions
+        static public void UpdateSystem(int timeStep, List<Location> allLocations)
         {
             //we would like to update ceratain types of places before others.
             //Restaurant (and places that are full last) movement last
@@ -120,6 +122,7 @@ namespace InformationalChartsTool
             }
             foreach(String s in allLocationTypes)
             {
+                Console.WriteLine("Checking location type: {0}", s);
                 foreach(Location l in allLocations)
                 {
                     string methodName = s + "Move";
@@ -138,36 +141,15 @@ namespace InformationalChartsTool
 
         }
 
-        static public string NameGenerator() //Don't add more names to files
+        //generates a random name (first and last), based on the files in Files folder
+        static public string NameGenerator() 
         {
-
-
-            StreamReader firstNames = new StreamReader("Files\\FirstNames.txt");
-            int numberOfFirstNames = 392;
-
-
-            
-            StreamReader lastNames = new StreamReader("Files\\LastNames.txt");
-            int numberOfLastNames = 203;
-
+            string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");
+            string[] lastNames = File.ReadAllLines("Files\\LastNames.txt");
 
             Random rnd = new Random();
-            for(int i = 0; i< rnd.Next(0, numberOfFirstNames); i++)
-            {
-                string temp = firstNames.ReadLine();
-                
-            }
-            for (int i = 0; i < rnd.Next(0, numberOfLastNames); i++)
-            {
-                string temp = lastNames.ReadLine();
-                
-            }
 
-            string name = firstNames.ReadLine() + lastNames.ReadLine();
-
-            firstNames.Close();
-            lastNames.Close();
-
+            string name = firstNames[rnd.Next(0, firstNames.Length - 1)] + lastNames[rnd.Next(0, lastNames.Length - 1)];
             return name;
         }
     }
