@@ -8,7 +8,7 @@ namespace InformationalChartsTool
     {
         //Many Lifts may lead to this place, and people may spend some time waiting here.
 
-        public void TopOfMountainMove(int timeStep)
+        public void MountainTopMove(int timeStep)
         {
             foreach(Person i in occupants)
             {

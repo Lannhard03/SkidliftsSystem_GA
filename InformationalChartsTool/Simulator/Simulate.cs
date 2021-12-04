@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Linq;
 
 namespace InformationalChartsTool
 {
@@ -111,74 +112,95 @@ namespace InformationalChartsTool
 
             int debugCheck = allLocations.Count;
             int debugCounter = 0;
-            
-            foreach(Location i in allLocations)
+
+            List<string> allLocationTypes = new List<string>();
+            foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
             {
-                if(i is Lift j)
+                allLocationTypes.Add(type.Name);
+            }
+            foreach(String s in allLocationTypes)
+            {
+                foreach(Location l in allLocations)
                 {
-                    j.LiftMove(timeStep);
-                    debugCounter++;
- 
+                    if(l.GetType().Name == s)
+                    {
+                        string methodName = s + "Move";
+                        l.GetType().GetMethod(methodName).Invoke(l, new object[] { timeStep });
+                        debugCounter++;
+                    }
                 }
             }
-            foreach(Location i in allLocations)
-            {
-                if (i is Slope j)
-                {
-                    j.SlopeMove(timeStep);
-                    debugCounter++;
-                }
-            }
-            foreach(Location i in allLocations)
-            {
-                if (i is LiftQueue j)
-                {
-                    j.LiftQueueMove(timeStep);
-                    debugCounter++;
-                }
-            }
-            foreach(Location i in allLocations)
-            {
-                if (i is Restaurant j)
-                {
-                    j.RestaurantMove(timeStep);
-                    debugCounter++;
-                }
-            }
-            foreach(Location i in allLocations)
-            {
-                if (i is MountainTop j)
-                {
-                    j.TopOfMountainMove(timeStep);
-                    debugCounter++;
-                }
-            }
-            foreach(Location i in allLocations)
-            {
-                if (i is Valley j)
-                {
-                    j.ValleyMove(timeStep);
-                    debugCounter++;
-                }
-            }
-            if(debugCounter != debugCheck)
+            if (debugCounter != debugCheck)
             {
                 Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
             }
+
+            //foreach ( Location l in allLocations)
+            //{
+            //    string methodName = l.GetType().Name + "Move";
+            //    l.GetType().GetMethod(MethodName).Invoke(l, new object[] { timeStep });
+            //}
+
+            //foreach(Location i in allLocations)
+            //{
+            //    if(i is Lift j)
+            //    {
+            //        j.LiftMove(timeStep);
+            //        debugCounter++;
+
+            //    }
+            //}
+            //foreach(Location i in allLocations)
+            //{
+            //    if (i is Slope j)
+            //    {
+            //        j.SlopeMove(timeStep);
+            //        debugCounter++;
+            //    }
+            //}
+            //foreach(Location i in allLocations)
+            //{
+            //    if (i is LiftQueue j)
+            //    {
+            //        j.LiftQueueMove(timeStep);
+            //        debugCounter++;
+            //    }
+            //}
+            //foreach(Location i in allLocations)
+            //{
+            //    if (i is Restaurant j)
+            //    {
+            //        j.RestaurantMove(timeStep);
+            //        debugCounter++;
+            //    }
+            //}
+            //foreach(Location i in allLocations)
+            //{
+            //    if (i is MountainTop j)
+            //    {
+            //        j.MountainTopMove(timeStep);
+            //        debugCounter++;
+            //    }
+            //}
+            //foreach(Location i in allLocations)
+            //{
+            //    if (i is Valley j)
+            //    {
+            //        j.ValleyMove(timeStep);
+            //        debugCounter++;
+            //    }
+            //}
+
         }
 
         static public string NameGenerator() //Don't add more names to files
         {
-            string outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            string iconPath = Path.Combine(outputDirectory, "Files\\FirstNames.txt");
-            string icon_path = new Uri(iconPath).LocalPath;
+
 
             StreamReader firstNames = new StreamReader("Files\\FirstNames.txt");
             int numberOfFirstNames = 392;
 
-            outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            iconPath = Path.Combine(outputDirectory, "Files\\LastNames.txt");
-            icon_path = new Uri(iconPath).LocalPath;
+
             
             StreamReader lastNames = new StreamReader("Files\\LastNames.txt");
             int numberOfLastNames = 203;
