@@ -10,7 +10,6 @@ namespace InformationalChartsTool
         public List<Person> occupants = new List<Person>();
         public List<Connection> possibleMovements = new List<Connection>();
         
-        
         public virtual void MovePerson(Person person, Location comingFrom) //Take Person coming from a location and puts it in the one calling the method
         {
             AddPerson(person);
@@ -26,9 +25,6 @@ namespace InformationalChartsTool
         {
             occupants.Add(people);
             people.timeLocation = 0;
-            
         }
-
-
     }
 }

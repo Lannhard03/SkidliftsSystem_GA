@@ -90,12 +90,12 @@ namespace InformationalChartsTool
                 Console.WriteLine(i.name);
             }
         }
-
-        //add group/method containing all queues, make a "liftmaker"
-        //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
-        //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
+        
         static object LiftMaker(int amount)
         {
+            //add group/method containing all queues, make a "liftmaker"
+            //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
+            //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
             List<LiftQueue> queues = new List<LiftQueue>();
             List<Lift> lifts = new List<Lift>();
             List<Slope> slopes = new List<Slope>();
@@ -104,14 +104,9 @@ namespace InformationalChartsTool
 
         }
 
-
         //Loops through all location types and calls their respective "move" functions
         static public void UpdateSystem(int timeStep, List<Location> allLocations)
         {
-            //we would like to update ceratain types of places before others.
-            //Restaurant (and places that are full last) movement last
-            //uppdate connections: Lifts may open restaurants may no longer be full
-
             int debugCheck = allLocations.Count;
             int debugCounter = 0;
 
@@ -120,9 +115,10 @@ namespace InformationalChartsTool
             {
                 allLocationTypes.Add(type.Name);
             }
+            //Generate list of names of all abstract classes of "Location"
+
             foreach(String s in allLocationTypes)
             {
-                Console.WriteLine("Checking location type: {0}", s);
                 foreach(Location l in allLocations)
                 {
                     string methodName = s + "Move";
@@ -133,15 +129,14 @@ namespace InformationalChartsTool
                     }
                 }
             }
+            //Runs the "...move" method for all found classes
+
             if (debugCounter != debugCheck)
             {
                 Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
             }
-
-
         }
 
-        //generates a random name (first and last), based on the files in Files folder
         static public string NameGenerator() 
         {
             string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");
@@ -150,6 +145,8 @@ namespace InformationalChartsTool
             Random rnd = new Random();
 
             string name = firstNames[rnd.Next(0, firstNames.Length - 1)] + lastNames[rnd.Next(0, lastNames.Length - 1)];
+            //Concates a random first and lastname from files
+
             return name;
         }
     }

@@ -15,7 +15,7 @@ namespace InformationalChartsTool
             closed = false;
         }
 
-        public static int GetIndexOfLocation(List<Connection> possibleMovements, Location location) //Find were a Location is in a list of Connections
+        public static int GetIndexOfLocation(List<Connection> possibleMovements, Location location) 
         {
             for(int i = 0; i<possibleMovements.Count; i++)
             {

@@ -22,20 +22,22 @@ namespace InformationalChartsTool
         }
         public void LiftMove(int timeStep)
         {
-            List<Person> movingPeople = new List<Person>(); //temp
+            List<Person> movingPeople = new List<Person>();
             foreach (Person i in occupants)
             {
-                i.timeLocation += timeStep; //increase the time in the location by timestep and move person if nessecary.
+                i.timeLocation += timeStep; 
                 if (i.timeLocation >= liftingTime)
                 {
                     movingPeople.Add(i);
                 }
             }
-            movingPeople.Sort((x,y) => y.timeLocation.CompareTo(x.timeLocation)); //note that x,y change places, then we sort from highest to lowest (with respect to time_location)
-            
-            foreach(Person i in movingPeople)
+            movingPeople.Sort((x,y) => y.timeLocation.CompareTo(x.timeLocation));
+            //increase the time in the location by timestep and move person if nessecary.
+            //note that x,y change places, then we sort from highest to lowest (with respect to time_location)
+
+            foreach (Person i in movingPeople)
             {
-                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+                i.DecisionHandler(possibleMovements, this).MovePerson(i, this);
             }
         }
        

@@ -19,10 +19,9 @@ namespace InformationalChartsTool
         bool hungerState; //if true they want to find a restaurant
         bool doneSkiingState; //if true they want to go home
 
-        public int timeLocation; //It is useful to know how long someone has been in a lift
+        public int timeLocation; 
 
-
-        List<Decision> futureDecisions = new List<Decision>(); // do decisions require there own class?
+        List<Decision> futureDecisions = new List<Decision>();
         public List<Location> locationHistory = new List<Location>();
 
         public Person(int personNumber)
@@ -45,7 +44,6 @@ namespace InformationalChartsTool
 
         public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
-
             //Depending in which Location type Person is occupying we make different decisions.
 
             switch (occupying) //Switch statement to determine what derived class occupying is.
