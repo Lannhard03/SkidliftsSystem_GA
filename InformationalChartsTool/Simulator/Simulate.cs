@@ -15,6 +15,7 @@ namespace InformationalChartsTool
     public class Simulate
     {
         static public List<string> allLocationTypes = GenerateAllLocationTypes();
+
         static List<string> GenerateAllLocationTypes()
         {
             //Generates all derived classes of Location
@@ -25,8 +26,7 @@ namespace InformationalChartsTool
             }
             return allLocationTypes;
 
-        }
-
+        } //It would be good if this list was sorted s.t. ex. Restaurant is called last.
 
         public static void BeginSimulation(string[] args)
 
@@ -118,7 +118,7 @@ namespace InformationalChartsTool
 
         }
 
-        //Loops through all location types and calls their respective "move" functions
+        
         static public void UpdateSystem(int timeStep, List<Location> allLocations)
         {
             int debugCheck = allLocations.Count;
@@ -136,8 +136,7 @@ namespace InformationalChartsTool
                     }
                 }
             }
-            //Runs the "...move" method for all found classes
-
+            //Loops through each derived Location type and runs each asociated "...move" methods for all initialized locations
             if (debugCounter != debugCheck)
             {
                 Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");

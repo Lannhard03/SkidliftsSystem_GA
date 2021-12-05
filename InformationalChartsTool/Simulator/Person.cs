@@ -54,8 +54,8 @@ namespace InformationalChartsTool
                     Location output = (Location)methodName.Invoke(this, new object[] { possibleMovements });
                     return output;
                 }
-
             }
+            //Checks the type of Location called from to call the "...Decision" method of that derived class
             return null;
         }
 
