@@ -14,6 +14,20 @@ namespace InformationalChartsTool
 
     public class Simulate
     {
+        static public List<string> allLocationTypes = GenerateAllLocationTypes();
+        static List<string> GenerateAllLocationTypes()
+        {
+            //Generates all derived classes of Location
+            List<string> allLocationTypes = new List<string>();
+            foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
+            {
+                allLocationTypes.Add(type.Name);
+            }
+            return allLocationTypes;
+
+        }
+
+
         public static void BeginSimulation(string[] args)
 
         {
@@ -110,14 +124,7 @@ namespace InformationalChartsTool
             int debugCheck = allLocations.Count;
             int debugCounter = 0;
 
-            List<string> allLocationTypes = new List<string>();
-            foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
-            {
-                allLocationTypes.Add(type.Name);
-            }
-            //Generate list of names of all abstract classes of "Location"
-
-            foreach(String s in allLocationTypes)
+            foreach(String s in Simulate.allLocationTypes)
             {
                 foreach(Location l in allLocations)
                 {

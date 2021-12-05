@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
+using System.Reflection;
 
 namespace InformationalChartsTool
 {
@@ -45,24 +46,21 @@ namespace InformationalChartsTool
         public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
             //Depending in which Location type Person is occupying we make different decisions.
-
-            switch (occupying) //Switch statement to determine what derived class occupying is.
+            foreach(string s in Simulate.allLocationTypes)
             {
-                case Lift _:
-                    return LiftDecision(possibleMovements);
-                case Slope _:
-                    return SlopeDecision(possibleMovements);
-                case LiftQueue _:
-                    return LiftQueueDecision(possibleMovements);
-                case Restaurant _:
-                    return MountainTopDecision(possibleMovements);
-                default:
-                    throw new ArgumentException("Invalid Location");
-            }
-        }
-        
+                if(occupying.GetType().Name == s)
+                {
+                    MethodInfo methodName = GetType().GetMethod(s + "Decision");
+                    Location output = (Location)methodName.Invoke(this, new object[] { possibleMovements });
+                    return output;
+                }
 
-        private Location LiftDecision(List<Connection> possibleMovements)
+            }
+            return null;
+        }
+
+
+        public Location LiftDecision(List<Connection> possibleMovements) //only call through handeler
         {
             //Disregarding top of mountain location for now we can say that the person will look for the first slopes in the list and pick one.
             foreach(Connection i in possibleMovements)
@@ -82,11 +80,10 @@ namespace InformationalChartsTool
                 }
             }
             Random rnd = new Random();
-            return(possibleSlopes[rnd.Next(0, possibleSlopes.Count)]); //Basic behaivour, pick a random slope.
+            return(possibleSlopes[0]); //Basic behaivour, pick a random slope.
         }
 
-
-        private Location SlopeDecision(List<Connection> possibleMovements)
+        public Location SlopeDecision(List<Connection> possibleMovements)
         {
             List<Connection> possibleSlopes = new List<Connection>();
             foreach (Connection i in possibleMovements)
@@ -117,14 +114,12 @@ namespace InformationalChartsTool
             
         }
 
-
-        private Location LiftQueueDecision(List<Connection> possibleMovements) //note that this should in normal circumstances not be called
+        public Location LiftQueueDecision(List<Connection> possibleMovements) //note that this should in normal circumstances not be called
         {
             return (possibleMovements[1].leadingTo);
         }
 
-
-        private Location MountainTopDecision(List<Connection> possibleMovements) //look for slopes or restaurants primarily.
+        public Location MountainTopDecision(List<Connection> possibleMovements) //look for slopes or restaurants primarily.
         {
             int skillFactor = 100;
             int explororFactor = 100;
