@@ -126,6 +126,10 @@ namespace InformationalChartsTool
             double explororExponent = 1;
             double explororMultiple = 1;
 
+            double skillnessSteppness = 1;
+            
+
+
             List<Decision> weightedSlopeList = new List<Decision>();
             foreach(Connection i in possibleMovements)
             {
@@ -141,15 +145,13 @@ namespace InformationalChartsTool
                 //this solution is terrible, but how else to do it?
                 if(i.decision is Slope s)
                 {
-                    i.weight -= Math.Abs((skillLevel - (s.difficulty / 4)) * skillFactor); //use other function? this depends on differens of skill and difficulty
-
                     int occurences = locationHistory.Where(x => x.Equals(i.decision)).Count(); //gets the amount of times Person has been at location
 
                     i.weight += 2 * explororFactor * (explororness - 0.5) * Math.Exp(-occurences) +
                                 Math.Exp(-occurences) * explororFactor * (1 - explororness) +
                                 (1 - Math.Exp(-occurences)) * (explororFactor / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences)));
 
-                    
+                    i.weight += Math.Exp(-skillnessSteppness * Math.Pow(s.difficulty - skillLevel, 2));
                 }
             }
             return possibleMovements[1].leadingTo;
