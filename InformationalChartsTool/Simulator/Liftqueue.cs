@@ -20,7 +20,7 @@ namespace InformationalChartsTool
             currentWaitTime = waitTime;
         }
         
-        public void LiftQueueMove(int timeStep) 
+        public override void Update(int timeStep) 
         {
             currentWaitTime -= timeStep;    
             if (currentWaitTime <= 0)   //if the waittime is elapsed we lift people.
@@ -55,6 +55,9 @@ namespace InformationalChartsTool
             }
         }
 
-        
+        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        {
+            return (possibleMovements[0].leadingTo);
+        }//why was this used?
     }
 }

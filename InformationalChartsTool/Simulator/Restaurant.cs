@@ -23,7 +23,7 @@ namespace InformationalChartsTool
 
 
         //remember that this is movement away from restaurant and that MovePerson overide affects incoming people
-        public void RestaurantMove(int timeStep) 
+        public override void Update(int timeStep) 
         {
             foreach(Person i in occupants)
             {
@@ -32,8 +32,14 @@ namespace InformationalChartsTool
 
             foreach (Person i in occupants)
             {
-                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+                //Person i makes a decision and moves there.
+                this.Decision(i, possibleMovements).MovePerson(i, this);
             }
+        }
+
+        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        {
+            return possibleMovements[0].leadingTo;
         }
 
         public override void MovePerson(Person person, Location comingFrom)

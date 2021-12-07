@@ -23,7 +23,7 @@ namespace InformationalChartsTool
             this.difficulty = 2;
         }
 
-        public void SlopeMove(int timeStep)
+        public override void Update(int timeStep)
         {
             List<Person> movingPeople = new List<Person>(); //temp
             foreach(Person i in occupants)
@@ -36,14 +36,42 @@ namespace InformationalChartsTool
             }
             foreach(Person i in movingPeople) //why are there two foreach loops (and a temporary list) here when one is enough?
             {
-                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+                this.Decision(i, possibleMovements).MovePerson(i, this);
             }
 
             
         }
 
+        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        {
+            List<Connection> possibleSlopes = new List<Connection>();
+            foreach (Connection i in possibleMovements)
+            {
+                if (i.leadingTo is Slope slope && !i.closed)
+                {
+                    possibleSlopes.Add(i);
+                }
+            }
 
-        
+            List<Connection> possibleQueues = new List<Connection>();
+            foreach (Connection i in possibleMovements)
+            {
+                if (i.leadingTo is LiftQueue && !i.closed)
+                {
+                    possibleQueues.Add(i);
+                }
+            }
+            Random rnd = new Random();
+            if (possibleQueues.Count <= 0)
+            {
+                return (possibleSlopes[rnd.Next(0, possibleSlopes.Count)].leadingTo);
+            }
+            else
+            {
+                return possibleQueues[rnd.Next(0, possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
+            }
+        }
+
 
     }
 }

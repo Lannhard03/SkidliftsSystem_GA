@@ -6,12 +6,15 @@ namespace InformationalChartsTool
 {
     class Valley : Location
     {
-        public void ValleyMove(int timstep)
+        public override void Update(int timstep)
         {
             
         }
 
-
+        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        {
+            return possibleMovements[0].leadingTo;
+        }
 
     }
 }

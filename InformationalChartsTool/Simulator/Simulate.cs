@@ -103,6 +103,10 @@ namespace InformationalChartsTool
             {
                 Console.WriteLine(i.name);
             }
+            foreach(Location l in allLocations)
+            {
+                Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
+            }
         }
         
         static object LiftMaker(int amount)
@@ -121,26 +125,50 @@ namespace InformationalChartsTool
         
         static public void UpdateSystem(int timeStep, List<Location> allLocations)
         {
+            //int allOccupants = 0;
+            //foreach (Location l in allLocations)
+            //{
+            //    allOccupants += l.occupants.Count;
+            //}
+
+
+            //Console.WriteLine("Before Update total amount: {0}", allOccupants);
+            //allOccupants = 0;
             int debugCheck = allLocations.Count;
             int debugCounter = 0;
-
-            foreach(String s in Simulate.allLocationTypes)
+            foreach (Location l in allLocations)
             {
-                foreach(Location l in allLocations)
-                {
-                    string methodName = s + "Move";
-                    if (l.GetType().Name == s)
-                    {
-                        l.GetType().GetMethod(methodName).Invoke(l, new object[] { timeStep });
-                        debugCounter++;
-                    }
-                }
+                l.Update(timeStep);
+                //foreach (Location i in allLocations)
+                //{
+                //    allOccupants += i.occupants.Count;
+                //}
+                //Console.WriteLine("After Updating {0} total amount: {1}", l, allOccupants);
+                //allOccupants = 0;
+                debugCounter++;
             }
-            //Loops through each derived Location type and runs each asociated "...move" methods for all initialized locations
             if (debugCounter != debugCheck)
             {
                 Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
             }
+            
+
+
+
+            //foreach(String s in Simulate.allLocationTypes)
+            //{
+            //    foreach(Location l in allLocations)
+            //    {
+            //        string methodName = s + "Move";
+            //        if (l.GetType().Name == s)
+            //        {
+            //            l.GetType().GetMethod(methodName).Invoke(l, new object[] { timeStep });
+            //            debugCounter++;
+            //        }
+            //    }
+            //}
+            ////Loops through each derived Location type and runs each asociated "...move" methods for all initialized locations
+
         }
 
         static public string NameGenerator() 

@@ -12,13 +12,13 @@ namespace InformationalChartsTool
         public string name; //for esthetics?
         public int personNumber; //for keeping track of who is where.
 
-        double morningness; //from 0-1? How early do they start skiing.
-        double hungryness;  //from 0-1? how hungry they are.
-        double skillLevel; //from 0-1? How good at skiing is the person.
-        double explororness; //from 0-1? How much they want to visit new lifts.
+        public double morningness; //from 0-1? How early do they start skiing.
+        public double hungryness;  //from 0-1? how hungry they are.
+        public double skillLevel; //from 0-1? How good at skiing is the person.
+        public double explororness; //from 0-1? How much they want to visit new lifts.
 
-        bool hungerState; //if true they want to find a restaurant
-        bool doneSkiingState; //if true they want to go home
+        public bool hungerState; //if true they want to find a restaurant
+        public bool doneSkiingState; //if true they want to go home
 
         public int timeLocation; 
 
@@ -42,7 +42,6 @@ namespace InformationalChartsTool
             this.explororness = rnd.NextDouble();
             this.name = name;
         }
-
         public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
             //Depending in which Location type Person is occupying we make different decisions.
@@ -58,8 +57,6 @@ namespace InformationalChartsTool
             //Checks the type of Location called from to call the "...Decision" method of that derived class
             return null;
         }
-
-
         public Location LiftDecision(List<Connection> possibleMovements) //only call through handeler
         {
             //Disregarding top of mountain location for now we can say that the person will look for the first slopes in the list and pick one.
@@ -82,7 +79,6 @@ namespace InformationalChartsTool
             Random rnd = new Random();
             return(possibleSlopes[0]); //Basic behaivour, pick a random slope.
         }
-
         public Location SlopeDecision(List<Connection> possibleMovements)
         {
             List<Connection> possibleSlopes = new List<Connection>();
@@ -113,7 +109,6 @@ namespace InformationalChartsTool
             }
             
         }
-
         public Location LiftQueueDecision(List<Connection> possibleMovements) //note that this should in normal circumstances not be called
         {
             return (possibleMovements[1].leadingTo);

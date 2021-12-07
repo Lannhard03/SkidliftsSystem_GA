@@ -20,11 +20,19 @@ namespace InformationalChartsTool
         {
             occupants.Remove(people);
         }
-
         public virtual void AddPerson(Person people)
         {
             occupants.Add(people);
             people.timeLocation = 0;
         }
+        public virtual void Update(int timeStep)
+        {
+
+        }
+        public virtual Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        {
+            return possibleMovements[0].leadingTo;
+        }
+
     }
 }
