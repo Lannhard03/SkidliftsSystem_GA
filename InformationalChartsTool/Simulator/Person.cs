@@ -121,8 +121,12 @@ namespace InformationalChartsTool
             double explororExponent = 1;
             double explororMultiple = 1;
 
-            double skillnessSteppness = 1;
-            
+
+
+
+            int skillFlatnessAtMax = 2; //2n
+            double skillSteepness = 3; //R
+
 
 
             List<Decision> weightedSlopeList = new List<Decision>();
@@ -146,7 +150,11 @@ namespace InformationalChartsTool
                                 Math.Exp(-occurences) * explororFactor * (1 - explororness) +
                                 (1 - Math.Exp(-occurences)) * (explororFactor / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences)));
 
-                    i.weight += Math.Exp(-skillnessSteppness * Math.Pow(s.difficulty - skillLevel, 2));
+                    i.weight += Math.Exp(
+                                -(skillSteepness/(Math.Pow(skillLevel, 2)+0.1))*
+                                (Math.Pow(Math.Log(skillLevel-s.difficulty+1),2)));
+
+
                 }
             }
             return possibleMovements[1].leadingTo;
