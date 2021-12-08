@@ -15,6 +15,8 @@ namespace InformationalChartsTool
         public Form1()
         {
             InitializeComponent();
+            //dataGridView1.BindingContext(InformationalChartsTool.Simulate.)
         }
+
     }
 }

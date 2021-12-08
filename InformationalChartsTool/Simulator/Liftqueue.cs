@@ -6,10 +6,9 @@ namespace InformationalChartsTool
 {
     public class LiftQueue : Location
     {
-        
-        int liftAmount; //how much one lifting lifts
-        int waitTime;   //Time between each lifting
-        int currentWaitTime; //=waittime;
+        int liftAmount;
+        int waitTime;
+        int currentWaitTime; 
 
         public LiftQueue(List<Person> occupants, int liftAmount, int waitTime, string name)
         {
