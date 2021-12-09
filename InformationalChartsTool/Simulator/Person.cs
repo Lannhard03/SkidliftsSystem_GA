@@ -33,6 +33,7 @@ namespace InformationalChartsTool
             this.hungryness = rnd.NextDouble();
             this.explororness = rnd.NextDouble();
         }
+
         public Person(int personNumber, string name)
         {
             Random rnd = new Random();
@@ -42,6 +43,7 @@ namespace InformationalChartsTool
             this.explororness = rnd.NextDouble();
             this.name = name;
         }
+
         public Location DecisionHandler(List<Connection> possibleMovements, Location occupying)
         {
             //Depending in which Location type Person is occupying we make different decisions.
@@ -113,7 +115,6 @@ namespace InformationalChartsTool
         {
             return (possibleMovements[1].leadingTo);
         }
-
         public Location MountainTopDecision(List<Connection> possibleMovements) //look for slopes or restaurants primarily.
         {
             int skillFactor = 100;
