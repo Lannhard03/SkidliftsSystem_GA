@@ -30,7 +30,7 @@ namespace InformationalChartsTool
         public static void BeginSimulation()
 
         {
-            //initialize
+            //initialized
             #region
             int time = 0; //time 0 is the start of the skiday
             int timeStep = 1; //one second?
