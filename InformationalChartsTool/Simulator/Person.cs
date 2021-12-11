@@ -13,12 +13,9 @@ namespace InformationalChartsTool
         public int personNumber; //for keeping track of who is where.
 
         public double morningness; //from 0-1? How early do they start skiing.
-
-
-
         public double hungryness;  //from 0-1? how hungry they are.
+        public double queuePatients;        
         
-
 
         public double skillLevel; //from 0-1? How good at skiing is the person.
         public double explororness; //from 0-1? How much they want to visit new lifts.
@@ -100,10 +97,27 @@ namespace InformationalChartsTool
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
                 return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hungryness - 1)) + Math.Exp(-tendancyTowardsEdges));
-                }
+                
             }
             else
             {
+                return 0;
+            }
+        }
+
+        public double WeightQueueLenght(int queueLenghtWeight, Decision checkingDecision)
+        {
+            double tendancyTowardsEdges = -5; //large value towards 0, small linear, negative towards 1
+
+
+            if (checkingDecision.decision is LiftQueue)
+            {
+                int length = checkingDecision.decision.occupants.Count/100; //what to normalize with??
+                return queueLenghtWeight * (1 - (1 / (1 - Math.Exp(-tendancyTowardsEdges)) * (Math.Exp(tendancyTowardsEdges * (length - 1)) - Math.Exp(-tendancyTowardsEdges))));
+            }
+            else
+            {
+                Console.WriteLine("Tried getting QueueLength of none LiftQueue");
                 return 0;
             }
         }

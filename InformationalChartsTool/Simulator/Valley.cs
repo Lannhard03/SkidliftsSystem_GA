@@ -37,7 +37,7 @@ namespace InformationalChartsTool
             {
                 if (possibleDecision.decision is LiftQueue)
                 {
-                    possibleDecision.weight += decisionMaker.WeightExplororness(200, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(50, possibleDecision)+decisionMaker.WeightQueueLenght(150, possibleDecision);
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
