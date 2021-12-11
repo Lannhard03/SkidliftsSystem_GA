@@ -15,13 +15,13 @@ namespace InformationalChartsTool
             closed = false;
         }
 
-        public static Connection GetIndexOfLocation(List<Connection> possibleMovements, Location location) //Find were a Location is in a list of Connections
+        public static int GetIndexOfLocation(List<Connection> possibleMovements, Location location) 
         {
-            foreach(Connection c in possibleMovements)
+            for(int i = 0; i<possibleMovements.Count; i++)
             {
-                if(c.leadingTo == location)
+                if(possibleMovements[i].leadingTo == location)
                 {
-                    return c;
+                    return i;
                 }
             }
             throw new ArgumentException("Location not in list"); //Can we handle exception with out crash?

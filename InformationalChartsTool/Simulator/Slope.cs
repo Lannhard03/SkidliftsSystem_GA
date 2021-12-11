@@ -17,13 +17,12 @@ namespace InformationalChartsTool
             this.difficulty = 2;
         }
         public Slope(int slopeTime, string name)
-        {
+        {   
             this.name = name;
             this.slopeTime = slopeTime;
             this.difficulty = 2;
         }
-
-        public void SlopeMove(int timeStep)
+        public override void Update(int timeStep)
         {
             List<Person> movingPeople = new List<Person>(); //temp
             foreach(Person i in occupants)
@@ -36,14 +35,37 @@ namespace InformationalChartsTool
             }
             foreach(Person i in movingPeople) //why are there two foreach loops (and a temporary list) here when one is enough?
             {
-                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+                MakeDecision(i, possibleMovements).MovePerson(i, this);
             }
 
             
         }
+        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
+        {
+            //Basically only connects to Valley or Another Slope. 
+            List<Decision> possibleDecisions = new List<Decision>();
+            foreach (Connection c in possibleMovements.Where(x => x.leadingTo is Slope || x.leadingTo is Valley))
+            {
+                if (!c.closed)
+                {
+                    possibleDecisions.Add(new Decision(c.leadingTo, 0));
+                }
+            }
 
+            foreach (Decision possibleDecision in possibleDecisions)
+            {
+                if (possibleDecision.decision is Slope)
+                {
+                    possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                }
+                if (possibleDecision.decision is Valley)
+                {
+                    possibleDecision.weight += decisionMaker.WeightExplororness(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
+                }
+            }
+            Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
+            return choice.decision;
 
-        
-
+        }
     }
 }
