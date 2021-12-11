@@ -39,6 +39,7 @@ namespace InformationalChartsTool
             this.hungryness = 0;
             this.explororness = rnd.NextDouble();
         }
+
         public Person(int personNumber, string name)
         {
             Random rnd = new Random();
@@ -99,6 +100,7 @@ namespace InformationalChartsTool
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
                 return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hungryness - 1)) + Math.Exp(-tendancyTowardsEdges));
+                }
             }
             else
             {
