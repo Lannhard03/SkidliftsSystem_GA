@@ -29,7 +29,7 @@ namespace InformationalChartsTool
         {
 
         }
-        public virtual Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        public virtual Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             return possibleMovements[0].leadingTo;
         }

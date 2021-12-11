@@ -17,12 +17,11 @@ namespace InformationalChartsTool
             this.difficulty = 2;
         }
         public Slope(int slopeTime, string name)
-        {
+        {   
             this.name = name;
             this.slopeTime = slopeTime;
             this.difficulty = 2;
         }
-
         public override void Update(int timeStep)
         {
             List<Person> movingPeople = new List<Person>(); //temp
@@ -36,42 +35,37 @@ namespace InformationalChartsTool
             }
             foreach(Person i in movingPeople) //why are there two foreach loops (and a temporary list) here when one is enough?
             {
-                this.Decision(i, possibleMovements).MovePerson(i, this);
+                MakeDecision(i, possibleMovements).MovePerson(i, this);
             }
 
             
         }
-
-        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
-            List<Connection> possibleSlopes = new List<Connection>();
-            foreach (Connection i in possibleMovements)
+            //Basically only connects to Valley or Another Slope. 
+            List<Decision> possibleDecisions = new List<Decision>();
+            foreach (Connection c in possibleMovements.Where(x => x.leadingTo is Slope || x.leadingTo is Valley))
             {
-                if (i.leadingTo is Slope slope && !i.closed)
+                if (!c.closed)
                 {
-                    possibleSlopes.Add(i);
+                    possibleDecisions.Add(new Decision(c.leadingTo, 0));
                 }
             }
 
-            List<Connection> possibleQueues = new List<Connection>();
-            foreach (Connection i in possibleMovements)
+            foreach (Decision possibleDecision in possibleDecisions)
             {
-                if (i.leadingTo is LiftQueue && !i.closed)
+                if (possibleDecision.decision is Slope)
                 {
-                    possibleQueues.Add(i);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                }
+                if (possibleDecision.decision is Valley)
+                {
+                    possibleDecision.weight += decisionMaker.WeightExplororness(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
                 }
             }
-            Random rnd = new Random();
-            if (possibleQueues.Count <= 0)
-            {
-                return (possibleSlopes[rnd.Next(0, possibleSlopes.Count)].leadingTo);
-            }
-            else
-            {
-                return possibleQueues[rnd.Next(0, possibleQueues.Count)].leadingTo; //Basic behaivour, pick a random queue
-            }
+            Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
+            return choice.decision;
+
         }
-
-
     }
 }

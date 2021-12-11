@@ -19,7 +19,15 @@ namespace InformationalChartsTool
             this.waitTime = waitTime;
             currentWaitTime = waitTime;
         }
-        
+
+        public LiftQueue(int liftAmount, int waitTime, string name)
+        {
+            this.name = name;
+            this.liftAmount = liftAmount;
+            this.waitTime = waitTime;
+            currentWaitTime = waitTime;
+        }
+
         public override void Update(int timeStep) 
         {
             currentWaitTime -= timeStep;    
@@ -55,9 +63,11 @@ namespace InformationalChartsTool
             }
         }
 
-        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
+            Console.WriteLine("Why was this used?");
             return (possibleMovements[0].leadingTo);
+            
         }//why was this used?
     }
 }

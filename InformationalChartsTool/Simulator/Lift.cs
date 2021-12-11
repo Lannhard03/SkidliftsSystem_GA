@@ -31,31 +31,45 @@ namespace InformationalChartsTool
                     movingPeople.Add(p);
                 }
             }
+
             movingPeople.Sort((x,y) => y.timeLocation.CompareTo(x.timeLocation));
             //increase the time in the location by timestep and move person if nessecary.
-            //note that x,y change places, then we sort from highest to lowest (with respect to time_location)
+            //note that x,y change places, then we sort from highest to lowest (with respect to timeLocation)
 
             foreach (Person p in movingPeople)
             {
-                
-                this.Decision(p, possibleMovements).MovePerson(p, this);
+                MakeDecision(p, possibleMovements).MovePerson(p, this);
             }
         }
-        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
-            //Disregarding top of mountain location for now we can say that the person will look for the first slopes in the list and pick one.
+            //Look for MountainTop or Slopes and Lifts (we may jump off lift in middle)
 
-
-            List<Slope> possibleSlopes = new List<Slope>();
-            foreach (Connection i in possibleMovements)
+            Connection temp = possibleMovements.Find(x => x.leadingTo is MountainTop && !x.closed);
+            if (temp != null)
             {
-                if (i.leadingTo is Slope slope && !i.closed)
-                {
-                    possibleSlopes.Add(slope);
-                }
+                return temp.leadingTo;
             }
-            Random rnd = new Random();
-            return (possibleSlopes[0]); //Basic behaivour, pick a random slope.
-        } //This is definiatlly not finished!! will chrash with mountaintop
+            //If there is a mountainTop go there.
+
+            //how to choose if to go up or jump of??
+            //Well going up will in all liklyhood lead to more choices and possibly going to restaurant?
+            //And jumping of will mean you can do what? Primarily we will go up?
+
+            temp = possibleMovements.Find(x => x.leadingTo is Lift && !x.closed);
+            if (temp != null)
+            {
+                return temp.leadingTo;
+            }
+            //If there is a Lift go there.
+
+            return possibleMovements[0].leadingTo;
+           
+
+
+
+
+
+        }
     }
 }

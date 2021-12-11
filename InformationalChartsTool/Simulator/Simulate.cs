@@ -27,7 +27,6 @@ namespace InformationalChartsTool
             return allLocationTypes;
 
         } //It would be good if this list was sorted s.t. ex. Restaurant is called last.
-
         public static void BeginSimulation(string[] args)
 
         {
@@ -40,7 +39,7 @@ namespace InformationalChartsTool
             List<Person> allOccupants = new List<Person>();
             List<Location> allLocations = new List<Location>();
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 250; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
@@ -57,44 +56,73 @@ namespace InformationalChartsTool
                 springKoStart.Add(allOccupants[i]);
             }
 
-            LiftQueue superKo = new LiftQueue(superKoStart, 2, 10, "superkö");
-            LiftQueue springKo = new LiftQueue(springKoStart, 6, 20, "springkö");
+            Valley valley1 = new Valley("Stora dalen");
+            Valley valley2 = new Valley("lilla dalen");
 
-            Lift superLiften = new Lift(200, "superliften");
-            Lift springLiften = new Lift(500, "springliften");
+            MountainTop berg1 = new MountainTop("höga toppen");
+            MountainTop berg2 = new MountainTop("korta toppen");
 
-            Slope superBacken = new Slope(500, "superbacken");
-            Slope springBacken = new Slope(100, "springBacken");
+            LiftQueue ko1 = new LiftQueue(superKoStart, 6, 30, "superkö");
+            LiftQueue ko2 = new LiftQueue(springKoStart, 4, 25, "springkö");
+            LiftQueue ko3 = new LiftQueue(2, 10, "Kortkö");
 
+            Lift lift1 = new Lift(200, "superliften");
+            Lift lift2 = new Lift(500, "springliften");
+            Lift lift3 = new Lift(50, "Kortaliften");
+
+            Slope backe1 = new Slope(500, "superbacken");
+            Slope backe2 = new Slope(250, "springBacken");
+            Slope backe3 = new Slope(100, "kortabacken");
 
             //make connections
-            superKo.possibleMovements.Add(new Connection(superLiften));
-            superLiften.possibleMovements.Add(new Connection(superBacken));
-            superBacken.possibleMovements.Add(new Connection(superKo));
-            superBacken.possibleMovements.Add(new Connection(springKo));
+            valley1.possibleMovements.Add(new Connection(ko1));
+            valley1.possibleMovements.Add(new Connection(ko3));
 
-            springKo.possibleMovements.Add(new Connection(springLiften));
-            springLiften.possibleMovements.Add(new Connection(springBacken));
-            springBacken.possibleMovements.Add(new Connection(superBacken));
+            valley2.possibleMovements.Add(new Connection(ko2));
+
+            berg1.possibleMovements.Add(new Connection(backe1));
+            berg1.possibleMovements.Add(new Connection(backe2));
+
+            berg2.possibleMovements.Add(new Connection(backe3));
+
+            ko1.possibleMovements.Add(new Connection(lift1));
+            ko2.possibleMovements.Add(new Connection(lift2));
+            ko3.possibleMovements.Add(new Connection(lift3));
+
+
+            lift1.possibleMovements.Add(new Connection(berg1));
+            lift2.possibleMovements.Add(new Connection(berg1));
+            lift3.possibleMovements.Add(new Connection(berg2));
+
+            backe1.possibleMovements.Add(new Connection(valley1));
+            backe2.possibleMovements.Add(new Connection(valley2));
+            backe3.possibleMovements.Add(new Connection(valley2));
 
             //add Locations to meta list
-            allLocations.Add(superKo);
-            allLocations.Add(springKo);
-            allLocations.Add(superLiften);
-            allLocations.Add(springLiften);
-            allLocations.Add(superBacken);
-            allLocations.Add(springBacken);
+            allLocations.Add(valley1);
+            allLocations.Add(valley2);
+            allLocations.Add(berg1);
+            allLocations.Add(berg2);
+            allLocations.Add(ko1);
+            allLocations.Add(ko2);
+            allLocations.Add(ko3);
+            allLocations.Add(lift1);
+            allLocations.Add(lift2);
+            allLocations.Add(lift3);
+            allLocations.Add(backe1);
+            allLocations.Add(backe2);
+            allLocations.Add(backe3);
             #endregion
 
-            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
+            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {0}:", "Åkande i {1}:", "Åkande i {2}:"), valley1.name, ko3.name, backe1.name); //lägg till namn på lift och backe
             while (time <= endTime)
             {
-                UpdateSystem(timeStep, allLocations);
+                UpdateSystem(timeStep, allLocations, allOccupants);
 
                 if (time%100 == 0)
                 {
                     Console.WriteLine("{0, 10:N0} {1, 40:N0} {2, 50:N0} {3, 60:N0}\n",
-                        time, springKo.occupants.Count, springLiften.occupants.Count, springBacken.occupants.Count);
+                        time, valley1.occupants.Count, ko3.occupants.Count, backe1.occupants.Count);
                 }
                 time += timeStep;
             }
@@ -103,12 +131,12 @@ namespace InformationalChartsTool
             {
                 Console.WriteLine(i.name);
             }
+            Console.WriteLine(allOccupants[5].explororness);
             foreach(Location l in allLocations)
             {
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
         }
-        
         static object LiftMaker(int amount)
         {
             //add group/method containing all queues, make a "liftmaker"
@@ -121,9 +149,7 @@ namespace InformationalChartsTool
             return queues;
 
         }
-
-        
-        static public void UpdateSystem(int timeStep, List<Location> allLocations)
+        static public void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
         {
             //int allOccupants = 0;
             //foreach (Location l in allLocations)
@@ -151,26 +177,12 @@ namespace InformationalChartsTool
             {
                 Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
             }
-            
-
-
-
-            //foreach(String s in Simulate.allLocationTypes)
-            //{
-            //    foreach(Location l in allLocations)
-            //    {
-            //        string methodName = s + "Move";
-            //        if (l.GetType().Name == s)
-            //        {
-            //            l.GetType().GetMethod(methodName).Invoke(l, new object[] { timeStep });
-            //            debugCounter++;
-            //        }
-            //    }
-            //}
-            ////Loops through each derived Location type and runs each asociated "...move" methods for all initialized locations
+            foreach(Person p in allOccupants)
+            {
+                p.hungryness += 0.00005;
+            }
 
         }
-
         static public string NameGenerator() 
         {
             string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");

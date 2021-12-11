@@ -33,11 +33,11 @@ namespace InformationalChartsTool
             foreach (Person i in occupants)
             {
                 //Person i makes a decision and moves there.
-                this.Decision(i, possibleMovements).MovePerson(i, this);
+                this.MakeDecision(i, possibleMovements).MovePerson(i, this);
             }
         }
 
-        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             return possibleMovements[0].leadingTo;
         }
@@ -48,7 +48,8 @@ namespace InformationalChartsTool
             {
                 //if the restaurant is full we can't let someone enter it.
                 comingFrom.possibleMovements[Connection.GetIndexOfLocation(possibleMovements, this)].closed = true;
-                person.DecisionHandler(comingFrom.possibleMovements, comingFrom).MovePerson(person, comingFrom);
+                comingFrom.MakeDecision(person, comingFrom.possibleMovements).MovePerson(person, comingFrom);
+                
 
             }
             else

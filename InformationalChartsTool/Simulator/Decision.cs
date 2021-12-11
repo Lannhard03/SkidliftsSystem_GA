@@ -4,7 +4,7 @@ using System.Text;
 
 namespace InformationalChartsTool
 {
-    class Decision
+    public class Decision
     {
         public Location decision;
         public double weight;

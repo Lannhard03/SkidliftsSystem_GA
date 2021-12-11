@@ -7,54 +7,73 @@ namespace InformationalChartsTool
     class MountainTop : Location
     {
         //Many Lifts may lead to this place, and people may spend some time waiting here.
-
+        public MountainTop(string name)       
+        {
+            this.name = name;
+        }
         public override void Update(int timeStep)
         {
-            foreach(Person i in occupants)
+            for(int i = 0; i<occupants.Count; i++)
             {
                 
-                this.Decision(i, possibleMovements).MovePerson(i, this);
+                MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 //Class may seem unnessecary but it will govern what type of choices Persons make
             }
         }
 
-        public override Location Decision(Person decisionMaker, List<Connection> possibleMovements)
+        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
-            int skillFactor = 100;
-            int explororFactor = 100;
-            double explororExponent = 1;
-            double explororMultiple = 1;
-
-            double skillnessSteppness = 1;
-
-
-
-            List<Decision> weightedSlopeList = new List<Decision>();
-            foreach (Connection i in possibleMovements)
+            List<Decision> possibleDecisions = new List<Decision>();
+            foreach (Connection c in possibleMovements.Where(x => x.leadingTo is Restaurant || x.leadingTo is Slope || x.leadingTo is Home))
             {
-                if (!i.closed && i.leadingTo is Slope s)
+                if (!c.closed)
                 {
-                    weightedSlopeList.Add(new Decision(s, 0));
+                    possibleDecisions.Add(new Decision(c.leadingTo, 0));
+                }
+            }
+            //Look for Restaurant, Home, Slopes since MountainTop should have no Liftqueues or Vallys adjacent
+
+            foreach (Decision possibleDecision in possibleDecisions)
+            {
+                if (possibleDecision.decision is Slope)
+                {
+                    possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                }
+                if (possibleDecision.decision is Restaurant)
+                {
+                    possibleDecision.weight += decisionMaker.WeightHunger(200, possibleDecision) + decisionMaker.WeightExplororness(50, possibleDecision);
+                }
+                if (possibleDecision.decision is Home)
+                {
+                    possibleDecision.weight += decisionMaker.WeightTiredness(200, possibleDecision) + decisionMaker.WeightHunger(50, possibleDecision);
                 }
             }
 
-            foreach (Decision i in weightedSlopeList)
+            //Determined way, largest weight wins.
+            Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
+            if(choice.decision.name == "springBacken")
             {
-                //Factor in Skill, Explororness, Hungryness
-                //this solution is terrible, but how else to do it?
-                if (i.decision is Slope s)
-                {
-                    int occurences = decisionMaker.locationHistory.Where(x => x.Equals(i.decision)).Count(); //gets the amount of times Person has been at location
-
-                    i.weight += 2 * explororFactor * (decisionMaker.explororness - 0.5) * Math.Exp(-occurences) +
-                                Math.Exp(-occurences) * explororFactor * (1 - decisionMaker.explororness) +
-                                (1 - Math.Exp(-occurences)) * (explororFactor / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (decisionMaker.explororness - 0.5), explororExponent) * occurences)));
-
-                    i.weight += Math.Exp(-skillnessSteppness * Math.Pow(s.difficulty - decisionMaker.skillLevel, 2));
-                }
+                Console.WriteLine("some choose to go to springBacken with a weight of {0}", choice.weight);
             }
-            return possibleMovements[1].leadingTo;
+            return choice.decision;
+
+            //Random choice the Higher weight choice is more likely to be choosen
+            //double totalWeight = possibleDecisions.Sum(x => x.weight);
+            //Random rnd = new Random();
+            //double r = rnd.NextDouble();
+            //double runningWeight = 0;
+            //foreach(Decision d in possibleDecisions)
+            //{
+            //    runningWeight += d.weight;
+            //    if(r <= runningWeight/totalWeight)
+            //    {
+            //        return d.decision;
+            //    }
+            //}
+        }
+
+
+
 
         }
     }
-}
