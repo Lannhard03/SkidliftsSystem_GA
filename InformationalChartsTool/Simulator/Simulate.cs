@@ -27,7 +27,7 @@ namespace InformationalChartsTool
             return allLocationTypes;
 
         } //It would be good if this list was sorted s.t. ex. Restaurant is called last.
-        public static void BeginSimulation(string[] args)
+        public static void BeginSimulation()
 
         {
             //initialize
