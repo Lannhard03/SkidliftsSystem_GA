@@ -14,8 +14,8 @@ namespace InformationalChartsTool
 
         public double morningness; //from 0-1? How early do they start skiing.
         public double hungryness;  //from 0-1? how hungry they are.
-        public double queuePatients;        
-        
+        public double queuePatients;
+        public double chill;
 
         public double skillLevel; //from 0-1? How good at skiing is the person.
         public double explororness; //from 0-1? How much they want to visit new lifts.
@@ -35,6 +35,8 @@ namespace InformationalChartsTool
             this.morningness = rnd.NextDouble();
             this.hungryness = 0;
             this.explororness = rnd.NextDouble();
+            this.queuePatients = rnd.NextDouble();
+            this.chill = rnd.NextDouble();
         }
 
         public Person(int personNumber, string name)
@@ -44,6 +46,8 @@ namespace InformationalChartsTool
             this.morningness = rnd.NextDouble();
             this.hungryness = 0;
             this.explororness = rnd.NextDouble();
+            this.queuePatients = rnd.NextDouble();
+            this.chill = rnd.NextDouble();
             this.name = name;
         }
         public double WeightExplororness(int explororWeight, Decision checkingDecision)
@@ -53,11 +57,11 @@ namespace InformationalChartsTool
 
             int occurences = locationHistory.Where(x => x.Equals(checkingDecision.decision)).Count(); //gets the amount of times Person has been at location
 
-            return (2 * explororWeight * (explororness - 0.5) * Math.Exp(-occurences) +
+            double temp = (2 * explororWeight * (explororness - 0.5) * Math.Exp(-occurences) +
                         Math.Exp(-occurences) * explororWeight * (1 - explororness) +
                         (1 - Math.Exp(-occurences)) * (explororWeight / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences))));
+            return temp;
             //Math function to get weight
-            
         }
         public double WeightSkillLevel(int skillLevelWeight, Decision checkingDecision)
         {
@@ -66,7 +70,8 @@ namespace InformationalChartsTool
 
             if (checkingDecision.decision is Slope slopeDecision)
             {
-                return skillLevelWeight*Math.Exp(-(skillSteepness / (Math.Pow(skillLevel, 2) + 0.1)) * (Math.Pow(Math.Log(skillLevel - slopeDecision.difficulty + 1), 2)));
+                double temp = skillLevelWeight * Math.Exp(-(skillSteepness / (Math.Pow(skillLevel, 2) + 0.1)) * (Math.Pow(Math.Log(skillLevel - slopeDecision.difficulty + 1), skillFlatnessAtMax)));
+                return temp;
             }
             else
             {
@@ -104,15 +109,12 @@ namespace InformationalChartsTool
                 return 0;
             }
         }
-
         public double WeightQueueLenght(int queueLenghtWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = -5; //large value towards 0, small linear, negative towards 1
-
-
+            double tendancyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
             if (checkingDecision.decision is LiftQueue)
             {
-                int length = checkingDecision.decision.occupants.Count/100; //what to normalize with??
+                int length = checkingDecision.decision.occupants.Count/10; //what to normalize with??
                 return queueLenghtWeight * (1 - (1 / (1 - Math.Exp(-tendancyTowardsEdges)) * (Math.Exp(tendancyTowardsEdges * (length - 1)) - Math.Exp(-tendancyTowardsEdges))));
             }
             else

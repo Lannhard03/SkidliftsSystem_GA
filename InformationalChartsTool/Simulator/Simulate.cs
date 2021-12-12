@@ -14,19 +14,7 @@ namespace InformationalChartsTool
 
     public class Simulate
     {
-        static public List<string> allLocationTypes = GenerateAllLocationTypes();
 
-        static List<string> GenerateAllLocationTypes()
-        {
-            //Generates all derived classes of Location
-            List<string> allLocationTypes = new List<string>();
-            foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
-            {
-                allLocationTypes.Add(type.Name);
-            }
-            return allLocationTypes;
-
-        } //It would be good if this list was sorted s.t. ex. Restaurant is called last.
         public static void BeginSimulation()
 
         {
@@ -64,14 +52,14 @@ namespace InformationalChartsTool
 
             LiftQueue ko1 = new LiftQueue(superKoStart, 6, 30, "superkö");
             LiftQueue ko2 = new LiftQueue(springKoStart, 4, 25, "springkö");
-            LiftQueue ko3 = new LiftQueue(2, 10, "Kortkö");
+            LiftQueue ko3 = new LiftQueue(2, 18, "Kortkö");
 
             Lift lift1 = new Lift(200, "superliften");
             Lift lift2 = new Lift(500, "springliften");
             Lift lift3 = new Lift(50, "Kortaliften");
 
-            Slope backe1 = new Slope(500, "superbacken");
-            Slope backe2 = new Slope(250, "springBacken");
+            Slope backe1 = new Slope(250, "superbacken");
+            Slope backe2 = new Slope(500, "springBacken");
             Slope backe3 = new Slope(100, "kortabacken");
 
             //make connections

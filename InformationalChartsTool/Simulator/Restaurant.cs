@@ -20,8 +20,6 @@ namespace InformationalChartsTool
             this.name = name;
         }
 
-
-
         //remember that this is movement away from restaurant and that MovePerson overide affects incoming people
         public override void Update(int timeStep) 
         {
@@ -49,8 +47,6 @@ namespace InformationalChartsTool
                 //if the restaurant is full we can't let someone enter it.
                 comingFrom.possibleMovements[Connection.GetIndexOfLocation(possibleMovements, this)].closed = true;
                 comingFrom.MakeDecision(person, comingFrom.possibleMovements).MovePerson(person, comingFrom);
-                
-
             }
             else
             {

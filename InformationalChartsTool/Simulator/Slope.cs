@@ -8,19 +8,19 @@ namespace InformationalChartsTool
     {
         
         int slopeTime;
-        public int difficulty; //1,2,3,4 -> green, blue, red, black
+        public double difficulty; //1,2,3,4 -> green, blue, red, black
         public Slope(List<Person> occupants, int slopeTime, string name)
         {
             this.name = name;
             this.occupants = occupants;
             this.slopeTime = slopeTime;
-            this.difficulty = 2;
+            this.difficulty = 0.5;
         }
         public Slope(int slopeTime, string name)
         {   
             this.name = name;
             this.slopeTime = slopeTime;
-            this.difficulty = 2;
+            this.difficulty = 0.5;
         }
         public override void Update(int timeStep)
         {
