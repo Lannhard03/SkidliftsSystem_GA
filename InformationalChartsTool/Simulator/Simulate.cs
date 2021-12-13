@@ -6,13 +6,13 @@ using System.Reflection;
 
 namespace InformationalChartsTool
 {
-    //4 different types of things are required atleast: People, Locations, Movement and Decisions.
-    // Locations will govern possible movements (maybe with connections).
-    // People will be in a location, and decide one of the possible movements based on either Decisions or Location (depending on were the are).
-    // Decisions are governed by people but restricted by Location.
-
     public class Simulate
     {
+        //4 different types of things are required atleast: People, Locations, Movement and Decisions.
+        // Locations will govern possible movements (maybe with connections).
+        // People will be in a location, and decide one of the possible movements based on either Decisions or Location (depending on were the are).
+        // Decisions are governed by people but restricted by Location.
+
         public static void BeginSimulation(string[] args)
 
         {
@@ -70,7 +70,8 @@ namespace InformationalChartsTool
             allLocations.Add(superBacken);
             allLocations.Add(springBacken);
             #endregion
-            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
+            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", 
+                "Tid:", "Köande till {4}:", "Åkande i {4}:", "Åkande i {5}:")); //lägg till namn på lift och backe
             while (time <= endTime)
             {
                 UpdateSystem(timeStep, allLocations);
@@ -88,20 +89,6 @@ namespace InformationalChartsTool
                 Console.WriteLine(i.name);
             }
         }
-
-        //add group/method containing all queues, make a "liftmaker"
-        //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
-        //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
-        static object LiftMaker(int amount)
-        {
-            List<LiftQueue> queues = new List<LiftQueue>();
-            List<Lift> lifts = new List<Lift>();
-            List<Slope> slopes = new List<Slope>();
-
-            return queues;
-
-        }
-
         static public void UpdateSystem(int timeStep, List<Location> allLocations)
         {
             //we would like to update ceratain types of places before others.

@@ -8,7 +8,7 @@ namespace InformationalChartsTool
     {
         
         int slopeTime;
-        public int difficulty; //1,2,3,4 -> green, blue, red, black
+        public double difficulty; //| > 0,2 | 0,4 | 0,6 | 0,8 | 1,0 | <-> | green | blue | red | black | ultrablack |
         public Slope(List<Person> occupants, int slopeTime, string name)
         {
             this.name = name;

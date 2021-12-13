@@ -97,6 +97,7 @@
     <None Include="packages.config" />
     <None Include="packages\LiveCharts.0.9.7\.signature.p7s" />
     <None Include="packages\LiveCharts.0.9.7\LiveCharts.0.9.7.nupkg" />
+    <None Include="Properties\DataSources\Indata.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
