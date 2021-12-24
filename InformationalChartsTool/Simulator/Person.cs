@@ -109,12 +109,12 @@ namespace InformationalChartsTool
                 return 0;
             }
         }
-        public double WeightQueueLenght(int queueLenghtWeight, Decision checkingDecision)
+        public double WeightQueueLenght(int queueLenghtWeight, Decision checkingDecision, int liftOccupants)
         {
-            double tendancyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
+            double tendancyTowardsEdges = -(queuePatients*10); //large value towards 1, small linear, negative towards 0
             if (checkingDecision.decision is LiftQueue)
             {
-                int length = checkingDecision.decision.occupants.Count/10; //what to normalize with??
+                int length = checkingDecision.decision.occupants.Count/(liftOccupants+1); //what to normalize with??
                 return queueLenghtWeight * (1 - (1 / (1 - Math.Exp(-tendancyTowardsEdges)) * (Math.Exp(tendancyTowardsEdges * (length - 1)) - Math.Exp(-tendancyTowardsEdges))));
             }
             else

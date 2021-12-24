@@ -18,7 +18,7 @@ namespace InformationalChartsTool
         public static void BeginSimulation()
 
         {
-            //initialized
+            //initialize
             #region
             int time = 0; //time 0 is the start of the skiday
             int timeStep = 1; //one second?
@@ -31,18 +31,13 @@ namespace InformationalChartsTool
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
-
-            List<Person> superKoStart = new List<Person>();
-            for (int i = 0; i < 200; i++)
+            List<Person> temp = new List<Person>();
+            foreach(Person p in allOccupants)
             {
-                superKoStart.Add(allOccupants[i]);
+                temp.Add(p);
             }
 
-            List<Person> springKoStart = new List<Person>();
-            for (int i = 200; i < allOccupants.Count; i++)
-            {
-                springKoStart.Add(allOccupants[i]);
-            }
+            Home home1 = new Home("Stora dalen boende", temp);
 
             Valley valley1 = new Valley("Stora dalen");
             Valley valley2 = new Valley("lilla dalen");
@@ -50,8 +45,8 @@ namespace InformationalChartsTool
             MountainTop berg1 = new MountainTop("höga toppen");
             MountainTop berg2 = new MountainTop("korta toppen");
 
-            LiftQueue ko1 = new LiftQueue(superKoStart, 6, 30, "superkö");
-            LiftQueue ko2 = new LiftQueue(springKoStart, 4, 25, "springkö");
+            LiftQueue ko1 = new LiftQueue(6, 30, "superkö");
+            LiftQueue ko2 = new LiftQueue(4, 25, "springkö");
             LiftQueue ko3 = new LiftQueue(2, 18, "Kortkö");
 
             Lift lift1 = new Lift(200, "superliften");
@@ -63,6 +58,8 @@ namespace InformationalChartsTool
             Slope backe3 = new Slope(100, "kortabacken");
 
             //make connections
+            home1.possibleMovements.Add(new Connection(valley1));
+
             valley1.possibleMovements.Add(new Connection(ko1));
             valley1.possibleMovements.Add(new Connection(ko3));
 
@@ -87,6 +84,7 @@ namespace InformationalChartsTool
             backe3.possibleMovements.Add(new Connection(valley2));
 
             //add Locations to meta list
+            allLocations.Add(home1);
             allLocations.Add(valley1);
             allLocations.Add(valley2);
             allLocations.Add(berg1);
@@ -114,6 +112,8 @@ namespace InformationalChartsTool
                 }
                 time += timeStep;
             }
+            
+
             Console.WriteLine(allOccupants[5].name);
             foreach(Location i in allOccupants[5].locationHistory)
             {
