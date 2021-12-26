@@ -38,7 +38,7 @@ namespace InformationalChartsTool
                     possibleDecisions.Add(new Decision(c.leadingTo, 0));
                 }
             }
-            //Look for Restaurant, Home, Slopes since MountainTop should have no Liftqueues or Vallys adjacent
+            //Look for Restaurant, Home, Slopes since MountainTop should have no Liftqueues or Valleys adjacent
 
             foreach (Decision possibleDecision in possibleDecisions)
             {
@@ -69,6 +69,7 @@ namespace InformationalChartsTool
 
             //Determined way, largest weight wins.
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
+
             foreach (Decision d in possibleDecisions)
             {
                 Console.WriteLine("From {0} to {1} had {2} weight", this.name, d.decision.name, d.weight);

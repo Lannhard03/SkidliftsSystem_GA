@@ -27,7 +27,7 @@ namespace InformationalChartsTool
             List<Person> allOccupants = new List<Person>();
             List<Location> allLocations = new List<Location>();
 
-            for (int i = 0; i < 250; i++)
+            for (int i = 0; i < 500; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
@@ -53,9 +53,9 @@ namespace InformationalChartsTool
             Lift lift2 = new Lift(500, "springliften");
             Lift lift3 = new Lift(50, "Kortaliften");
 
-            Slope backe1 = new Slope(250, "superbacken");
-            Slope backe2 = new Slope(500, "springBacken");
-            Slope backe3 = new Slope(100, "kortabacken");
+            Slope backe1 = new Slope(250, "superbacken",0.2);
+            Slope backe2 = new Slope(500, "springBacken",0.4);
+            Slope backe3 = new Slope(100, "kortabacken",0.2);
 
             //make connections
             home1.possibleMovements.Add(new Connection(valley1));
