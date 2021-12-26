@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace InformationalChartsTool
 {
@@ -40,12 +41,11 @@ namespace InformationalChartsTool
             return possibleMovements[0].leadingTo;
         }
 
-        public override void MovePerson(Person person, Location comingFrom)
+        public override void MovePerson(Person person, Location comingFrom) //if the restaurant is full we can't let someone enter it.
         {
             if (occupants.Count > maxOccupants)
             {
-                //if the restaurant is full we can't let someone enter it.
-                comingFrom.possibleMovements[Connection.GetIndexOfLocation(possibleMovements, this)].closed = true;
+                comingFrom.possibleMovements.Find(x => x.leadingTo == this).closed = true;
                 comingFrom.MakeDecision(person, comingFrom.possibleMovements).MovePerson(person, comingFrom);
             }
             else

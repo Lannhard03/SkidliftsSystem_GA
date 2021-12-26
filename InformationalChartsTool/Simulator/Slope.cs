@@ -24,21 +24,14 @@ namespace InformationalChartsTool
         }
         public override void Update(int timeStep)
         {
-            List<Person> movingPeople = new List<Person>(); //temp
             foreach(Person i in occupants)
             {
                 i.timeLocation += timeStep; //increase the time in the location by timestep and move person if nessecary.
                 if (i.timeLocation >= slopeTime)
                 {
-                    movingPeople.Add(i);
+                    MakeDecision(i, possibleMovements).MovePerson(i, this);
                 }
             }
-            foreach(Person i in movingPeople) //why are there two foreach loops (and a temporary list) here when one is enough?
-            {
-                MakeDecision(i, possibleMovements).MovePerson(i, this);
-            }
-
-            
         }
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
