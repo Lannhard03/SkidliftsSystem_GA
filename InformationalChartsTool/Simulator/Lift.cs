@@ -44,6 +44,8 @@ namespace InformationalChartsTool
         {
             //Look for MountainTop or Slopes and Lifts (we may jump off lift in middle)
 
+            
+
             Connection temp = possibleMovements.Find(x => x.leadingTo is MountainTop && !x.closed);
             if (temp != null)
             {
