@@ -24,15 +24,15 @@ namespace InformationalChartsTool
         //remember that this is movement away from restaurant and that MovePerson overide affects incoming people
         public override void Update(int timeStep) 
         {
-            foreach(Person i in occupants)
+            int eatingTime = 1800;
+            for(int i = 0; i<occupants.Count; i++)
             {
-                i.timeLocation += timeStep;
-            }
-
-            foreach (Person i in occupants)
-            {
-                //Person i makes a decision and moves there.
-                this.MakeDecision(i, possibleMovements).MovePerson(i, this);
+                occupants[i].timeLocation += timeStep;
+                if(eatingTime*occupants[i].chill <= occupants[i].timeLocation)
+                {
+                    occupants[i].hunger = 0;
+                    MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
+                }
             }
         }
 
@@ -46,6 +46,7 @@ namespace InformationalChartsTool
             if (occupants.Count > maxOccupants)
             {
                 comingFrom.possibleMovements.Find(x => x.leadingTo == this).closed = true;
+                //Console.WriteLine("Closed Restaurant");
                 comingFrom.MakeDecision(person, comingFrom.possibleMovements).MovePerson(person, comingFrom);
             }
             else

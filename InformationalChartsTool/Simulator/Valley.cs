@@ -50,10 +50,9 @@ namespace InformationalChartsTool
                         if (d.decision is LiftQueue)
                         {
                             liftOccupants += d.decision.occupants.Count;
-                            
                         } 
                     }
-                    Console.WriteLine("total queue count: {0}", liftOccupants);
+                    //Console.WriteLine("total queue count: {0}", liftOccupants);
 
                     possibleDecision.weight += decisionMaker.WeightExplororness(50, possibleDecision)+decisionMaker.WeightQueueLenght(150, possibleDecision, liftOccupants);
                 }
@@ -70,14 +69,14 @@ namespace InformationalChartsTool
             //Determined way, largest weight wins.
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
 
-            foreach (Decision d in possibleDecisions)
-            {
-                Console.WriteLine("From {0} to {1} had {2} weight", this.name, d.decision.name, d.weight);
-                Console.WriteLine("QueueLength: {0}", d.decision.occupants.Count);
-                Console.WriteLine("Occupied {0} times before", decisionMaker.locationHistory.Where(x => x.Equals(d.decision)).Count());
-            }
-            Console.WriteLine("choice was {0}", choice.decision.name);
-            Console.Write("\n");
+            //foreach (Decision d in possibleDecisions)
+            //{
+            //    Console.WriteLine("From {0} to {1} had {2} weight", this.name, d.decision.name, d.weight);
+            //    Console.WriteLine("QueueLength: {0}", d.decision.occupants.Count);
+            //    Console.WriteLine("Occupied {0} times before", decisionMaker.locationHistory.Where(x => x.Item1.Equals(d.decision)).Count());
+            //}
+            //Console.WriteLine("choice was {0}", choice.decision.name);
+            //Console.Write("\n");
             return choice.decision;
 
         }

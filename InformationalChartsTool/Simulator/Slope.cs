@@ -24,14 +24,15 @@ namespace InformationalChartsTool
         }
         public override void Update(int timeStep)
         {
-            foreach(Person i in occupants)
+            for(int i = 0; i < occupants.Count; i++)
             {
-                i.timeLocation += timeStep; //increase the time in the location by timestep and move person if nessecary.
-                if (i.timeLocation >= slopeTime)
+                occupants[i].timeLocation += timeStep;
+                if(occupants[i].timeLocation >= slopeTime)
                 {
-                    MakeDecision(i, possibleMovements).MovePerson(i, this);
+                    MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
             }
+
         }
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
