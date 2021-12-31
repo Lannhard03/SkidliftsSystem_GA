@@ -26,7 +26,7 @@ namespace InformationalChartsTool
             List<Person> allOccupants = new List<Person>();
             List<Location> allLocations = new List<Location>();
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
@@ -46,13 +46,13 @@ namespace InformationalChartsTool
             MountainTop berg1 = new MountainTop("höga toppen");
             MountainTop berg2 = new MountainTop("korta toppen");
 
-            LiftQueue ko1 = new LiftQueue(6, 30, "superkö");
-            LiftQueue ko2 = new LiftQueue(4, 25, "springkö");
-            LiftQueue ko3 = new LiftQueue(2, 18, "Kortkö");
+            LiftQueue ko1 = new LiftQueue(6, 8, "superkö");
+            LiftQueue ko2 = new LiftQueue(4, 8, "springkö");
+            LiftQueue ko3 = new LiftQueue(2, 7, "Kortkö");
 
             Lift lift1 = new Lift(200, "superliften");
             Lift lift2 = new Lift(500, "springliften");
-            Lift lift3 = new Lift(50, "Kortaliften");
+            Lift lift3 = new Lift(150, "Kortaliften");
 
             Slope backe1 = new Slope(250, "superbacken",0.2);
             Slope backe2 = new Slope(500, "springBacken",0.4);

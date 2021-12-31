@@ -58,7 +58,7 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
-                    possibleDecision.weight += decisionMaker.WeightHunger(200, possibleDecision) + decisionMaker.WeightExplororness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightHunger(150, possibleDecision) + decisionMaker.WeightExplororness(50, possibleDecision);
                 }
                 if (possibleDecision.decision is Home)
                 {
