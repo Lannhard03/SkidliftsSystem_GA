@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InfoChartsTools\TempBindingSource.cs" />
+    <Compile Include="Simulator\Home.cs" />
     <Compile Include="Simulator\Connection.cs" />
     <Compile Include="Simulator\Decision.cs" />
     <Compile Include="InfoChartsTools\Form1.cs">

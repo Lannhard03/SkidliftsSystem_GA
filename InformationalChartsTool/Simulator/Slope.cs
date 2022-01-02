@@ -8,42 +8,58 @@ namespace InformationalChartsTool
     {
         
         int slopeTime;
-        public int difficulty; //1,2,3,4 -> green, blue, red, black
-        public Slope(List<Person> occupants, int slopeTime, string name)
+        public double difficulty; //1,2,3,4 -> green, blue, red, black
+        public Slope(List<Person> occupants, int slopeTime, string name, double difficulty)
         {
             this.name = name;
             this.occupants = occupants;
             this.slopeTime = slopeTime;
-            this.difficulty = 2;
+            this.difficulty = difficulty;
         }
-        public Slope(int slopeTime, string name)
-        {
+        public Slope(int slopeTime, string name, double difficulty)
+        {   
             this.name = name;
             this.slopeTime = slopeTime;
-            this.difficulty = 2;
+            this.difficulty = difficulty;
         }
-
-        public void SlopeMove(int timeStep)
+        public override void Update(int timeStep)
         {
-            List<Person> movingPeople = new List<Person>(); //temp
-            foreach(Person i in occupants)
+            for(int i = 0; i < occupants.Count; i++)
             {
-                i.timeLocation += timeStep; //increase the time in the location by timestep and move person if nessecary.
-                if (i.timeLocation >= slopeTime)
+                occupants[i].timeLocation += timeStep;
+                if(occupants[i].timeLocation >= slopeTime)
                 {
-                    movingPeople.Add(i);
+                    MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
             }
-            foreach(Person i in movingPeople) //why are there two foreach loops (and a temporary list) here when one is enough?
+
+        }
+        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
+        {
+            //Basically only connects to Valley or Another Slope. 
+            List<Decision> possibleDecisions = new List<Decision>();
+            foreach (Connection c in possibleMovements.Where(x => x.leadingTo is Slope || x.leadingTo is Valley))
             {
-                i.DecisionHandler(possibleMovements, this).MovePerson(i, this); //Person i makes a decision and moves there.
+                if (!c.closed)
+                {
+                    possibleDecisions.Add(new Decision(c.leadingTo, 0));
+                }
             }
 
-            
+            foreach (Decision possibleDecision in possibleDecisions)
+            {
+                if (possibleDecision.decision is Slope)
+                {
+                    possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                }
+                if (possibleDecision.decision is Valley)
+                {
+                    possibleDecision.weight += decisionMaker.WeightExplororness(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
+                }
+            }
+            Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
+            return choice.decision;
+
         }
-
-
-        
-
     }
 }
