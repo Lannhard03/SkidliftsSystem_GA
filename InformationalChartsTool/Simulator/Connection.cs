@@ -14,19 +14,5 @@ namespace InformationalChartsTool
             this.leadingTo = leadingTo;
             closed = false;
         }
-
-        public static int GetIndexOfLocation(List<Connection> possibleMovements, Location location) 
-        {
-            for(int i = 0; i<possibleMovements.Count; i++)
-            {
-                if(possibleMovements[i].leadingTo == location)
-                {
-                    return i;
-                }
-            }
-            throw new ArgumentException("Location not in list"); //Can we handle exception with out crash?
-        }
-
-
     }
 }

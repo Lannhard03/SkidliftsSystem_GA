@@ -13,11 +13,16 @@ namespace InformationalChartsTool
         }
         public override void Update(int timeStep)
         {
+            int waittimeMultiplier = 60;
+
             for(int i = 0; i<occupants.Count; i++)
             {
-                
-                MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
-                //Class may seem unnessecary but it will govern what type of choices Persons make
+                occupants[i].timeLocation += timeStep;
+                if(occupants[i].chill*waittimeMultiplier < occupants[i].timeLocation)
+                {
+                    MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
+                }
+                //People will chill for a little while
             }
         }
 
@@ -37,7 +42,9 @@ namespace InformationalChartsTool
             {
                 if (possibleDecision.decision is Slope)
                 {
-                    possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                    double temp = decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                    
+                    possibleDecision.weight += temp;
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
@@ -51,25 +58,17 @@ namespace InformationalChartsTool
 
             //Determined way, largest weight wins.
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
-            if(choice.decision.name == "springBacken")
-            {
-                Console.WriteLine("some choose to go to springBacken with a weight of {0}", choice.weight);
-            }
+            //foreach (Decision d in possibleDecisions)
+            //{
+            //    Console.WriteLine("From {0} to {1} had {2} weight", this.name, d.decision.name, d.weight);
+            //    Console.WriteLine("Occupied {0} times before", decisionMaker.locationHistory.Where(x => x.Item1.Equals(d.decision)).Count());
+            //}
+            //Console.WriteLine("choice was {0}", choice.decision.name);
+            //Console.Write("\n");
+
             return choice.decision;
 
-            //Random choice the Higher weight choice is more likely to be choosen
-            //double totalWeight = possibleDecisions.Sum(x => x.weight);
-            //Random rnd = new Random();
-            //double r = rnd.NextDouble();
-            //double runningWeight = 0;
-            //foreach(Decision d in possibleDecisions)
-            //{
-            //    runningWeight += d.weight;
-            //    if(r <= runningWeight/totalWeight)
-            //    {
-            //        return d.decision;
-            //    }
-            //}
+
         }
 
 

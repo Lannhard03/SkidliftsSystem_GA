@@ -14,7 +14,7 @@ namespace InformationalChartsTool
         {
             AddPerson(person);
             comingFrom.RemovePerson(person);
-            person.locationHistory.Add(comingFrom);
+            person.locationHistory.Add(Tuple.Create(comingFrom,Simulate.time));
         }
         public virtual void RemovePerson(Person people)
         {

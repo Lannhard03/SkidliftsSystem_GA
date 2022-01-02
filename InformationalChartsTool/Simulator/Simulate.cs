@@ -14,47 +14,31 @@ namespace InformationalChartsTool
 
     public class Simulate
     {
-        static public List<string> allLocationTypes = GenerateAllLocationTypes();
+        static public int time = 0;
 
-        static List<string> GenerateAllLocationTypes()
-        {
-            //Generates all derived classes of Location
-            List<string> allLocationTypes = new List<string>();
-            foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
-            {
-                allLocationTypes.Add(type.Name);
-            }
-            return allLocationTypes;
-
-        } //It would be good if this list was sorted s.t. ex. Restaurant is called last.
         public static void BeginSimulation()
-
         {
             //initialize
             #region
-            int time = 0; //time 0 is the start of the skiday
             int timeStep = 1; //one second?
             int endTime = 28800;
 
             List<Person> allOccupants = new List<Person>();
             List<Location> allLocations = new List<Location>();
 
-            for (int i = 0; i < 250; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
-
-            List<Person> superKoStart = new List<Person>();
-            for (int i = 0; i < 200; i++)
+            List<Person> temp = new List<Person>();
+            foreach(Person p in allOccupants)
             {
-                superKoStart.Add(allOccupants[i]);
+                temp.Add(p);
             }
 
-            List<Person> springKoStart = new List<Person>();
-            for (int i = 200; i < allOccupants.Count; i++)
-            {
-                springKoStart.Add(allOccupants[i]);
-            }
+            Home home1 = new Home("Stora dalen boende", temp);
+
+            Restaurant restaurant1 = new Restaurant(50, "Stora dalen restaurang");
 
             Valley valley1 = new Valley("Stora dalen");
             Valley valley2 = new Valley("lilla dalen");
@@ -62,21 +46,24 @@ namespace InformationalChartsTool
             MountainTop berg1 = new MountainTop("höga toppen");
             MountainTop berg2 = new MountainTop("korta toppen");
 
-            LiftQueue ko1 = new LiftQueue(superKoStart, 6, 30, "superkö");
-            LiftQueue ko2 = new LiftQueue(springKoStart, 4, 25, "springkö");
-            LiftQueue ko3 = new LiftQueue(2, 10, "Kortkö");
+            LiftQueue ko1 = new LiftQueue(6, 8, "superkö");
+            LiftQueue ko2 = new LiftQueue(4, 8, "springkö");
+            LiftQueue ko3 = new LiftQueue(2, 7, "Kortkö");
 
             Lift lift1 = new Lift(200, "superliften");
             Lift lift2 = new Lift(500, "springliften");
-            Lift lift3 = new Lift(50, "Kortaliften");
+            Lift lift3 = new Lift(150, "Kortaliften");
 
-            Slope backe1 = new Slope(500, "superbacken");
-            Slope backe2 = new Slope(250, "springBacken");
-            Slope backe3 = new Slope(100, "kortabacken");
+            Slope backe1 = new Slope(250, "superbacken",0.2);
+            Slope backe2 = new Slope(500, "springBacken",0.4);
+            Slope backe3 = new Slope(100, "kortabacken",0.2);
 
             //make connections
+            home1.possibleMovements.Add(new Connection(valley1));
+
             valley1.possibleMovements.Add(new Connection(ko1));
             valley1.possibleMovements.Add(new Connection(ko3));
+            valley1.possibleMovements.Add(new Connection(restaurant1));
 
             valley2.possibleMovements.Add(new Connection(ko2));
 
@@ -98,7 +85,11 @@ namespace InformationalChartsTool
             backe2.possibleMovements.Add(new Connection(valley2));
             backe3.possibleMovements.Add(new Connection(valley2));
 
+            restaurant1.possibleMovements.Add(new Connection(valley1));
+
             //add Locations to meta list
+            allLocations.Add(restaurant1);
+            allLocations.Add(home1);
             allLocations.Add(valley1);
             allLocations.Add(valley2);
             allLocations.Add(berg1);
@@ -126,10 +117,11 @@ namespace InformationalChartsTool
                 }
                 time += timeStep;
             }
+
             Console.WriteLine(allOccupants[5].name);
-            foreach(Location i in allOccupants[5].locationHistory)
+            foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
             {
-                Console.WriteLine(i.name);
+                Console.WriteLine("{0,25:N0} {1, 20:N0}",i.Item1.name,i.Item2);
             }
             Console.WriteLine(allOccupants[5].explororness);
             foreach(Location l in allLocations)
@@ -179,7 +171,20 @@ namespace InformationalChartsTool
             }
             foreach(Person p in allOccupants)
             {
-                p.hungryness += 0.00005;
+                p.hunger += p.hungryness*0.0001;
+                p.tired += p.tiredness * 0.0001; //very terrible implementation
+            }
+
+            foreach(Location l in allLocations)
+            {
+                foreach(Connection c in l.possibleMovements)
+                {
+                    if (c.closed)
+                    {
+                        c.closed = false; //For now this is fine, since closure will be checked everytime anyway.
+                        //Console.WriteLine("open closed location");
+                    }
+                }
             }
 
         }

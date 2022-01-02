@@ -8,37 +8,31 @@ namespace InformationalChartsTool
     {
         
         int slopeTime;
-        public int difficulty; //1,2,3,4 -> green, blue, red, black
-        public Slope(List<Person> occupants, int slopeTime, string name)
+        public double difficulty; //1,2,3,4 -> green, blue, red, black
+        public Slope(List<Person> occupants, int slopeTime, string name, double difficulty)
         {
             this.name = name;
             this.occupants = occupants;
             this.slopeTime = slopeTime;
-            this.difficulty = 2;
+            this.difficulty = difficulty;
         }
-        public Slope(int slopeTime, string name)
+        public Slope(int slopeTime, string name, double difficulty)
         {   
             this.name = name;
             this.slopeTime = slopeTime;
-            this.difficulty = 2;
+            this.difficulty = difficulty;
         }
         public override void Update(int timeStep)
         {
-            List<Person> movingPeople = new List<Person>(); //temp
-            foreach(Person i in occupants)
+            for(int i = 0; i < occupants.Count; i++)
             {
-                i.timeLocation += timeStep; //increase the time in the location by timestep and move person if nessecary.
-                if (i.timeLocation >= slopeTime)
+                occupants[i].timeLocation += timeStep;
+                if(occupants[i].timeLocation >= slopeTime)
                 {
-                    movingPeople.Add(i);
+                    MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
             }
-            foreach(Person i in movingPeople) //why are there two foreach loops (and a temporary list) here when one is enough?
-            {
-                MakeDecision(i, possibleMovements).MovePerson(i, this);
-            }
 
-            
         }
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
