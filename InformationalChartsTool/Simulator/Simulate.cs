@@ -31,7 +31,7 @@ namespace InformationalChartsTool
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
             List<Person> temp = new List<Person>();
-            foreach(Person p in allOccupants)
+            foreach (Person p in allOccupants)
             {
                 temp.Add(p);
             }
@@ -54,9 +54,9 @@ namespace InformationalChartsTool
             Lift lift2 = new Lift(500, "springliften");
             Lift lift3 = new Lift(150, "Kortaliften");
 
-            Slope backe1 = new Slope(250, "superbacken",0.2);
-            Slope backe2 = new Slope(500, "springBacken",0.4);
-            Slope backe3 = new Slope(100, "kortabacken",0.2);
+            Slope backe1 = new Slope(250, "superbacken", 0.2);
+            Slope backe2 = new Slope(500, "springBacken", 0.4);
+            Slope backe3 = new Slope(100, "kortabacken", 0.2);
 
             //make connections
             home1.possibleMovements.Add(new Connection(valley1));
@@ -105,42 +105,25 @@ namespace InformationalChartsTool
             allLocations.Add(backe3);
             #endregion
 
-            Console.Write(String.Format("{0, 10}{1, 40}{2, 50}{3, 60}\n\n", "Tid:", "Köande till {0}:", "Åkande i {1}:", "Åkande i {2}:"), valley1.name, ko3.name, backe1.name); //lägg till namn på lift och backe
             while (time <= endTime)
             {
                 UpdateSystem(timeStep, allLocations, allOccupants);
 
-                if (time%100 == 0)
-                {
-                    Console.WriteLine("{0, 10:N0} {1, 40:N0} {2, 50:N0} {3, 60:N0}\n",
-                        time, valley1.occupants.Count, ko3.occupants.Count, backe1.occupants.Count);
-                }
                 time += timeStep;
             }
 
             Console.WriteLine(allOccupants[5].name);
             foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
             {
-                Console.WriteLine("{0,25:N0} {1, 20:N0}",i.Item1.name,i.Item2);
+                Console.WriteLine("{0,25:N0} {1, 20:N0}", i.Item1.name, i.Item2);
             }
             Console.WriteLine(allOccupants[5].explororness);
-            foreach(Location l in allLocations)
+            foreach (Location l in allLocations)
             {
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
         }
-        static object LiftMaker(int amount)
-        {
-            //add group/method containing all queues, make a "liftmaker"
-            //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
-            //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
-            List<LiftQueue> queues = new List<LiftQueue>();
-            List<Lift> lifts = new List<Lift>();
-            List<Slope> slopes = new List<Slope>();
 
-            return queues;
-
-        }
         static public void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
         {
             //int allOccupants = 0;
@@ -169,15 +152,15 @@ namespace InformationalChartsTool
             {
                 Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
             }
-            foreach(Person p in allOccupants)
+            foreach (Person p in allOccupants)
             {
-                p.hunger += p.hungryness*0.0001;
+                p.hunger += p.hungryness * 0.0001;
                 p.tired += p.tiredness * 0.0001; //very terrible implementation
             }
 
-            foreach(Location l in allLocations)
+            foreach (Location l in allLocations)
             {
-                foreach(Connection c in l.possibleMovements)
+                foreach (Connection c in l.possibleMovements)
                 {
                     if (c.closed)
                     {
@@ -188,7 +171,7 @@ namespace InformationalChartsTool
             }
 
         }
-        static public string NameGenerator() 
+        static public string NameGenerator()
         {
             string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");
             string[] lastNames = File.ReadAllLines("Files\\LastNames.txt");
