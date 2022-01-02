@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Linq;
 
 namespace InformationalChartsTool
 {
@@ -13,12 +14,12 @@ namespace InformationalChartsTool
 
     public class Simulate
     {
-        public static void BeginSimulation(string[] args)
+        static public int time = 0;
 
+        public static void BeginSimulation()
         {
             //initialize
             #region
-            int time = 0; //time 0 is the start of the skiday
             int timeStep = 1; //one second?
             int endTime = 28800;
 
@@ -29,115 +30,156 @@ namespace InformationalChartsTool
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
-
-            List<Person> superKoStart = new List<Person>();
-            for (int i = 0; i < 200; i++)
+            List<Person> temp = new List<Person>();
+            foreach (Person p in allOccupants)
             {
-                superKoStart.Add(allOccupants[i]);
+                temp.Add(p);
             }
 
-            List<Person> springKoStart = new List<Person>();
-            for (int i = 200; i < allOccupants.Count; i++)
-            {
-                springKoStart.Add(allOccupants[i]);
-            }
+            Home home1 = new Home("Stora dalen boende", temp);
 
-            LiftQueue superKo = new LiftQueue(superKoStart, 2, 10, "superkö");
-            LiftQueue springKo = new LiftQueue(springKoStart, 6, 20, "springkö");
+            Restaurant restaurant1 = new Restaurant(50, "Stora dalen restaurang");
 
-            Lift superLiften = new Lift(200, "superliften");
-            Lift springLiften = new Lift(500, "springliften");
+            Valley valley1 = new Valley("Stora dalen");
+            Valley valley2 = new Valley("lilla dalen");
 
-            Slope superBacken = new Slope(500, "superbacken");
-            Slope springBacken = new Slope(100, "springBacken");
+            MountainTop berg1 = new MountainTop("höga toppen");
+            MountainTop berg2 = new MountainTop("korta toppen");
 
+            LiftQueue ko1 = new LiftQueue(6, 8, "superkö");
+            LiftQueue ko2 = new LiftQueue(4, 8, "springkö");
+            LiftQueue ko3 = new LiftQueue(2, 7, "Kortkö");
+
+            Lift lift1 = new Lift(200, "superliften");
+            Lift lift2 = new Lift(500, "springliften");
+            Lift lift3 = new Lift(150, "Kortaliften");
+
+            Slope backe1 = new Slope(250, "superbacken", 0.2);
+            Slope backe2 = new Slope(500, "springBacken", 0.4);
+            Slope backe3 = new Slope(100, "kortabacken", 0.2);
 
             //make connections
-            superKo.possibleMovements.Add(new Connection(superLiften));
-            superLiften.possibleMovements.Add(new Connection(superBacken));
-            superBacken.possibleMovements.Add(new Connection(superKo));
-            superBacken.possibleMovements.Add(new Connection(springKo));
+            home1.possibleMovements.Add(new Connection(valley1));
 
-            springKo.possibleMovements.Add(new Connection(springLiften));
-            springLiften.possibleMovements.Add(new Connection(springBacken));
-            springBacken.possibleMovements.Add(new Connection(superBacken));
+            valley1.possibleMovements.Add(new Connection(ko1));
+            valley1.possibleMovements.Add(new Connection(ko3));
+            valley1.possibleMovements.Add(new Connection(restaurant1));
+
+            valley2.possibleMovements.Add(new Connection(ko2));
+
+            berg1.possibleMovements.Add(new Connection(backe1));
+            berg1.possibleMovements.Add(new Connection(backe2));
+
+            berg2.possibleMovements.Add(new Connection(backe3));
+
+            ko1.possibleMovements.Add(new Connection(lift1));
+            ko2.possibleMovements.Add(new Connection(lift2));
+            ko3.possibleMovements.Add(new Connection(lift3));
+
+
+            lift1.possibleMovements.Add(new Connection(berg1));
+            lift2.possibleMovements.Add(new Connection(berg1));
+            lift3.possibleMovements.Add(new Connection(berg2));
+
+            backe1.possibleMovements.Add(new Connection(valley1));
+            backe2.possibleMovements.Add(new Connection(valley2));
+            backe3.possibleMovements.Add(new Connection(valley2));
+
+            restaurant1.possibleMovements.Add(new Connection(valley1));
 
             //add Locations to meta list
-            allLocations.Add(superKo);
-            allLocations.Add(springKo);
-            allLocations.Add(superLiften);
-            allLocations.Add(springLiften);
-            allLocations.Add(superBacken);
-            allLocations.Add(springBacken);
+            allLocations.Add(restaurant1);
+            allLocations.Add(home1);
+            allLocations.Add(valley1);
+            allLocations.Add(valley2);
+            allLocations.Add(berg1);
+            allLocations.Add(berg2);
+            allLocations.Add(ko1);
+            allLocations.Add(ko2);
+            allLocations.Add(ko3);
+            allLocations.Add(lift1);
+            allLocations.Add(lift2);
+            allLocations.Add(lift3);
+            allLocations.Add(backe1);
+            allLocations.Add(backe2);
+            allLocations.Add(backe3);
             #endregion
+
+            while (time <= endTime)
+            {
+                UpdateSystem(timeStep, allLocations, allOccupants);
+
+                time += timeStep;
+            }
+
+            Console.WriteLine(allOccupants[5].name);
+            foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
+            {
+                Console.WriteLine("{0,25:N0} {1, 20:N0}", i.Item1.name, i.Item2);
+            }
+            Console.WriteLine(allOccupants[5].explororness);
+            foreach (Location l in allLocations)
+            {
+                Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
+            }
         }
 
-        //add group/method containing all queues, make a "liftmaker"
-        //Liftmaker needs to make the queue, lift and slope in one instance, to make sure they are connected
-        //Maybe make a list of complete lifts? Alternatively always use the separate lists in a for loop with every lift slope and queue having the same index
-        static public void UpdateSystem(int timeStep, List<Location> allLocations)
+        static public void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
         {
-            //we would like to update ceratain types of places before others.
-            //Restaurant (and places that are full last) movement last
-            //uppdate connections: Lifts may open restaurants may no longer be full
-            foreach (Location i in allLocations)
+            //int allOccupants = 0;
+            //foreach (Location l in allLocations)
+            //{
+            //    allOccupants += l.occupants.Count;
+            //}
+
+
+            //Console.WriteLine("Before Update total amount: {0}", allOccupants);
+            //allOccupants = 0;
+            int debugCheck = allLocations.Count;
+            int debugCounter = 0;
+            foreach (Location l in allLocations)
             {
-                switch (i) 
+                l.Update(timeStep);
+                //foreach (Location i in allLocations)
+                //{
+                //    allOccupants += i.occupants.Count;
+                //}
+                //Console.WriteLine("After Updating {0} total amount: {1}", l, allOccupants);
+                //allOccupants = 0;
+                debugCounter++;
+            }
+            if (debugCounter != debugCheck)
+            {
+                Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
+            }
+            foreach (Person p in allOccupants)
+            {
+                p.hunger += p.hungryness * 0.0001;
+                p.tired += p.tiredness * 0.0001; //very terrible implementation
+            }
+
+            foreach (Location l in allLocations)
+            {
+                foreach (Connection c in l.possibleMovements)
                 {
-                    case Lift j:
-                        j.LiftMove(timeStep);
-                        break;
-                    case Slope j:
-                        j.SlopeMove(timeStep);
-                        break;
-                    case LiftQueue j:
-                        j.LiftQueueMove(timeStep);
-                        break;
-                    case Restaurant j:
-                        j.RestaurantMove(timeStep);
-                        break;
-                    case MountainTop j:
-                        j.TopOfMountainMove(timeStep);
-                        break;
-                    default:
-                        throw new ArgumentException("Invalid Location");
+                    if (c.closed)
+                    {
+                        c.closed = false; //For now this is fine, since closure will be checked everytime anyway.
+                        //Console.WriteLine("open closed location");
+                    }
                 }
             }
 
         }
-        static public string NameGenerator() //Don't add more names to files
+        static public string NameGenerator()
         {
-            string outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            string iconPath = Path.Combine(outputDirectory, "Files\\FirstNames.txt");
-            string icon_path = new Uri(iconPath).LocalPath;
-
-            StreamReader firstNames = new StreamReader("Files\\FirstNames.txt");
-            int numberOfFirstNames = 392;
-
-            outputDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            iconPath = Path.Combine(outputDirectory, "Files\\LastNames.txt");
-            icon_path = new Uri(iconPath).LocalPath;
-            
-            StreamReader lastNames = new StreamReader("Files\\LastNames.txt");
-            int numberOfLastNames = 203;
-
+            string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");
+            string[] lastNames = File.ReadAllLines("Files\\LastNames.txt");
 
             Random rnd = new Random();
-            for(int i = 0; i< rnd.Next(0, numberOfFirstNames); i++)
-            {
-                string temp = firstNames.ReadLine();
-                
-            }
-            for (int i = 0; i < rnd.Next(0, numberOfLastNames); i++)
-            {
-                string temp = lastNames.ReadLine();
-                
-            }
 
-            string name = firstNames.ReadLine() + lastNames.ReadLine();
-
-            firstNames.Close();
-            lastNames.Close();
+            string name = firstNames[rnd.Next(0, firstNames.Length - 1)] + lastNames[rnd.Next(0, lastNames.Length - 1)];
+            //Concates a random first and lastname from files
 
             return name;
         }
