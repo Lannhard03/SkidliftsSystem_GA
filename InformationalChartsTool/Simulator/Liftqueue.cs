@@ -34,12 +34,10 @@ namespace InformationalChartsTool
             if (currentWaitTime >= waitTime)   //if the waittime is elapsed we lift people.
             {
                 currentWaitTime -= waitTime;    //reset running_waittime
-                for(int i = 0; i < liftAmount; i++)
+
+                int actuallLiftAmount = occupants.Count > liftAmount ? liftAmount : occupants.Count;
+                for(int i = actuallLiftAmount-1; i > 0; i--)
                 {
-                    if (i >= occupants.Count)
-                    {
-                        break;
-                    }
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this); //lift always takes from the front of the queue.
                 }
             }

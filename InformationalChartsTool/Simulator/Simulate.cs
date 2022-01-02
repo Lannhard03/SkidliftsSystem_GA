@@ -16,7 +16,7 @@ namespace InformationalChartsTool
     {
         static public int time = 0;
 
-        public static void BeginSimulation()
+        public static void RunSimulation()
         {
             //initialize
             #region
@@ -38,7 +38,7 @@ namespace InformationalChartsTool
 
             Home home1 = new Home("Stora dalen boende", temp);
 
-            Restaurant restaurant1 = new Restaurant(50, "Stora dalen restaurang");
+            Restaurant restaurant1 = new Restaurant(200, "Stora dalen restaurang");
 
             Valley valley1 = new Valley("Stora dalen");
             Valley valley2 = new Valley("lilla dalen");
@@ -76,7 +76,6 @@ namespace InformationalChartsTool
             ko2.possibleMovements.Add(new Connection(lift2));
             ko3.possibleMovements.Add(new Connection(lift3));
 
-
             lift1.possibleMovements.Add(new Connection(berg1));
             lift2.possibleMovements.Add(new Connection(berg1));
             lift3.possibleMovements.Add(new Connection(berg2));
@@ -105,6 +104,7 @@ namespace InformationalChartsTool
             allLocations.Add(backe3);
             #endregion
 
+            //update system every timestep
             while (time <= endTime)
             {
                 UpdateSystem(timeStep, allLocations, allOccupants);
@@ -112,18 +112,31 @@ namespace InformationalChartsTool
                 time += timeStep;
             }
 
+            //Print location history of person 5
             Console.WriteLine(allOccupants[5].name);
             foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
             {
                 Console.WriteLine("{0,25:N0} {1, 20:N0}", i.Item1.name, i.Item2);
             }
-            Console.WriteLine(allOccupants[5].explororness);
+            Console.Write("\n");
+
+            //Print value of all doubles (attributes) of person 5
+            foreach(FieldInfo info in typeof(Person).GetFields())
+            {
+                if(info.GetValue(allOccupants[5]) is double d)
+                {
+                    Console.WriteLine("{0} is: {1}", info.Name, d);
+                }
+            }
+
+            //Occupant count of all locations at end of day
             foreach (Location l in allLocations)
             {
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
         }
 
+        //Update every Location, add hunger/tiredness and open closed connections
         static public void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
         {
             //int allOccupants = 0;
@@ -171,6 +184,8 @@ namespace InformationalChartsTool
             }
 
         }
+
+        //Based on "Files" file
         static public string NameGenerator()
         {
             string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");

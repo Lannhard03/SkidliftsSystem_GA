@@ -15,7 +15,7 @@ namespace InformationalChartsTool
         static void Main()
         {
 
-            Simulate.BeginSimulation();
+            Simulate.RunSimulation();
 
 
             Application.EnableVisualStyles();
