@@ -9,6 +9,7 @@ namespace InformationalChartsTool
 {
     public class Person
     {
+        static Random rnd = new Random();
         public string name; //for esthetics?
         public int personNumber; //for keeping track of who is where.
 
@@ -35,8 +36,9 @@ namespace InformationalChartsTool
 
         public Person(int personNumber)
         {
-            Random rnd = new Random();
+            
             this.personNumber = personNumber;
+            this.skillLevel = rnd.NextDouble();
             this.morningness = rnd.NextDouble();
             this.hungryness = rnd.NextDouble();
             this.explororness = rnd.NextDouble();
@@ -46,8 +48,9 @@ namespace InformationalChartsTool
 
         public Person(int personNumber, string name)
         {
-            Random rnd = new Random();
+            
             this.personNumber = personNumber;
+            this.skillLevel = rnd.NextDouble();
             this.morningness = rnd.NextDouble();
             this.hungryness = rnd.NextDouble();
             this.explororness = rnd.NextDouble();

@@ -33,11 +33,11 @@ namespace InformationalChartsTool
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnClick = new System.Windows.Forms.Button();
-            this.tempBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.liftDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.occupantsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tempBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnClick = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tempBindingSourceBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -46,7 +46,7 @@ namespace InformationalChartsTool
             // 
             this.cartesianChart1.Location = new System.Drawing.Point(0, 3);
             this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(590, 232);
+            this.cartesianChart1.Size = new System.Drawing.Size(671, 343);
             this.cartesianChart1.TabIndex = 0;
             this.cartesianChart1.Text = "cartesianChart1";
             // 
@@ -59,24 +59,10 @@ namespace InformationalChartsTool
             this.timeDataGridViewTextBoxColumn,
             this.occupantsDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.tempBindingSourceBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(22, 241);
+            this.dataGridView1.Location = new System.Drawing.Point(22, 363);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(568, 179);
+            this.dataGridView1.Size = new System.Drawing.Size(568, 57);
             this.dataGridView1.TabIndex = 1;
-            // 
-            // btnClick
-            // 
-            this.btnClick.Location = new System.Drawing.Point(596, 12);
-            this.btnClick.Name = "btnClick";
-            this.btnClick.Size = new System.Drawing.Size(75, 23);
-            this.btnClick.TabIndex = 2;
-            this.btnClick.Text = "Load Chart";
-            this.btnClick.UseVisualStyleBackColor = true;
-            this.btnClick.Click += new System.EventHandler(this.btnClick_Click);
-            // 
-            // tempBindingSourceBindingSource
-            // 
-            this.tempBindingSourceBindingSource.DataSource = typeof(InformationalChartsTool.TempBindingSource);
             // 
             // liftDataGridViewTextBoxColumn
             // 
@@ -95,6 +81,20 @@ namespace InformationalChartsTool
             this.occupantsDataGridViewTextBoxColumn.DataPropertyName = "Occupants";
             this.occupantsDataGridViewTextBoxColumn.HeaderText = "Occupants";
             this.occupantsDataGridViewTextBoxColumn.Name = "occupantsDataGridViewTextBoxColumn";
+            // 
+            // tempBindingSourceBindingSource
+            // 
+            this.tempBindingSourceBindingSource.DataSource = typeof(InformationalChartsTool.TempBindingSource);
+            // 
+            // btnClick
+            // 
+            this.btnClick.Location = new System.Drawing.Point(596, 12);
+            this.btnClick.Name = "btnClick";
+            this.btnClick.Size = new System.Drawing.Size(75, 23);
+            this.btnClick.TabIndex = 2;
+            this.btnClick.Text = "Load Chart";
+            this.btnClick.UseVisualStyleBackColor = true;
+            this.btnClick.Click += new System.EventHandler(this.btnClick_Click);
             // 
             // Form1
             // 

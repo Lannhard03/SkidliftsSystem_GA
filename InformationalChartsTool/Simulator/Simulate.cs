@@ -55,7 +55,7 @@ namespace InformationalChartsTool
             Lift lift2 = new Lift(500, "springliften");
             Lift lift3 = new Lift(150, "Kortaliften");
 
-            Slope backe1 = new Slope(250, "superbacken", 0.2);
+            Slope backe1 = new Slope(250, "superbacken", 0.4);
             Slope backe2 = new Slope(500, "springBacken", 0.4);
             Slope backe3 = new Slope(100, "kortabacken", 0.2);
 
@@ -136,6 +136,11 @@ namespace InformationalChartsTool
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
 
+            foreach(Person p in allOccupants)
+            {
+                Console.WriteLine(p.chill);
+            }
+
 
         }
 
@@ -155,7 +160,7 @@ namespace InformationalChartsTool
             int debugCounter = 0;
             foreach (Location l in allLocations)
             {
-                if(time % 10 == 0)
+                if(time % 100 == 0)
                 {
                     l.timeBasedOccupantCounts.Add(l.occupants.Count);
                 }

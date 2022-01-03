@@ -37,14 +37,15 @@ namespace InformationalChartsTool
             //Initializing data
             cartesianChart1.Series.Clear();
             SeriesCollection series = new SeriesCollection();
-
-            List<double> Occupantss = new List<double>();
-            foreach(int personCount in Simulate.allLocations[8].timeBasedOccupantCounts)
+            foreach(Location l in Simulate.allLocations)
             {
-                Occupantss.Add(personCount);
+                List<double> Occupantss = new List<double>();
+                foreach (int personCount in l.timeBasedOccupantCounts)
+                {
+                    Occupantss.Add(personCount);
+                }
+                series.Add(new LineSeries() { Title = l.name, Values = new ChartValues<double>(Occupantss) });
             }
-            
-            series.Add(new LineSeries() { Title = Simulate.allLocations[8].name, Values = new ChartValues<double>(Occupantss) });
             cartesianChart1.Series = series;
         }
     }
