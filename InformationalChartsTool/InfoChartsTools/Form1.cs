@@ -37,24 +37,14 @@ namespace InformationalChartsTool
             //Initializing data
             cartesianChart1.Series.Clear();
             SeriesCollection series = new SeriesCollection();
-            var Lifts = (from o in tempBindingSourceBindingSource.DataSource as List<TempBindingSource>
-                         select new { Lift = o.Lift }).Distinct();
-            foreach (var Lift in Lifts)
+
+            List<double> Occupantss = new List<double>();
+            foreach(int personCount in Simulate.allLocations[8].timeBasedOccupantCounts)
             {
-                List<double> Occupantss = new List<double>();
-                for (int Time = 0; Time <= 9; Time++)
-                {
-                    double Occupants = 0;
-                    var data = from o in tempBindingSourceBindingSource.DataSource as List<TempBindingSource>
-                               where o.Lift.Equals(Lift.Lift) && o.Time.Equals(Time)
-                               orderby o.Time ascending
-                               select new { o.Occupants, o.Time };
-                    if (data.SingleOrDefault() != null)
-                        Occupants = data.SingleOrDefault().Occupants;
-                    Occupantss.Add(Occupants);
-                }
-                series.Add(new LineSeries() { Title = Lift.Lift.ToString(), Values = new ChartValues<double>(Occupantss) });
+                Occupantss.Add(personCount);
             }
+            
+            series.Add(new LineSeries() { Title = Simulate.allLocations[8].name, Values = new ChartValues<double>(Occupantss) });
             cartesianChart1.Series = series;
         }
     }

@@ -15,6 +15,8 @@ namespace InformationalChartsTool
     public class Simulate
     {
         static public int time = 0;
+        static public List<Person> allOccupants = new List<Person>();
+        static public List<Location> allLocations = new List<Location>();
 
         public static void RunSimulation()
         {
@@ -23,8 +25,7 @@ namespace InformationalChartsTool
             int timeStep = 1; //one second?
             int endTime = 28800;
 
-            List<Person> allOccupants = new List<Person>();
-            List<Location> allLocations = new List<Location>();
+            
 
             for (int i = 0; i < 1000; i++)
             {
@@ -134,6 +135,8 @@ namespace InformationalChartsTool
             {
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
+
+
         }
 
         //Update every Location, add hunger/tiredness and open closed connections
@@ -152,6 +155,11 @@ namespace InformationalChartsTool
             int debugCounter = 0;
             foreach (Location l in allLocations)
             {
+                if(time % 10 == 0)
+                {
+                    l.timeBasedOccupantCounts.Add(l.occupants.Count);
+                }
+                
                 l.Update(timeStep);
                 //foreach (Location i in allLocations)
                 //{
