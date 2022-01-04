@@ -27,7 +27,7 @@ namespace InformationalChartsTool
 
             
 
-            for (int i = 0; i < 650; i++)
+            for (int i = 0; i < 600; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
@@ -141,12 +141,11 @@ namespace InformationalChartsTool
             {
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
-
-            foreach(Person p in allOccupants)
+            Console.WriteLine("\n");
+            foreach (Location l in allLocations)
             {
-                Console.WriteLine(p.chill);
+                l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
             }
-
 
         }
 
@@ -166,10 +165,9 @@ namespace InformationalChartsTool
             int debugCounter = 0;
             foreach (Location l in allLocations)
             {
-                if(time % 100 == 0)
-                {
-                    l.timeBasedOccupantCounts.Add(l.occupants.Count);
-                }
+
+                l.timeBasedOccupantCounts.Add(l.occupants.Count);
+
                 
                 l.Update(timeStep);
                 //foreach (Location i in allLocations)
@@ -216,6 +214,30 @@ namespace InformationalChartsTool
             //Concates a random first and lastname from files
 
             return name;
+        }
+
+        
+        static public List<int> ListCompressor(List<int> uncompressedData)
+        {
+            int regionLenght = 100; //must be a multiple of uncompressedData.Count
+            int counter = 1;
+            int value = 0;
+            List<int> compressedData = new List<int>();
+            for (int i = 0; i < uncompressedData.Count; i++)
+            {
+                if (i + 1 <= regionLenght*counter)
+                {
+                    value += uncompressedData[i];
+                    //Console.WriteLine(value);
+                }
+                else
+                {
+                    compressedData.Add(value / regionLenght);
+                    value = 0;
+                    counter++;
+                }
+            }
+            return compressedData;
         }
     }
 }

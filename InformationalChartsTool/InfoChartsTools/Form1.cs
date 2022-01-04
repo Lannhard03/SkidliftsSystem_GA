@@ -42,10 +42,12 @@ namespace InformationalChartsTool
             foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
             {
                 int[] occupantss = new int[Simulate.allLocations[0].timeBasedOccupantCounts.Count];
+
                 foreach (Location l in Simulate.allLocations)
                 {
                     if (l.GetType() == type)
                     {
+
                         for(int i = 0; i<l.timeBasedOccupantCounts.Count; i++)
                         {
                             occupantss[i] += l.timeBasedOccupantCounts[i];
