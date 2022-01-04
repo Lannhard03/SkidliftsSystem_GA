@@ -12,7 +12,7 @@ namespace InformationalChartsTool
     // People will be in a location, and decide one of the possible movements based on either Decisions or Location (depending on were the are).
     // Decisions are governed by people but restricted by Location.
 
-    public class Simulate
+    static public class Simulate
     {
         static public int time = 0; //starting from 9:00
         static public List<Person> allOccupants = new List<Person>();
@@ -21,13 +21,135 @@ namespace InformationalChartsTool
         public static void RunSimulation()
         {
             //initialize
-            #region
-            int timeStep = 1; //one second?
-            int endTime = 32400;
-
+            int timeStep = 1; //one second
+            int endTime = 32400; //from 9:00 to 18:00
+            (allLocations, allOccupants) = SmallSystem();
             
 
-            for (int i = 0; i < 600; i++)
+            //update system every timestep
+            while (time <= endTime)
+            {
+                UpdateSystem(timeStep, allLocations, allOccupants);
+
+                time += timeStep;
+            }
+
+            //Print location history of person 5
+            Console.WriteLine(allOccupants[5].name);
+            foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
+            {
+                Console.WriteLine("{0,25:N0} {1, 20:N0}", i.Item1.name, i.Item2);
+            }
+            Console.Write("\n");
+
+            //Print value of all doubles (attributes) of person 5
+            foreach(FieldInfo info in typeof(Person).GetFields())
+            {
+                if(info.GetValue(allOccupants[5]) is double d)
+                {
+                    Console.WriteLine("{0} is: {1}", info.Name, d);
+                }
+            }
+
+            //Occupant count of all locations at end of day
+            foreach (Location l in allLocations)
+            {
+                Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
+            }
+            Console.WriteLine("\n");
+            foreach (Location l in allLocations)
+            {
+                l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
+            }
+
+        }
+
+        //Update every Location, add hunger/tiredness and open closed connections
+        static void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
+        {
+            //int allOccupants = 0;
+            //foreach (Location l in allLocations)
+            //{
+            //    allOccupants += l.occupants.Count;
+            //}
+
+            //Console.WriteLine("Before Update total amount: {0}", allOccupants);
+            //allOccupants = 0;
+            int debugCheck = allLocations.Count;
+            int debugCounter = 0;
+            foreach (Location l in allLocations)
+            {
+                l.timeBasedOccupantCounts.Add(l.occupants.Count);
+                l.Update(timeStep);
+                debugCounter++;
+            }
+            if (debugCounter != debugCheck)
+            {
+                Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
+            }
+            foreach (Person p in allOccupants)
+            {
+                p.hunger += 5 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00
+                p.tired += 2.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9
+            }
+
+            foreach (Location l in allLocations)
+            {
+                foreach (Connection c in l.possibleMovements)
+                {
+                    if (c.closed && c.leadingTo is Restaurant)
+                    {
+                        c.closed = false; //For now this is fine, since closure will be checked everytime anyway.
+                        //Console.WriteLine("open closed location");
+                    }
+                }
+            }
+
+        }
+
+        //Based on "Files" file
+        static string NameGenerator()
+        {
+            string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");
+            string[] lastNames = File.ReadAllLines("Files\\LastNames.txt");
+
+            Random rnd = new Random();
+
+            string name = firstNames[rnd.Next(0, firstNames.Length - 1)] + lastNames[rnd.Next(0, lastNames.Length - 1)];
+            //Concates a random first and lastname from files
+
+            return name;
+        }
+        
+        static public List<int> ListCompressor(List<int> uncompressedData)
+        {
+            int regionLenght = 200; //must be a multiple of uncompressedData.Count
+            int counter = 1;
+            int value = 0;
+            List<int> compressedData = new List<int>();
+            for (int i = 0; i < uncompressedData.Count; i++)
+            {
+                if (i + 1 <= regionLenght*counter)
+                {
+                    value += uncompressedData[i];
+                    //Console.WriteLine(value);
+                }
+                else
+                {
+                    compressedData.Add(value / regionLenght);
+                    value = 0;
+                    counter++;
+                }
+            }
+            return compressedData;
+        }
+
+        static (List<Location>,List<Person>) SmallSystem()
+        {
+            List<Person> allOccupants = new List<Person>();
+            List<Location> allLocations = new List<Location>();
+
+            for (int i = 0; i < 700; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
@@ -109,135 +231,8 @@ namespace InformationalChartsTool
             allLocations.Add(backe1);
             allLocations.Add(backe2);
             allLocations.Add(backe3);
-            #endregion
 
-            //update system every timestep
-            while (time <= endTime)
-            {
-                UpdateSystem(timeStep, allLocations, allOccupants);
-
-                time += timeStep;
-            }
-
-            //Print location history of person 5
-            Console.WriteLine(allOccupants[5].name);
-            foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
-            {
-                Console.WriteLine("{0,25:N0} {1, 20:N0}", i.Item1.name, i.Item2);
-            }
-            Console.Write("\n");
-
-            //Print value of all doubles (attributes) of person 5
-            foreach(FieldInfo info in typeof(Person).GetFields())
-            {
-                if(info.GetValue(allOccupants[5]) is double d)
-                {
-                    Console.WriteLine("{0} is: {1}", info.Name, d);
-                }
-            }
-
-            //Occupant count of all locations at end of day
-            foreach (Location l in allLocations)
-            {
-                Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
-            }
-            Console.WriteLine("\n");
-            foreach (Location l in allLocations)
-            {
-                l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
-            }
-
-        }
-
-        //Update every Location, add hunger/tiredness and open closed connections
-        static public void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
-        {
-            //int allOccupants = 0;
-            //foreach (Location l in allLocations)
-            //{
-            //    allOccupants += l.occupants.Count;
-            //}
-
-
-            //Console.WriteLine("Before Update total amount: {0}", allOccupants);
-            //allOccupants = 0;
-            int debugCheck = allLocations.Count;
-            int debugCounter = 0;
-            foreach (Location l in allLocations)
-            {
-
-                l.timeBasedOccupantCounts.Add(l.occupants.Count);
-
-                
-                l.Update(timeStep);
-                //foreach (Location i in allLocations)
-                //{
-                //    allOccupants += i.occupants.Count;
-                //}
-                //Console.WriteLine("After Updating {0} total amount: {1}", l, allOccupants);
-                //allOccupants = 0;
-                debugCounter++;
-            }
-            if (debugCounter != debugCheck)
-            {
-                Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
-            }
-            foreach (Person p in allOccupants)
-            {
-                p.hunger += 5 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00
-                p.tired += 2.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9
-            }
-
-            foreach (Location l in allLocations)
-            {
-                foreach (Connection c in l.possibleMovements)
-                {
-                    if (c.closed)
-                    {
-                        c.closed = false; //For now this is fine, since closure will be checked everytime anyway.
-                        //Console.WriteLine("open closed location");
-                    }
-                }
-            }
-
-        }
-
-        //Based on "Files" file
-        static public string NameGenerator()
-        {
-            string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");
-            string[] lastNames = File.ReadAllLines("Files\\LastNames.txt");
-
-            Random rnd = new Random();
-
-            string name = firstNames[rnd.Next(0, firstNames.Length - 1)] + lastNames[rnd.Next(0, lastNames.Length - 1)];
-            //Concates a random first and lastname from files
-
-            return name;
-        }
-
-        
-        static public List<int> ListCompressor(List<int> uncompressedData)
-        {
-            int regionLenght = 100; //must be a multiple of uncompressedData.Count
-            int counter = 1;
-            int value = 0;
-            List<int> compressedData = new List<int>();
-            for (int i = 0; i < uncompressedData.Count; i++)
-            {
-                if (i + 1 <= regionLenght*counter)
-                {
-                    value += uncompressedData[i];
-                    //Console.WriteLine(value);
-                }
-                else
-                {
-                    compressedData.Add(value / regionLenght);
-                    value = 0;
-                    counter++;
-                }
-            }
-            return compressedData;
+            return (allLocations, allOccupants);
         }
     }
 }

@@ -47,7 +47,6 @@ namespace InformationalChartsTool
                 {
                     if (l.GetType() == type)
                     {
-
                         for(int i = 0; i<l.timeBasedOccupantCounts.Count; i++)
                         {
                             occupantss[i] += l.timeBasedOccupantCounts[i];
