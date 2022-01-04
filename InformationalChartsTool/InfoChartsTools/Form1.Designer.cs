@@ -44,11 +44,12 @@ namespace InformationalChartsTool
             // 
             // cartesianChart1
             // 
-            this.cartesianChart1.Location = new System.Drawing.Point(0, 3);
+            this.cartesianChart1.Location = new System.Drawing.Point(0, 0);
             this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(671, 343);
+            this.cartesianChart1.Size = new System.Drawing.Size(1260, 528);
             this.cartesianChart1.TabIndex = 0;
             this.cartesianChart1.Text = "cartesianChart1";
+            this.cartesianChart1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.cartesianChart1_ChildChanged);
             // 
             // dataGridView1
             // 
@@ -59,7 +60,7 @@ namespace InformationalChartsTool
             this.timeDataGridViewTextBoxColumn,
             this.occupantsDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.tempBindingSourceBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(22, 363);
+            this.dataGridView1.Location = new System.Drawing.Point(23, 525);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(568, 57);
             this.dataGridView1.TabIndex = 1;
@@ -101,7 +102,7 @@ namespace InformationalChartsTool
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(686, 450);
+            this.ClientSize = new System.Drawing.Size(1316, 594);
             this.Controls.Add(this.btnClick);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.cartesianChart1);

@@ -16,13 +16,14 @@ namespace InformationalChartsTool
 
         public override void Update(int timeStep)
         {
-            int waittimeMultiplier = 7200;
+            int waitTimeMultiplier = 9000;
 
             for (int i = 0; i < occupants.Count; i++)
             {
                 occupants[i].timeLocation += timeStep;
-                if (occupants[i].morningness * waittimeMultiplier < occupants[i].timeLocation)
+                if (occupants[i].morningness * waitTimeMultiplier < occupants[i].timeLocation)
                 {
+                    occupants[i].hunger = 0;
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
             }

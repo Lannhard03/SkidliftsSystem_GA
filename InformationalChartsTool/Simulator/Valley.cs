@@ -31,12 +31,9 @@ namespace InformationalChartsTool
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             List<Decision> possibleDecisions = new List<Decision>();
-            foreach (Connection c in possibleMovements.Where(x => x.leadingTo is Restaurant || x.leadingTo is LiftQueue|| x.leadingTo is Home))
+            foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Restaurant || x.leadingTo is LiftQueue|| x.leadingTo is Home) && !x.closed))
             {
-                if (!c.closed)
-                {
-                    possibleDecisions.Add(new Decision(c.leadingTo, 0));
-                }
+                possibleDecisions.Add(new Decision(c.leadingTo, 0));
             }
             //Look for Restaurant, Home, Slopes since MountainTop should have no Liftqueues or Valleys adjacent
 
@@ -62,7 +59,7 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Home)
                 {
-                    possibleDecision.weight += decisionMaker.WeightTiredness(200, possibleDecision) + decisionMaker.WeightHunger(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightTiredness(100, possibleDecision) + decisionMaker.WeightHunger(100, possibleDecision);
                 }
             }
 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace InformationalChartsTool
 {
@@ -37,16 +38,30 @@ namespace InformationalChartsTool
             //Initializing data
             cartesianChart1.Series.Clear();
             SeriesCollection series = new SeriesCollection();
-            foreach(Location l in Simulate.allLocations)
+
+            foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
             {
-                List<double> Occupantss = new List<double>();
-                foreach (int personCount in l.timeBasedOccupantCounts)
+                int[] occupantss = new int[Simulate.allLocations[0].timeBasedOccupantCounts.Count];
+                foreach (Location l in Simulate.allLocations)
                 {
-                    Occupantss.Add(personCount);
+                    if (l.GetType() == type)
+                    {
+                        for(int i = 0; i<l.timeBasedOccupantCounts.Count; i++)
+                        {
+                            occupantss[i] += l.timeBasedOccupantCounts[i];
+                        }
+                    }
                 }
-                series.Add(new LineSeries() { Title = l.name, Values = new ChartValues<double>(Occupantss) });
+                series.Add(new LineSeries() { Title = type.Name, Values = new ChartValues<int>(occupantss) });
             }
+
+            
             cartesianChart1.Series = series;
+        }
+
+        private void cartesianChart1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
+        {
+
         }
     }
 }

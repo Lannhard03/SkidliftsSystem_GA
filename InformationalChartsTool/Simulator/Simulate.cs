@@ -14,7 +14,7 @@ namespace InformationalChartsTool
 
     public class Simulate
     {
-        static public int time = 0;
+        static public int time = 0; //starting from 9:00
         static public List<Person> allOccupants = new List<Person>();
         static public List<Location> allLocations = new List<Location>();
 
@@ -23,11 +23,11 @@ namespace InformationalChartsTool
             //initialize
             #region
             int timeStep = 1; //one second?
-            int endTime = 28800;
+            int endTime = 32400;
 
             
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 650; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
@@ -39,7 +39,8 @@ namespace InformationalChartsTool
 
             Home home1 = new Home("Stora dalen boende", temp);
 
-            Restaurant restaurant1 = new Restaurant(200, "Stora dalen restaurang");
+            Restaurant restaurant1 = new Restaurant(150, "Stora dalen restaurang");
+            Restaurant restaurant2 = new Restaurant(50, "Höga toppen restaurang");
 
             Valley valley1 = new Valley("Stora dalen");
             Valley valley2 = new Valley("lilla dalen");
@@ -51,13 +52,13 @@ namespace InformationalChartsTool
             LiftQueue ko2 = new LiftQueue(4, 8, "springkö");
             LiftQueue ko3 = new LiftQueue(2, 7, "Kortkö");
 
-            Lift lift1 = new Lift(200, "superliften");
+            Lift lift1 = new Lift(240, "superliften");
             Lift lift2 = new Lift(500, "springliften");
             Lift lift3 = new Lift(150, "Kortaliften");
 
-            Slope backe1 = new Slope(250, "superbacken", 0.4);
-            Slope backe2 = new Slope(500, "springBacken", 0.4);
-            Slope backe3 = new Slope(100, "kortabacken", 0.2);
+            Slope backe1 = new Slope(100, "superbacken", 0.4);
+            Slope backe2 = new Slope(150, "springBacken", 0.4);
+            Slope backe3 = new Slope(50, "kortabacken", 0.2);
 
             //make connections
             home1.possibleMovements.Add(new Connection(valley1));
@@ -65,11 +66,13 @@ namespace InformationalChartsTool
             valley1.possibleMovements.Add(new Connection(ko1));
             valley1.possibleMovements.Add(new Connection(ko3));
             valley1.possibleMovements.Add(new Connection(restaurant1));
+            valley1.possibleMovements.Add(new Connection(home1));
 
             valley2.possibleMovements.Add(new Connection(ko2));
 
             berg1.possibleMovements.Add(new Connection(backe1));
             berg1.possibleMovements.Add(new Connection(backe2));
+            berg1.possibleMovements.Add(new Connection(restaurant2));
 
             berg2.possibleMovements.Add(new Connection(backe3));
 
@@ -87,8 +90,11 @@ namespace InformationalChartsTool
 
             restaurant1.possibleMovements.Add(new Connection(valley1));
 
+            restaurant2.possibleMovements.Add(new Connection(berg1));
+
             //add Locations to meta list
             allLocations.Add(restaurant1);
+            allLocations.Add(restaurant2);
             allLocations.Add(home1);
             allLocations.Add(valley1);
             allLocations.Add(valley2);
@@ -180,8 +186,8 @@ namespace InformationalChartsTool
             }
             foreach (Person p in allOccupants)
             {
-                p.hunger += p.hungryness * 0.0001;
-                p.tired += p.tiredness * 0.0001; //very terrible implementation
+                p.hunger += 5 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00
+                p.tired += 2.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9
             }
 
             foreach (Location l in allLocations)

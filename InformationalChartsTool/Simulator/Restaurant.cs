@@ -24,11 +24,12 @@ namespace InformationalChartsTool
         //remember that this is movement away from restaurant and that MovePerson overide affects incoming people
         public override void Update(int timeStep) 
         {
-            int eatingTime = 1800;
+            int eatingTimeMultiple = 1800;
+            int eatingTimeBase = 900;
             for(int i = 0; i<occupants.Count; i++)
             {
                 occupants[i].timeLocation += timeStep;
-                if(eatingTime*occupants[i].chill <= occupants[i].timeLocation)
+                if(eatingTimeMultiple*occupants[i].chill+eatingTimeBase <= occupants[i].timeLocation)
                 {
                     occupants[i].hunger = 0;
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);

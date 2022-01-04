@@ -10,6 +10,7 @@ namespace InformationalChartsTool
     public class Person
     {
         static Random rnd = new Random();
+        
         public string name; //for esthetics?
         public int personNumber; //for keeping track of who is where.
 
@@ -36,8 +37,9 @@ namespace InformationalChartsTool
 
         public Person(int personNumber)
         {
-            
             this.personNumber = personNumber;
+            
+            this.tiredness = rnd.NextDouble();
             this.skillLevel = rnd.NextDouble();
             this.morningness = rnd.NextDouble();
             this.hungryness = rnd.NextDouble();
@@ -48,8 +50,8 @@ namespace InformationalChartsTool
 
         public Person(int personNumber, string name)
         {
-            
             this.personNumber = personNumber;
+            this.tiredness = rnd.NextDouble();
             this.skillLevel = rnd.NextDouble();
             this.morningness = rnd.NextDouble();
             this.hungryness = rnd.NextDouble();
@@ -92,7 +94,7 @@ namespace InformationalChartsTool
         }
         public double WeightHunger(int hungerWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 5; //large value towards 1, small linear, negative towards 0
+            double tendancyTowardsEdges = 20; //large value towards 1, small linear, negative towards 0
             if(checkingDecision.decision is Restaurant)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
@@ -105,8 +107,8 @@ namespace InformationalChartsTool
         }
         public double WeightTiredness(int tirednessWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 5; //large value towards 1, small linear, negative towards 0
-            if (checkingDecision.decision is Restaurant)
+            double tendancyTowardsEdges = 20; //large value towards 1, small linear, negative towards 0
+            if (checkingDecision.decision is Home)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
                 return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges));
