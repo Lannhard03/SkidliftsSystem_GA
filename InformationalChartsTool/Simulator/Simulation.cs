@@ -18,7 +18,7 @@ namespace InformationalChartsTool
             //initialize
             int timeStep = 1; //one second
             int endTime = 32400; //from 9:00 to 18:00
-            (allLocations, allOccupants) = SmallSystem();
+            (allLocations, allOccupants) = BigSystem(); //SmallSystem();
             
 
             //update system every timestep
@@ -108,7 +108,7 @@ namespace InformationalChartsTool
         //takes a list and make a shorter "averaged" one
         static public List<int> ListCompressor(List<int> uncompressedData)
         {
-            int regionLenght = 200; //must be a multiple of uncompressedData.Count
+            int regionLenght = 100; //must be a multiple of uncompressedData.Count
             int counter = 1;
             int value = 0;
             List<int> compressedData = new List<int>();
@@ -217,6 +217,155 @@ namespace InformationalChartsTool
             allLocations.Add(backe1);
             allLocations.Add(backe2);
             allLocations.Add(backe3);
+
+            return (allLocations, allOccupants);
+        }
+        static (List<Location>, List<Person>) BigSystem()
+        {
+            List<Person> allOccupants = new List<Person>();
+            List<Location> allLocations = new List<Location>();
+
+
+            for (int i = 0; i < 2000; i++)
+            {
+                allOccupants.Add(new Person(i, NameGenerator()));
+            }
+            List<Person> home1Start = new List<Person>();
+            for(int i = 0; i<1500; i++)
+            {
+                home1Start.Add(allOccupants[i]);
+            }
+            List<Person> home2Start = new List<Person>();
+            for (int i = 1500; i < allOccupants.Count; i++)
+            {
+                home2Start.Add(allOccupants[i]);
+            }
+
+            Home home1 = new Home("Stora hemmet", home1Start);
+            Home home2 = new Home("Lilla hemmet", home2Start);
+
+            Restaurant restaurant1 = new Restaurant(50, "Mellan Restaurangen");
+            Restaurant restaurant2 = new Restaurant(150, "Top Restaurangen");
+            Restaurant restaurant3 = new Restaurant(200, "Dal Restaurangen");
+
+            Valley valley1 = new Valley("Stora dalen");
+            Valley valley2 = new Valley("Mitten dalen");
+            Valley valley3 = new Valley("Bortre dalen");
+
+            MountainTop berg1 = new MountainTop("Mellan toppen");
+            MountainTop berg2 = new MountainTop("Höga toppen");
+            MountainTop berg3 = new MountainTop("Bortre toppen");
+            MountainTop berg4 = new MountainTop("Transport toppen");
+
+            LiftQueue ko1 = new LiftQueue(6, 8, "Stora Kö");
+            LiftQueue ko2 = new LiftQueue(2, 8, "Mellan kö");
+            LiftQueue ko3 = new LiftQueue(8, 8, "Spring kö");
+            LiftQueue ko4 = new LiftQueue(4, 8, "Löpar kö");
+            LiftQueue ko5 = new LiftQueue(2, 8, "Transport kö");
+
+            Lift lift1 = new Lift(450, "Storaliften");
+            Lift lift2 = new Lift(240, "Mellanliften");
+            Lift lift3 = new Lift(600, "Springliften"); 
+            Lift lift4 = new Lift(500, "Löparliften");
+            Lift lift5 = new Lift(720, "Transportliften"); //släpplift?
+
+            Slope backe1 = new Slope(150, "Storabacken", 0.33);
+            Slope backe2 = new Slope(80, "Mellanbacken", 0.66);
+            Slope backe3 = new Slope(100, "Sneabacken", 1);
+            Slope backe4 = new Slope(200, "Mittenbacken", 0.33);
+            Slope backe5 = new Slope(170, "IvägBacken", 0.33);
+            Slope backe6 = new Slope(150, "Bortrebacken", 0.33);
+            Slope backe7 = new Slope(200, "Tillbakabacken", 0);
+            Slope backe8 = new Slope(150, "TransportBacken", 0.33);
+            Slope backe9 = new Slope(50, "SkarBacken", 0.66);
+
+            home1.possibleMovements.Add(new Connection(valley1));
+
+            home2.possibleMovements.Add(new Connection(valley3));
+
+            valley1.possibleMovements.Add(new Connection(ko1));
+            valley1.possibleMovements.Add(new Connection(backe9));
+            valley1.possibleMovements.Add(new Connection(restaurant3));
+            valley1.possibleMovements.Add(new Connection(home1));
+
+            valley2.possibleMovements.Add(new Connection(ko3));
+            valley2.possibleMovements.Add(new Connection(ko4));
+
+            valley3.possibleMovements.Add(new Connection(ko5));
+            valley3.possibleMovements.Add(new Connection(home2));
+
+            berg1.possibleMovements.Add(new Connection(backe1));
+            berg1.possibleMovements.Add(new Connection(backe3));
+            berg1.possibleMovements.Add(new Connection(ko2));
+            berg1.possibleMovements.Add(new Connection(restaurant1));
+
+            berg2.possibleMovements.Add(new Connection(backe2));
+            berg2.possibleMovements.Add(new Connection(backe4));
+
+            berg3.possibleMovements.Add(new Connection(backe5));
+            berg3.possibleMovements.Add(new Connection(backe6));
+            berg3.possibleMovements.Add(new Connection(restaurant2));
+
+            berg4.possibleMovements.Add(new Connection(backe7));
+            berg4.possibleMovements.Add(new Connection(backe8));
+
+            ko1.possibleMovements.Add(new Connection(lift1));
+            ko2.possibleMovements.Add(new Connection(lift2));
+            ko3.possibleMovements.Add(new Connection(lift3));
+            ko4.possibleMovements.Add(new Connection(lift4));
+            ko5.possibleMovements.Add(new Connection(lift5));
+
+            lift1.possibleMovements.Add(new Connection(berg1));
+            lift2.possibleMovements.Add(new Connection(berg2));
+            lift3.possibleMovements.Add(new Connection(berg2));
+            lift4.possibleMovements.Add(new Connection(berg3));
+            lift5.possibleMovements.Add(new Connection(berg4));
+
+            backe1.possibleMovements.Add(new Connection(valley1));
+            backe2.possibleMovements.Add(new Connection(berg1));
+            backe3.possibleMovements.Add(new Connection(valley2));
+            backe4.possibleMovements.Add(new Connection(valley2));
+            backe5.possibleMovements.Add(new Connection(valley2));
+            backe6.possibleMovements.Add(new Connection(valley3));
+            backe7.possibleMovements.Add(new Connection(valley3));
+            backe8.possibleMovements.Add(new Connection(valley1));
+            backe9.possibleMovements.Add(new Connection(valley2));
+
+            restaurant1.possibleMovements.Add(new Connection(berg1));
+            restaurant2.possibleMovements.Add(new Connection(berg3));
+            restaurant3.possibleMovements.Add(new Connection(valley1));
+
+            allLocations.Add(home1);
+            allLocations.Add(home2);
+            allLocations.Add(valley1);
+            allLocations.Add(valley2);
+            allLocations.Add(valley3);
+            allLocations.Add(berg1);
+            allLocations.Add(berg2);
+            allLocations.Add(berg3);
+            allLocations.Add(berg4);
+            allLocations.Add(ko1);
+            allLocations.Add(ko2);
+            allLocations.Add(ko3);
+            allLocations.Add(ko4);
+            allLocations.Add(ko5);
+            allLocations.Add(lift1);
+            allLocations.Add(lift2);
+            allLocations.Add(lift3);
+            allLocations.Add(lift4);
+            allLocations.Add(lift5);
+            allLocations.Add(backe1);
+            allLocations.Add(backe2);
+            allLocations.Add(backe3);
+            allLocations.Add(backe4);
+            allLocations.Add(backe5);
+            allLocations.Add(backe6);
+            allLocations.Add(backe7);
+            allLocations.Add(backe8);
+            allLocations.Add(backe9);
+            allLocations.Add(restaurant1);
+            allLocations.Add(restaurant2);
+            allLocations.Add(restaurant3);
 
             return (allLocations, allOccupants);
         }
