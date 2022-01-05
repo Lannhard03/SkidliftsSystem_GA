@@ -1,2 +1,2 @@
 # SkidliftsSystem_GA
-For now the simulator will output to Standard output (console), the Windows Forms that opens is unimplmented.
+Simulator simulates a skisystem and prints some infromation to Console aswell as makes graphs that uses livechrats
