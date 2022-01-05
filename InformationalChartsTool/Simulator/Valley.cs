@@ -6,10 +6,14 @@ namespace InformationalChartsTool
 {
     class Valley : Location
     {
+        public Valley(string name)
+        {
+            this.name = name;
+        }
+
         public override void Update(int timeStep)
         {
-
-            int waittimeMultiplier = 120;
+            int waittimeMultiplier = 120; //maximum time spent
 
             for (int i = 0; i < occupants.Count; i++)
             {
@@ -23,25 +27,21 @@ namespace InformationalChartsTool
             }
         }
 
-        public Valley(string name)
-        {
-            this.name = name;
-        }
-
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             List<Decision> possibleDecisions = new List<Decision>();
             foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Restaurant || x.leadingTo is LiftQueue|| x.leadingTo is Home) && !x.closed))
             {
+                //convert list to decisions and pickout desired locations
                 possibleDecisions.Add(new Decision(c.leadingTo, 0));
             }
-            //Look for Restaurant, Home, Slopes since MountainTop should have no Liftqueues or Valleys adjacent
 
             foreach (Decision possibleDecision in possibleDecisions)
             {
+                //calculate weight of location types
                 if (possibleDecision.decision is LiftQueue)
                 {
-                    int liftOccupants = 0;
+                    int liftOccupants = 0; //total occupants of all adjacent lifts
                     foreach(Decision d in possibleDecisions)
                     {
                         if (d.decision is LiftQueue)
@@ -49,7 +49,6 @@ namespace InformationalChartsTool
                             liftOccupants += d.decision.occupants.Count;
                         } 
                     }
-                    //Console.WriteLine("total queue count: {0}", liftOccupants);
 
                     possibleDecision.weight += decisionMaker.WeightExplororness(50, possibleDecision)+decisionMaker.WeightQueueLenght(150, possibleDecision, liftOccupants);
                 }
@@ -66,17 +65,7 @@ namespace InformationalChartsTool
             //Determined way, largest weight wins.
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
 
-            //foreach (Decision d in possibleDecisions)
-            //{
-            //    Console.WriteLine("From {0} to {1} had {2} weight", this.name, d.decision.name, d.weight);
-            //    Console.WriteLine("QueueLength: {0}", d.decision.occupants.Count);
-            //    Console.WriteLine("Occupied {0} times before", decisionMaker.locationHistory.Where(x => x.Item1.Equals(d.decision)).Count());
-            //}
-            //Console.WriteLine("choice was {0}", choice.decision.name);
-            //Console.Write("\n");
             return choice.decision;
-
         }
-
     }
 }

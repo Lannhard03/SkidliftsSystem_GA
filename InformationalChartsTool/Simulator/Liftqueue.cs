@@ -6,7 +6,6 @@ namespace InformationalChartsTool
 {
     public class LiftQueue : Location
     {
-        
         int liftAmount; //how much one lifting lifts
         int waitTime;   //Time between each lifting
         int currentWaitTime; //=waittime;
@@ -33,9 +32,9 @@ namespace InformationalChartsTool
             currentWaitTime += timeStep;    
             if (currentWaitTime >= waitTime)   //if the waittime is elapsed we lift people.
             {
-                currentWaitTime -= waitTime;    //reset running_waittime
+                currentWaitTime -= waitTime;
 
-                int actuallLiftAmount = occupants.Count > liftAmount ? liftAmount : occupants.Count;
+                int actuallLiftAmount = occupants.Count > liftAmount ? liftAmount : occupants.Count; //lifts all people or max liftamount
                 for(int i = actuallLiftAmount-1; i > 0; i--)
                 {
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this); //lift always takes from the front of the queue.
@@ -43,9 +42,10 @@ namespace InformationalChartsTool
             }
         }
 
+        
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
-            foreach(Connection c in possibleMovements)
+            foreach(Connection c in possibleMovements) //list should only contain one liftqueue
             {
                 if (c.leadingTo is LiftQueue)
                 {

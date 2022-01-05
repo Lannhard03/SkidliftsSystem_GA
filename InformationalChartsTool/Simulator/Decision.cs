@@ -8,7 +8,6 @@ namespace InformationalChartsTool
     {
         public Location decision;
         public double weight;
-
         public Decision(Location decision, int weight)
         {
             this.decision = decision;

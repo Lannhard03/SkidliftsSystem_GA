@@ -79,7 +79,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulator\Restaurant.cs" />
-    <Compile Include="Simulator\Simulate.cs" />
+    <Compile Include="Simulator\Simulation.cs" />
     <Compile Include="Simulator\Slope.cs" />
     <Compile Include="Simulator\Valley.cs" />
     <EmbeddedResource Include="InfoChartsTools\Form1.resx">

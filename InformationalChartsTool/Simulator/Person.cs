@@ -11,24 +11,26 @@ namespace InformationalChartsTool
     {
         static Random rnd = new Random();
         
-        public string name; //for esthetics?
+        public string name; 
         public int personNumber; //for keeping track of who is where.
 
-        public double morningness; //from 0-1? How early do they start skiing.
-        public double hungryness;  //from 0-1? how hungry they are.
+        //range from 0-1, see documentation for purpose
+        public double morningness; 
+        public double hungryness;  
         public double queuePatients;
         public double chill;
         public double tiredness;
-        public double elementalResistance;
+        public double elementalResistance; //unused
+        public double skillLevel; 
+        public double explororness; 
 
-        public double skillLevel; //from 0-1? How good at skiing is the person.
-        public double explororness; //from 0-1? How much they want to visit new lifts.
-
+        //increase overtime
         public double hunger;
         public double tired;
 
-        public bool hungerState; //if true they want to find a restaurant
-        public bool doneSkiingState; //if true they want to go home
+        //unused
+        public bool hungerState; 
+        public bool doneSkiingState; 
 
         public int timeLocation; 
 
@@ -38,7 +40,6 @@ namespace InformationalChartsTool
         public Person(int personNumber)
         {
             this.personNumber = personNumber;
-            
             this.tiredness = rnd.NextDouble();
             this.skillLevel = rnd.NextDouble();
             this.morningness = rnd.NextDouble();
@@ -60,6 +61,8 @@ namespace InformationalChartsTool
             this.chill = rnd.NextDouble();
             this.name = name;
         }
+
+        //see documentation for each weightfunctions workings
         public double WeightExplororness(int explororWeight, Decision checkingDecision)
         {
             double explororExponent = 1;

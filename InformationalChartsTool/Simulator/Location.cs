@@ -15,7 +15,7 @@ namespace InformationalChartsTool
         {
             AddPerson(person);
             comingFrom.RemovePerson(person);
-            person.locationHistory.Add(Tuple.Create(comingFrom,Simulate.time));
+            person.locationHistory.Add(Tuple.Create(comingFrom,Simulation.time)); //for output
         }
         public virtual void RemovePerson(Person people)
         {
@@ -24,16 +24,15 @@ namespace InformationalChartsTool
         public virtual void AddPerson(Person people)
         {
             occupants.Add(people);
-            people.timeLocation = 0;
+            people.timeLocation = 0; //reset time
         }
         public virtual void Update(int timeStep)
         {
-
+            //overidden in derived locations
         }
         public virtual Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             return possibleMovements[0].leadingTo;
         }
-
     }
 }

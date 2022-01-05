@@ -6,7 +6,6 @@ namespace InformationalChartsTool
 {
     class Lift : Location
     {
-        //You may exit certain lifts in the middle, then the person makes a decision to continue (enter the next lift) or leave.
         int liftingTime;
         public Lift(List<Person> occupants, int liftingTime, string name)
         {
@@ -21,7 +20,7 @@ namespace InformationalChartsTool
         }
         public override void Update(int timeStep)
         {
-            List<Person> movingPeople = new List<Person>();
+            List<Person> movingPeople = new List<Person>(); //utilized since we want sorted output
             foreach (Person p in occupants)
             {
                 p.timeLocation += timeStep; 
@@ -31,32 +30,24 @@ namespace InformationalChartsTool
                 }
             }
 
-            movingPeople.Sort((x,y) => y.timeLocation.CompareTo(x.timeLocation));
-            //increase the time in the location by timestep and move person if nessecary.
-            //note that x,y change places, then we sort from highest to lowest (with respect to timeLocation)
+            movingPeople.Sort((x,y) => y.timeLocation.CompareTo(x.timeLocation)); //sorts output S.T person with most time exits first
 
             foreach (Person p in movingPeople)
             {
                 MakeDecision(p, possibleMovements).MovePerson(p, this);
             }
         }
+        
+        //poor implementation
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             //Look for MountainTop or Slopes and Lifts (we may jump off lift in middle)
-
-            
-
             Connection temp = possibleMovements.Find(x => x.leadingTo is MountainTop && !x.closed);
             if (temp != null)
             {
                 return temp.leadingTo;
             }
-            //If there is a mountainTop go there.
-
-            //how to choose if to go up or jump of??
-            //Well going up will in all liklyhood lead to more choices and possibly going to restaurant?
-            //And jumping of will mean you can do what? Primarily we will go up?
-
+            
             temp = possibleMovements.Find(x => x.leadingTo is Lift && !x.closed);
             if (temp != null)
             {

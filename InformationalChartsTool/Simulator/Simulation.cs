@@ -7,12 +7,7 @@ using System.Linq;
 
 namespace InformationalChartsTool
 {
-    //4 different types of things are required atleast: People, Locations, Movement and Decisions.
-    // Locations will govern possible movements (maybe with connections).
-    // People will be in a location, and decide one of the possible movements based on either Decisions or Location (depending on were the are).
-    // Decisions are governed by people but restricted by Location.
-
-    static public class Simulate
+    static public class Simulation
     {
         static public int time = 0; //starting from 9:00
         static public List<Person> allOccupants = new List<Person>();
@@ -33,7 +28,7 @@ namespace InformationalChartsTool
 
                 time += timeStep;
             }
-
+            
             //Print location history of person 5
             Console.WriteLine(allOccupants[5].name);
             foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
@@ -57,50 +52,39 @@ namespace InformationalChartsTool
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
             Console.WriteLine("\n");
+
+            //compress location history
             foreach (Location l in allLocations)
             {
                 l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
             }
-
         }
 
         //Update every Location, add hunger/tiredness and open closed connections
         static void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
         {
-            //int allOccupants = 0;
-            //foreach (Location l in allLocations)
-            //{
-            //    allOccupants += l.occupants.Count;
-            //}
-
-            //Console.WriteLine("Before Update total amount: {0}", allOccupants);
-            //allOccupants = 0;
-            int debugCheck = allLocations.Count;
-            int debugCounter = 0;
+            //update each location
             foreach (Location l in allLocations)
             {
                 l.timeBasedOccupantCounts.Add(l.occupants.Count);
                 l.Update(timeStep);
-                debugCounter++;
             }
-            if (debugCounter != debugCheck)
-            {
-                Console.WriteLine("Amount of Locations didn't add up! UpdateSystem method");
-            }
+
+            //Hunger and tiredness
             foreach (Person p in allOccupants)
             {
                 p.hunger += 5 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00
                 p.tired += 2.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9
             }
 
+            //open closed restaurants
             foreach (Location l in allLocations)
             {
                 foreach (Connection c in l.possibleMovements)
                 {
                     if (c.closed && c.leadingTo is Restaurant)
                     {
-                        c.closed = false; //For now this is fine, since closure will be checked everytime anyway.
-                        //Console.WriteLine("open closed location");
+                        c.closed = false;
                     }
                 }
             }
@@ -121,6 +105,7 @@ namespace InformationalChartsTool
             return name;
         }
         
+        //takes a list and make a shorter "averaged" one
         static public List<int> ListCompressor(List<int> uncompressedData)
         {
             int regionLenght = 200; //must be a multiple of uncompressedData.Count
@@ -144,6 +129,7 @@ namespace InformationalChartsTool
             return compressedData;
         }
 
+        //initialize a ski system
         static (List<Location>,List<Person>) SmallSystem()
         {
             List<Person> allOccupants = new List<Person>();
