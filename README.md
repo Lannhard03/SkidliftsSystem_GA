@@ -1,2 +1,2 @@
 # SkidliftsSystem_GA
-Simulator simulates a skisystem and prints some infromation to Console aswell as makes graphs that uses livechrats
+Simulator simulates a skisystem and prints some infromation to Console aswell as makes graphs that uses livecharts
