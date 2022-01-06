@@ -73,7 +73,7 @@ namespace InformationalChartsTool
             double temp = (2 * explororWeight * (explororness - 0.5) * Math.Exp(-occurences) +
                         Math.Exp(-occurences) * explororWeight * (1 - explororness) +
                         (1 - Math.Exp(-occurences)) * (explororWeight / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences))));
-            return temp;
+            return temp + (rnd.NextDouble()-0.5)*0.01;
             //Math function to get weight
         }
         public double WeightSkillLevel(int skillLevelWeight, Decision checkingDecision)
@@ -84,7 +84,7 @@ namespace InformationalChartsTool
             if (checkingDecision.decision is Slope slopeDecision)
             {
                 double temp = skillLevelWeight * Math.Exp(-(skillSteepness / (Math.Pow(skillLevel, 2) + 0.1)) * (Math.Pow(Math.Log(skillLevel - slopeDecision.difficulty + 1), skillFlatnessAtMax)));
-                return temp;
+                return temp + (rnd.NextDouble() - 0.5) * 0.01;
             }
             else
             {
@@ -101,7 +101,7 @@ namespace InformationalChartsTool
             if(checkingDecision.decision is Restaurant)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
-                return hungerWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hunger - 1)) + Math.Exp(-tendancyTowardsEdges));
+                return hungerWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hunger - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
             }
             else
             {
@@ -114,7 +114,7 @@ namespace InformationalChartsTool
             if (checkingDecision.decision is Home)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
-                return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges));
+                return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
                 
             }
             else
@@ -130,7 +130,7 @@ namespace InformationalChartsTool
                 double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1); //what to normalize with??
                 //Console.WriteLine("Lenght (norm): {0}", length);
                 
-                return queueLenghtWeight*((-1 / (1 - Math.Exp(-tendancyTowardsEdges)) * (Math.Exp(tendancyTowardsEdges * (length - 1)) - Math.Exp(-tendancyTowardsEdges))) + 1);
+                return queueLenghtWeight*((-1 / (1 - Math.Exp(-tendancyTowardsEdges)) * (Math.Exp(tendancyTowardsEdges * (length - 1)) - Math.Exp(-tendancyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01; ;
             }
             else
             {

@@ -29,7 +29,7 @@ namespace InformationalChartsTool
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             List<Decision> possibleDecisions = new List<Decision>();
-            foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Restaurant || x.leadingTo is Slope || x.leadingTo is Home) && !x.closed))
+            foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Restaurant || x.leadingTo is Slope || x.leadingTo is Home || x.leadingTo is LiftQueue) && !x.closed))
             {
                 //convert list to decisions and pickout desired locations
                 possibleDecisions.Add(new Decision(c.leadingTo, 0));
@@ -49,6 +49,19 @@ namespace InformationalChartsTool
                 if (possibleDecision.decision is Home)
                 {
                     possibleDecision.weight += decisionMaker.WeightTiredness(200, possibleDecision) + decisionMaker.WeightHunger(50, possibleDecision);
+                }
+                if (possibleDecision.decision is LiftQueue)
+                {
+                    int liftOccupants = 0; //total occupants of all adjacent lifts
+                    foreach (Decision d in possibleDecisions)
+                    {
+                        if (d.decision is LiftQueue)
+                        {
+                            liftOccupants += d.decision.occupants.Count;
+                        }
+                    }
+
+                    possibleDecision.weight += decisionMaker.WeightExplororness(150, possibleDecision) + decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
                 }
             }
 
