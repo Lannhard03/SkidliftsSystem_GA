@@ -38,6 +38,7 @@ namespace InformationalChartsTool
             this.button2 = new System.Windows.Forms.Button();
             this.LoadLocationBased = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.PrintConsoleDataButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tempBindingSourceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,12 +104,23 @@ namespace InformationalChartsTool
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.LoadQueues);
             // 
+            // PrintConsoleDataButton
+            // 
+            this.PrintConsoleDataButton.Location = new System.Drawing.Point(1186, 482);
+            this.PrintConsoleDataButton.Name = "PrintConsoleDataButton";
+            this.PrintConsoleDataButton.Size = new System.Drawing.Size(118, 23);
+            this.PrintConsoleDataButton.TabIndex = 7;
+            this.PrintConsoleDataButton.Text = "Print Console Data";
+            this.PrintConsoleDataButton.UseVisualStyleBackColor = true;
+            this.PrintConsoleDataButton.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1316, 594);
+            this.Controls.Add(this.PrintConsoleDataButton);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.LoadLocationBased);
             this.Controls.Add(this.button2);
@@ -134,6 +146,7 @@ namespace InformationalChartsTool
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button LoadLocationBased;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button PrintConsoleDataButton;
     }
 }
 

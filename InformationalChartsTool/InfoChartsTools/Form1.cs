@@ -155,5 +155,9 @@ namespace InformationalChartsTool
             chartWindow.Series = series;
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Simulation.PrintConsoleData();
+        }
     }
 }

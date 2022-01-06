@@ -15,49 +15,36 @@ namespace InformationalChartsTool
 
         public static void RunSimulation()
         {
+            Console.OutputEncoding = Encoding.UTF8;
             //initialize
+            Console.WriteLine("Initializing");
             int timeStep = 1; //one second
             int endTime = 32400; //from 9:00 to 18:00
             (allLocations, allOccupants) = BigSystem(); //SmallSystem();
+
+
             
+            Console.Clear();
+            Console.WriteLine("Staring Simulation");
+            string[] progressBar = File.ReadAllLines("Files\\ProgressBar.txt");
+            Console.WriteLine(progressBar[0]);
+            int procentDone = 0;
 
             //update system every timestep
             while (time <= endTime)
             {
+                if((10 * time) / endTime > procentDone) //create cool progressbar
+                {
+                    Console.Clear();
+                    Console.WriteLine(progressBar[(10*time)/endTime]);
+                    procentDone++;
+                }
+                
                 UpdateSystem(timeStep, allLocations, allOccupants);
-
+                
                 time += timeStep;
             }
-            
-            //Print location history of person 5
-            Console.WriteLine(allOccupants[5].name);
-            foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
-            {
-                Console.WriteLine("{0,25:N0} {1, 20:N0}", i.Item1.name, i.Item2);
-            }
-            Console.Write("\n");
-
-            //Print value of all doubles (attributes) of person 5
-            foreach(FieldInfo info in typeof(Person).GetFields())
-            {
-                if(info.GetValue(allOccupants[5]) is double d)
-                {
-                    Console.WriteLine("{0} is: {1}", info.Name, d);
-                }
-            }
-
-            //Occupant count of all locations at end of day
-            foreach (Location l in allLocations)
-            {
-                Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
-            }
-            Console.WriteLine("\n");
-
-            //compress location history
-            foreach (Location l in allLocations)
-            {
-                l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
-            }
+            Console.WriteLine("Opening LiveCharts");
         }
 
         //Update every Location, add hunger/tiredness and open closed connections
@@ -385,6 +372,39 @@ namespace InformationalChartsTool
             allLocations.Add(restaurant3);
 
             return (allLocations, allOccupants);
+        }
+
+        public static void PrintConsoleData()
+        {
+            //Print location history of person 5
+            Console.WriteLine(allOccupants[5].name);
+            foreach (Tuple<Location, int> i in allOccupants[5].locationHistory)
+            {
+                Console.WriteLine("{0,25:N0} {1, 20:N0}", i.Item1.name, i.Item2);
+            }
+            Console.Write("\n");
+
+            //Print value of all doubles (attributes) of person 5
+            foreach (FieldInfo info in typeof(Person).GetFields())
+            {
+                if (info.GetValue(allOccupants[5]) is double d)
+                {
+                    Console.WriteLine("{0} is: {1}", info.Name, d);
+                }
+            }
+
+            //Occupant count of all locations at end of day
+            foreach (Location l in allLocations)
+            {
+                Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
+            }
+            Console.WriteLine("\n");
+
+            //compress location history
+            foreach (Location l in allLocations)
+            {
+                l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
+            }
         }
     }
 }
