@@ -108,7 +108,7 @@ namespace InformationalChartsTool
         //takes a list and make a shorter "averaged" one
         static public List<int> ListCompressor(List<int> uncompressedData)
         {
-            int regionLenght = 1800; //must be a multiple of uncompressedData.Count
+            int regionLenght = 100; //must be a multiple of uncompressedData.Count
             int counter = 1;
             int value = 0;
             List<int> compressedData = new List<int>();
@@ -226,17 +226,17 @@ namespace InformationalChartsTool
             List<Location> allLocations = new List<Location>();
 
 
-            for (int i = 0; i < 1500; i++)
+            for (int i = 0; i < 3000; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
             List<Person> home1Start = new List<Person>();
-            for(int i = 0; i<1300; i++)
+            for(int i = 0; i<2300; i++)
             {
                 home1Start.Add(allOccupants[i]);
             }
             List<Person> home2Start = new List<Person>();
-            for (int i = 1300; i < allOccupants.Count; i++)
+            for (int i = 2300; i < allOccupants.Count; i++)
             {
                 home2Start.Add(allOccupants[i]);
             }
@@ -262,7 +262,7 @@ namespace InformationalChartsTool
             LiftQueue ko3 = new LiftQueue(8, 8, "Spring kö");
             LiftQueue ko35 = new LiftQueue(2, 8, "Sido kö");
             LiftQueue ko4 = new LiftQueue(4, 8, "Löpar kö");
-            LiftQueue ko5 = new LiftQueue(2, 8, "Transport kö");
+            LiftQueue ko5 = new LiftQueue(4, 8, "Transport kö");
 
             Lift lift1 = new Lift(450, "Storaliften");
             Lift lift2 = new Lift(240, "Mellanliften");
