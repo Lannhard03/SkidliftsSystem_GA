@@ -61,7 +61,7 @@ namespace InformationalChartsTool
                         }
                     }
 
-                    possibleDecision.weight += decisionMaker.WeightExplororness(150, possibleDecision) + decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(175, possibleDecision) + decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
                 }
             }
 

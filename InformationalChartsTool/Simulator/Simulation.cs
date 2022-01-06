@@ -226,17 +226,17 @@ namespace InformationalChartsTool
             List<Location> allLocations = new List<Location>();
 
 
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 1500; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
             List<Person> home1Start = new List<Person>();
-            for(int i = 0; i<1500; i++)
+            for(int i = 0; i<1000; i++)
             {
                 home1Start.Add(allOccupants[i]);
             }
             List<Person> home2Start = new List<Person>();
-            for (int i = 1500; i < allOccupants.Count; i++)
+            for (int i = 1000; i < allOccupants.Count; i++)
             {
                 home2Start.Add(allOccupants[i]);
             }
@@ -260,19 +260,23 @@ namespace InformationalChartsTool
             LiftQueue ko1 = new LiftQueue(6, 8, "Stora Kö");
             LiftQueue ko2 = new LiftQueue(2, 8, "Mellan kö");
             LiftQueue ko3 = new LiftQueue(8, 8, "Spring kö");
+            LiftQueue ko35 = new LiftQueue(2, 8, "Sido kö");
             LiftQueue ko4 = new LiftQueue(4, 8, "Löpar kö");
             LiftQueue ko5 = new LiftQueue(2, 8, "Transport kö");
 
             Lift lift1 = new Lift(450, "Storaliften");
             Lift lift2 = new Lift(240, "Mellanliften");
-            Lift lift3 = new Lift(600, "Springliften"); 
+            Lift lift3 = new Lift(600, "Springliften");
+            Lift lift35 = new Lift(250, "Sido lift 1");
+            Lift lift36 = new Lift(350, "Sido lift 2");
             Lift lift4 = new Lift(500, "Löparliften");
             Lift lift5 = new Lift(720, "Transportliften"); //släpplift?
 
             Slope backe1 = new Slope(150, "Storabacken", 0.33);
             Slope backe2 = new Slope(80, "Mellanbacken", 0.66);
             Slope backe3 = new Slope(100, "Sneabacken", 1);
-            Slope backe4 = new Slope(200, "Mittenbacken", 0.33);
+            Slope backe46 = new Slope(200, "Mittenbacken övre", 0.33);
+            Slope backe45 = new Slope(200, "Mittenbacken nedre", 0.33);
             Slope backe5 = new Slope(170, "IvägBacken", 0.33);
             Slope backe6 = new Slope(150, "Bortrebacken", 0.33);
             Slope backe7 = new Slope(200, "Tillbakabacken", 0);
@@ -289,6 +293,7 @@ namespace InformationalChartsTool
             valley1.possibleMovements.Add(new Connection(home1));
 
             valley2.possibleMovements.Add(new Connection(ko3));
+            valley2.possibleMovements.Add(new Connection(ko35));
             valley2.possibleMovements.Add(new Connection(ko4));
 
             valley3.possibleMovements.Add(new Connection(ko5));
@@ -300,7 +305,7 @@ namespace InformationalChartsTool
             berg1.possibleMovements.Add(new Connection(restaurant1));
 
             berg2.possibleMovements.Add(new Connection(backe2));
-            berg2.possibleMovements.Add(new Connection(backe4));
+            berg2.possibleMovements.Add(new Connection(backe46));
 
             berg3.possibleMovements.Add(new Connection(backe5));
             berg3.possibleMovements.Add(new Connection(backe6));
@@ -312,19 +317,27 @@ namespace InformationalChartsTool
             ko1.possibleMovements.Add(new Connection(lift1));
             ko2.possibleMovements.Add(new Connection(lift2));
             ko3.possibleMovements.Add(new Connection(lift3));
+            ko35.possibleMovements.Add(new Connection(lift35));
             ko4.possibleMovements.Add(new Connection(lift4));
             ko5.possibleMovements.Add(new Connection(lift5));
 
             lift1.possibleMovements.Add(new Connection(berg1));
             lift2.possibleMovements.Add(new Connection(berg2));
             lift3.possibleMovements.Add(new Connection(berg2));
+
+            lift35.possibleMovements.Add(new Connection(lift36));
+            lift35.possibleMovements.Add(new Connection(backe45));
+
+            lift36.possibleMovements.Add(new Connection(berg2));
+
             lift4.possibleMovements.Add(new Connection(berg3));
             lift5.possibleMovements.Add(new Connection(berg4));
 
             backe1.possibleMovements.Add(new Connection(valley1));
             backe2.possibleMovements.Add(new Connection(berg1));
             backe3.possibleMovements.Add(new Connection(valley2));
-            backe4.possibleMovements.Add(new Connection(valley2));
+            backe46.possibleMovements.Add(new Connection(backe45));
+            backe45.possibleMovements.Add(new Connection(valley2));
             backe5.possibleMovements.Add(new Connection(valley2));
             backe6.possibleMovements.Add(new Connection(valley3));
             backe7.possibleMovements.Add(new Connection(valley3));
@@ -347,17 +360,21 @@ namespace InformationalChartsTool
             allLocations.Add(ko1);
             allLocations.Add(ko2);
             allLocations.Add(ko3);
+            allLocations.Add(ko35);
             allLocations.Add(ko4);
             allLocations.Add(ko5);
             allLocations.Add(lift1);
             allLocations.Add(lift2);
             allLocations.Add(lift3);
+            allLocations.Add(lift35);
+            allLocations.Add(lift36);
             allLocations.Add(lift4);
             allLocations.Add(lift5);
             allLocations.Add(backe1);
             allLocations.Add(backe2);
             allLocations.Add(backe3);
-            allLocations.Add(backe4);
+            allLocations.Add(backe45);
+            allLocations.Add(backe46);
             allLocations.Add(backe5);
             allLocations.Add(backe6);
             allLocations.Add(backe7);

@@ -85,5 +85,34 @@ namespace InformationalChartsTool
 
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            chartWindow.Series.Clear();
+            SeriesCollection series = new SeriesCollection();
+
+            foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
+            {
+                int[] occupants = new int[Simulation.allLocations[0].timeBasedOccupantCounts.Count]; //this assumes all locations have equal list size
+
+                foreach (Location l in Simulation.allLocations)
+                {
+                    if (l.GetType() == type)
+                    {
+                        for (int i = 0; i < l.timeBasedOccupantCounts.Count; i++)
+                        {
+                            occupants[i] += l.timeBasedOccupantCounts[i];
+                        }
+                    }
+                }
+                series.Add(new LineSeries()
+                {
+                    Title = type.Name,
+                    Values = new ChartValues<int>(occupants),
+                    PointGeometrySize = 6.9
+                });
+            }
+
+            chartWindow.Series = series;
+        }
     }
 }

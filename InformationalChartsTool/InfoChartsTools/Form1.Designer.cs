@@ -36,6 +36,7 @@ namespace InformationalChartsTool
             this.btnClick = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.LoadLocationBased = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tempBindingSourceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,12 +82,23 @@ namespace InformationalChartsTool
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.LoadStatics);
             // 
+            // LoadLocationBased
+            // 
+            this.LoadLocationBased.Location = new System.Drawing.Point(1186, 99);
+            this.LoadLocationBased.Name = "LoadLocationBased";
+            this.LoadLocationBased.Size = new System.Drawing.Size(118, 23);
+            this.LoadLocationBased.TabIndex = 5;
+            this.LoadLocationBased.Text = "Load by location";
+            this.LoadLocationBased.UseVisualStyleBackColor = true;
+            this.LoadLocationBased.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1316, 594);
+            this.Controls.Add(this.LoadLocationBased);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnClick);
@@ -108,6 +120,7 @@ namespace InformationalChartsTool
         private System.Windows.Forms.BindingSource tempBindingSourceBindingSource;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button LoadLocationBased;
     }
 }
 

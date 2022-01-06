@@ -62,7 +62,7 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Slope)
                 {
-                    possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(50, possibleDecision) + decisionMaker.WeightSkillLevel(75, possibleDecision);
                 }
             }
 
