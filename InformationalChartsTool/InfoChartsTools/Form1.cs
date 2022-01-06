@@ -74,7 +74,7 @@ namespace InformationalChartsTool
             chartWindow.Series.Clear();
             SeriesCollection series = new SeriesCollection();
 
-            foreach (Location l in Simulation.allLocations.Where(x => !(x is Slope) || !(x is Lift)))
+            foreach (Location l in Simulation.allLocations.Where(x => !(x is Slope) && !(x is Lift)))
             {
                 series.Add(new LineSeries()
                 {
