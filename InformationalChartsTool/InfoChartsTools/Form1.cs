@@ -21,50 +21,55 @@ namespace InformationalChartsTool
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            tempBindingSourceBindingSource.DataSource = new List<TempBindingSource>();
-            cartesianChart1.AxisX.Add(new LiveCharts.Wpf.Axis
+            chartWindow.AxisX.Add(new LiveCharts.Wpf.Axis
             {
                 Title = "Time"
             });
-            cartesianChart1.AxisY.Add(new LiveCharts.Wpf.Axis
+            chartWindow.AxisY.Add(new LiveCharts.Wpf.Axis
             {
                 Title = "Occupants"
             });
-            cartesianChart1.LegendLocation = LiveCharts.LegendLocation.Right;
+            chartWindow.LegendLocation = LiveCharts.LegendLocation.Right;
         }
 
-        private void btnClick_Click(object sender, EventArgs e)
+        private void LoadSlopes(object sender, EventArgs e)
         {
             //Initializing data
-            cartesianChart1.Series.Clear();
+            chartWindow.Series.Clear();
             SeriesCollection series = new SeriesCollection();
 
             foreach (Type type in Assembly.GetAssembly(typeof(Location)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(Location))))
             {
                 int[] occupants = new int[Simulation.allLocations[0].timeBasedOccupantCounts.Count]; //this assumes all locations have equal list size
 
-                foreach (Location l in Simulation.allLocations)
+                foreach (Lift l in Simulation.allLocations)
                 {
                     if (l.GetType() == type)
                     {
-                        for(int i = 0; i<l.timeBasedOccupantCounts.Count; i++)
+                        for (int i = 0; i < l.timeBasedOccupantCounts.Count; i++)
                         {
                             occupants[i] += l.timeBasedOccupantCounts[i];
                         }
                     }
                 }
-                series.Add(new LineSeries(){
-                    Title = type.Name, 
-                    Values = new ChartValues<int>(occupants), 
-                    PointGeometrySize = 6.9});
+                series.Add(new LineSeries()
+                {
+                    Title = type.Name,
+                    Values = new ChartValues<int>(occupants),
+                    PointGeometrySize = 6.9
+                });
             }
-            
-            cartesianChart1.Series = series;
-        }
 
-        private void cartesianChart1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
+            chartWindow.Series = series;
+        }
+        private void LoadLifts(object sender, EventArgs e)
         {
 
         }
+        private void LoadStatics(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
