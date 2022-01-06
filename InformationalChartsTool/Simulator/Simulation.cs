@@ -108,7 +108,7 @@ namespace InformationalChartsTool
         //takes a list and make a shorter "averaged" one
         static public List<int> ListCompressor(List<int> uncompressedData)
         {
-            int regionLenght = 1800; //must be a multiple of uncompressedData.Count
+            int regionLenght = 100; //must be a multiple of uncompressedData.Count
             int counter = 1;
             int value = 0;
             List<int> compressedData = new List<int>();

@@ -21,14 +21,30 @@ namespace InformationalChartsTool
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            int s = Simulation.allLocations[1].timeBasedOccupantCounts.Count / 9;
+            string[] hours = { "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00" };
+            List<string> labels = new List<string>();
+            int counter = 0;
+            for(int i = 0; i< Simulation.allLocations[1].timeBasedOccupantCounts.Count; i++)
+            {
+                if(i%s == 0)
+                {
+                    labels.Add(hours[counter]);
+                    counter++;
+                }
+                else
+                {
+                    labels.Add("");
+                }
+            }
+
             chartWindow.AxisX.Add(new LiveCharts.Wpf.Axis
             {
                 Title = "Time",
-                Labels = new[] {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"},
+                Labels = labels,
                 Separator = new LiveCharts.Wpf.Separator
                 {
-                    
-                    Step = Simulation.allLocations[0].timeBasedOccupantCounts.Count/1800, // Assuming all locations "timeBasedOccupantCounts" list share the same List size, which they do
+                    Step = s, // Assuming all locations "timeBasedOccupantCounts" list share the same List size, which they do
                     IsEnabled = false
                 }
             });
