@@ -231,12 +231,12 @@ namespace InformationalChartsTool
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
             List<Person> home1Start = new List<Person>();
-            for(int i = 0; i<1000; i++)
+            for(int i = 0; i<1300; i++)
             {
                 home1Start.Add(allOccupants[i]);
             }
             List<Person> home2Start = new List<Person>();
-            for (int i = 1000; i < allOccupants.Count; i++)
+            for (int i = 1300; i < allOccupants.Count; i++)
             {
                 home2Start.Add(allOccupants[i]);
             }
@@ -267,8 +267,8 @@ namespace InformationalChartsTool
             Lift lift1 = new Lift(450, "Storaliften");
             Lift lift2 = new Lift(240, "Mellanliften");
             Lift lift3 = new Lift(600, "Springliften");
-            Lift lift35 = new Lift(250, "Sido lift 1");
-            Lift lift36 = new Lift(350, "Sido lift 2");
+            Lift lift35 = new Lift(250, "Sido lift nedre");
+            Lift lift36 = new Lift(350, "Sido lift övre");
             Lift lift4 = new Lift(500, "Löparliften");
             Lift lift5 = new Lift(720, "Transportliften"); //släpplift?
 
