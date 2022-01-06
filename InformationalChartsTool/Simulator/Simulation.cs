@@ -13,9 +13,11 @@ namespace InformationalChartsTool
         static public int time = 0; //starting from 9:00
         static public List<Person> allOccupants = new List<Person>();
         static public List<Location> allLocations = new List<Location>();
+        
 
         public static void RunSimulation()
         {
+            
             Console.OutputEncoding = Encoding.UTF8;
             //initialize
             Console.WriteLine("Initializing");
@@ -53,6 +55,7 @@ namespace InformationalChartsTool
             }
             sp.Stop();
 
+            Console.WriteLine("{0} personer dog", getGrindedNoob);
             Console.WriteLine("Execution took {0} seconds",sp.Elapsed.ToString());
             Console.WriteLine("Opening LiveCharts");
 
@@ -107,7 +110,7 @@ namespace InformationalChartsTool
         //takes a list and make a shorter "averaged" one
         static public List<int> ListCompressor(List<int> uncompressedData)
         {
-            int regionLenght = 100; //must be a multiple of uncompressedData.Count
+            int regionLenght = 200; //must be a multiple of uncompressedData.Count
             int counter = 1;
             int value = 0;
             List<int> compressedData = new List<int>();
@@ -269,7 +272,7 @@ namespace InformationalChartsTool
             Lift lift3 = new Lift(600, "Springliften");
             Lift lift35 = new Lift(250, "Sido lift nedre");
             Lift lift36 = new Lift(350, "Sido lift övre");
-            Lift lift4 = new Lift(500, "Löparliften");
+            Lift lift4 = new Lift(500, "Ligma Liften");
             Lift lift5 = new Lift(720, "Transportliften"); //släpplift?
 
             Slope backe1 = new Slope(150, "Storabacken", 0.33);

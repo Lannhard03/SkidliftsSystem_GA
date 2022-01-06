@@ -44,15 +44,14 @@ namespace InformationalChartsTool
         
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
-            foreach(Connection c in possibleMovements) //list should only contain one liftqueue
+            foreach(Connection c in possibleMovements) //list should only contain one lift
             {
-                if (c.leadingTo is LiftQueue)
+                if (c.leadingTo is Lift)
                 {
                     return c.leadingTo;
                 }
             }
             return possibleMovements[0].leadingTo;
-            
         }
     }
 }

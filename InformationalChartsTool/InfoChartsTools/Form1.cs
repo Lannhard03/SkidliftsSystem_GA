@@ -19,6 +19,7 @@ namespace InformationalChartsTool
         {
             InitializeComponent();
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             int s = Simulation.allLocations[1].timeBasedOccupantCounts.Count / 9;
@@ -91,6 +92,7 @@ namespace InformationalChartsTool
             }
             chartWindow.Series = series;
         }
+
         private void LoadStatics(object sender, EventArgs e)
         {
             chartWindow.Series.Clear();
@@ -108,6 +110,7 @@ namespace InformationalChartsTool
             }
             chartWindow.Series = series;
         }
+
         private void LoadQueues(object sender, EventArgs e)
         {
             chartWindow.Series.Clear();
