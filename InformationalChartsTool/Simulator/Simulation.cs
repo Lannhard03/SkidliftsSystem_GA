@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Diagnostics;
 using System.Linq;
 
 namespace InformationalChartsTool
@@ -22,14 +23,14 @@ namespace InformationalChartsTool
             int endTime = 32400; //from 9:00 to 18:00
             (allLocations, allOccupants) = BigSystem(); //SmallSystem();
 
-
-            
             Console.Clear();
             Console.WriteLine("Staring Simulation");
             string[] progressBar = File.ReadAllLines("Files\\ProgressBar.txt");
             Console.WriteLine(progressBar[0]);
             int procentDone = 0;
-
+            Stopwatch sp = new Stopwatch();
+            sp.Start();
+            
             //update system every timestep
             while (time <= endTime)
             {
@@ -44,6 +45,9 @@ namespace InformationalChartsTool
                 
                 time += timeStep;
             }
+            sp.Stop();
+
+            Console.WriteLine("Execution took {0} seconds",sp.Elapsed.ToString());
             Console.WriteLine("Opening LiveCharts");
         }
 
