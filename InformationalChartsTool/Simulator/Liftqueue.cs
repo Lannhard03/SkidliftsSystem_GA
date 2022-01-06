@@ -41,7 +41,6 @@ namespace InformationalChartsTool
                 }
             }
         }
-
         
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {

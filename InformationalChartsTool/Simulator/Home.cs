@@ -16,7 +16,7 @@ namespace InformationalChartsTool
 
         public override void Update(int timeStep)
         {
-            int waitTimeMultiplier = 9000; //maximum waittime of location
+            int waitTimeMultiplier = 7200; //maximum waittime of location
 
             for (int i = 0; i < occupants.Count; i++)
             {

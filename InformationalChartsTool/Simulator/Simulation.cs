@@ -73,8 +73,8 @@ namespace InformationalChartsTool
             //Hunger and tiredness
             foreach (Person p in allOccupants)
             {
-                p.hunger += 5 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00
-                p.tired += 2.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9
+                p.hunger += 7 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00 (5, 3.33)
+                p.tired += 3.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9 (2.77, 1.388)
             }
 
             //open closed restaurants
