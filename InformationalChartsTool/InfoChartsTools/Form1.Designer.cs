@@ -37,6 +37,7 @@ namespace InformationalChartsTool
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.LoadLocationBased = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tempBindingSourceBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,13 +85,23 @@ namespace InformationalChartsTool
             // 
             // LoadLocationBased
             // 
-            this.LoadLocationBased.Location = new System.Drawing.Point(1186, 99);
+            this.LoadLocationBased.Location = new System.Drawing.Point(1186, 127);
             this.LoadLocationBased.Name = "LoadLocationBased";
             this.LoadLocationBased.Size = new System.Drawing.Size(118, 23);
             this.LoadLocationBased.TabIndex = 5;
-            this.LoadLocationBased.Text = "Load by location";
+            this.LoadLocationBased.Text = "Load All Locations";
             this.LoadLocationBased.UseVisualStyleBackColor = true;
-            this.LoadLocationBased.Click += new System.EventHandler(this.button3_Click);
+            this.LoadLocationBased.Click += new System.EventHandler(this.LoadByLocation);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1186, 98);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(118, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Load Queue Graph";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.LoadQueues);
             // 
             // Form1
             // 
@@ -98,6 +109,7 @@ namespace InformationalChartsTool
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1316, 594);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.LoadLocationBased);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -121,6 +133,7 @@ namespace InformationalChartsTool
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button LoadLocationBased;
+        private System.Windows.Forms.Button button3;
     }
 }
 

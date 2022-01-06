@@ -74,7 +74,7 @@ namespace InformationalChartsTool
             chartWindow.Series.Clear();
             SeriesCollection series = new SeriesCollection();
 
-            foreach (Location l in Simulation.allLocations.Where(x => !(x is Slope) && !(x is Lift)))
+            foreach (Location l in Simulation.allLocations.Where(x => !(x is Slope) && !(x is Lift) && !(x is LiftQueue)))
             {
                 series.Add(new LineSeries()
                 {
@@ -86,8 +86,24 @@ namespace InformationalChartsTool
             }
             chartWindow.Series = series;
         }
+        private void LoadQueues(object sender, EventArgs e)
+        {
+            chartWindow.Series.Clear();
+            SeriesCollection series = new SeriesCollection();
 
-        private void button3_Click(object sender, EventArgs e)
+                foreach (Location l in Simulation.allLocations.Where(x=> x is LiftQueue))
+                {
+                    series.Add(new LineSeries()
+                    {
+                        Title = l.name,
+                        Values = new ChartValues<int>(l.timeBasedOccupantCounts),
+                        PointGeometrySize = 6.9
+                    });
+                }
+            chartWindow.Series = series;
+        }
+
+        private void LoadByLocation(object sender, EventArgs e)
         {
             chartWindow.Series.Clear();
             SeriesCollection series = new SeriesCollection();
@@ -116,5 +132,6 @@ namespace InformationalChartsTool
 
             chartWindow.Series = series;
         }
+
     }
 }
