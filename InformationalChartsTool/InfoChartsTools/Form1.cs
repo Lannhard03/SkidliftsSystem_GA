@@ -21,10 +21,17 @@ namespace InformationalChartsTool
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            tempBindingSourceBindingSource.DataSource = new List<TempBindingSource>();
             chartWindow.AxisX.Add(new LiveCharts.Wpf.Axis
             {
-                Title = "Time"
+                Title = "Time",
+                Labels = new[] {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"},
+                Separator = new LiveCharts.Wpf.Separator
+                {
+                    
+                    Step = Simulation.allLocations[0].timeBasedOccupantCounts.Count/9 > 0 ?
+                    Simulation.allLocations[0].timeBasedOccupantCounts.Count / 9: 1, // this is making the assumtion that data arrivals follow uniform distribution
+                    IsEnabled = false
+                }
             });
             chartWindow.AxisY.Add(new LiveCharts.Wpf.Axis
             {
