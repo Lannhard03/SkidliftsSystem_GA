@@ -25,7 +25,7 @@ namespace InformationalChartsTool
             string[] hours = { "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00" };
             List<string> labels = new List<string>();
             int counter = 0;
-            for(int i = 0; i< Simulation.allLocations[1].timeBasedOccupantCounts.Count; i++)
+            for(int i = 0; i<= Simulation.allLocations[1].timeBasedOccupantCounts.Count; i++)
             {
                 if(i%s == 0)
                 {
