@@ -24,7 +24,7 @@ namespace InformationalChartsTool
             (allLocations, allOccupants) = BigSystem(); //SmallSystem();
 
             Console.Clear();
-            Console.WriteLine("Staring Simulation");
+            Console.WriteLine("Starting Simulation");
             string[] progressBar = File.ReadAllLines("Files\\ProgressBar.txt");
             Console.WriteLine(progressBar[0]);
             int procentDone = 0;
@@ -34,10 +34,10 @@ namespace InformationalChartsTool
             //update system every timestep
             while (time <= endTime)
             {
-                if((10 * time) / endTime > procentDone) //create cool progressbar
+                if(10 * time  >= procentDone*endTime) //create cool progressbar
                 {
                     Console.Clear();
-                    Console.WriteLine(progressBar[(10*time)/endTime]);
+                    Console.WriteLine(progressBar[procentDone]);
                     procentDone++;
                 }
                 
@@ -45,10 +45,18 @@ namespace InformationalChartsTool
                 
                 time += timeStep;
             }
+            
+            //compress location history
+            foreach (Location l in allLocations)
+            {
+                l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
+            }
             sp.Stop();
 
             Console.WriteLine("Execution took {0} seconds",sp.Elapsed.ToString());
             Console.WriteLine("Opening LiveCharts");
+
+            
         }
 
         //Update every Location, add hunger/tiredness and open closed connections
@@ -65,7 +73,7 @@ namespace InformationalChartsTool
             foreach (Person p in allOccupants)
             {
                 p.hunger += 7 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00 (5, 3.33)
-                p.tired += 3.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9 (2.77, 1.388)
+                p.tired += 2.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9 (2.77, 1.388)
             }
 
             //open closed restaurants
@@ -211,6 +219,7 @@ namespace InformationalChartsTool
 
             return (allLocations, allOccupants);
         }
+
         static (List<Location>, List<Person>) BigSystem()
         {
             List<Person> allOccupants = new List<Person>();
@@ -403,12 +412,6 @@ namespace InformationalChartsTool
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
             Console.WriteLine("\n");
-
-            //compress location history
-            foreach (Location l in allLocations)
-            {
-                l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
-            }
         }
     }
 }
