@@ -28,8 +28,7 @@ namespace InformationalChartsTool
                 Separator = new LiveCharts.Wpf.Separator
                 {
                     
-                    Step = Simulation.allLocations[0].timeBasedOccupantCounts.Count/9 > 0 ?
-                    Simulation.allLocations[0].timeBasedOccupantCounts.Count / 9: 1, // this is making the assumtion that data arrivals follow uniform distribution
+                    Step = Simulation.allLocations[0].timeBasedOccupantCounts.Count/1800, // Assuming all locations "timeBasedOccupantCounts" list share the same List size, which they do
                     IsEnabled = false
                 }
             });
