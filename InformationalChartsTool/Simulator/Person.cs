@@ -97,11 +97,13 @@ namespace InformationalChartsTool
         }
         public double WeightHunger(int hungerWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 20; //large value towards 1, small linear, negative towards 0
-            if(checkingDecision.decision is Restaurant)
+            double tendancyTowardsEdges = 8; //large value towards 1, small linear, negative towards 0
+            double threshhold = 0.95;
+            if (checkingDecision.decision is Restaurant)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
-                return hungerWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hunger - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
+                //return hungerWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hunger - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
+                return hungerWeight * (1 / (1 + Math.Exp(-100 * (hunger - threshhold))));
             }
             else
             {
@@ -110,12 +112,13 @@ namespace InformationalChartsTool
         }
         public double WeightTiredness(int tirednessWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 20; //large value towards 1, small linear, negative towards 0
+            double tendancyTowardsEdges = 10; //large value towards 1, small linear, negative towards 0
+            double threshhold = 0.9;
             if (checkingDecision.decision is Home)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
-                return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
-                
+                //return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
+                return tirednessWeight * (1 / (1 + Math.Exp(-100 * (tired - threshhold))));
             }
             else
             {

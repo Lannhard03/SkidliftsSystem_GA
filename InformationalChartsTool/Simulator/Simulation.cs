@@ -13,7 +13,6 @@ namespace InformationalChartsTool
         static public int time = 0; //starting from 9:00
         static public List<Person> allOccupants = new List<Person>();
         static public List<Location> allLocations = new List<Location>();
-        
 
         public static void RunSimulation()
         {
@@ -23,6 +22,7 @@ namespace InformationalChartsTool
             Console.WriteLine("Initializing");
             int timeStep = 1; //one second
             int endTime = 32400; //from 9:00 to 18:00
+            Person susPerson = null;
             (allLocations, allOccupants) = BigSystem(); //SmallSystem();
 
             Console.Clear();
@@ -54,12 +54,9 @@ namespace InformationalChartsTool
                 l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
             }
             sp.Stop();
-
-            Console.WriteLine("{0} personer dog", getGrindedNoob);
+            
             Console.WriteLine("Execution took {0} seconds",sp.Elapsed.ToString());
             Console.WriteLine("Opening LiveCharts");
-
-            
         }
 
         //Update every Location, add hunger/tiredness and open closed connections
@@ -75,8 +72,8 @@ namespace InformationalChartsTool
             //Hunger and tiredness
             foreach (Person p in allOccupants)
             {
-                p.hunger += 7 * Math.Pow(10, -5) + p.hungryness* 3.33 * Math.Pow(10, -5); //this will result in hunger of 0.9 at between 12:00 and 14:00 (5, 3.33)
-                p.tired += 2.77* Math.Pow(10, -5) + p.tiredness*1.388* Math.Pow(10, -5); //between 15:00 and 18:00 for 0.9 (2.77, 1.388)
+                p.hunger += 7.937 * Math.Pow(10, -5) + p.hungryness* 0.3228 * Math.Pow(10, -5); //this will result in hunger of 1 at between 12:00 and 12:30 (7,937, 0,3228)
+                p.tired += 3.086* Math.Pow(10, -5) + p.tiredness*0.881* Math.Pow(10, -5); //between 16:00 and 18:00 for 1 (3.086, 0.881)
             }
 
             //open closed restaurants
@@ -229,17 +226,17 @@ namespace InformationalChartsTool
             List<Location> allLocations = new List<Location>();
 
 
-            for (int i = 0; i < 3000; i++)
+            for (int i = 0; i < 2600; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
             List<Person> home1Start = new List<Person>();
-            for(int i = 0; i<2300; i++)
+            for(int i = 0; i<2200; i++)
             {
                 home1Start.Add(allOccupants[i]);
             }
             List<Person> home2Start = new List<Person>();
-            for (int i = 2300; i < allOccupants.Count; i++)
+            for (int i = home1Start.Count; i < allOccupants.Count; i++)
             {
                 home2Start.Add(allOccupants[i]);
             }
@@ -247,9 +244,14 @@ namespace InformationalChartsTool
             Home home1 = new Home("Stora hemmet", home1Start);
             Home home2 = new Home("Lilla hemmet", home2Start);
 
-            Restaurant restaurant1 = new Restaurant(50, "Mellan Restaurangen");
-            Restaurant restaurant2 = new Restaurant(150, "Top Restaurangen");
-            Restaurant restaurant3 = new Restaurant(200, "Dal Restaurangen");
+            Restaurant restaurant1 = new Restaurant(15000, "Mellan Restaurangen");
+            Restaurant restaurant2 = new Restaurant(25000, "Top Restaurangen");
+            Restaurant restaurant3 = new Restaurant(30000, "Dal Restaurangen");
+            Restaurant restaurant4 = new Restaurant(5000, "Fika plats 1");
+            Restaurant restaurant5 = new Restaurant(5000, "Fika plats 2");
+            Restaurant restaurant6 = new Restaurant(5000, "Fika plats 3");
+            Restaurant restaurant7 = new Restaurant(5000, "Fika plats 4");
+
 
             Valley valley1 = new Valley("Stora dalen");
             Valley valley2 = new Valley("Mitten dalen");
@@ -298,9 +300,11 @@ namespace InformationalChartsTool
             valley2.possibleMovements.Add(new Connection(ko3));
             valley2.possibleMovements.Add(new Connection(ko35));
             valley2.possibleMovements.Add(new Connection(ko4));
+            valley2.possibleMovements.Add(new Connection(restaurant4));
 
             valley3.possibleMovements.Add(new Connection(ko5));
             valley3.possibleMovements.Add(new Connection(home2));
+            valley3.possibleMovements.Add(new Connection(restaurant5));
 
             berg1.possibleMovements.Add(new Connection(backe1));
             berg1.possibleMovements.Add(new Connection(backe3));
@@ -309,6 +313,7 @@ namespace InformationalChartsTool
 
             berg2.possibleMovements.Add(new Connection(backe2));
             berg2.possibleMovements.Add(new Connection(backe46));
+            berg2.possibleMovements.Add(new Connection(restaurant6));
 
             berg3.possibleMovements.Add(new Connection(backe5));
             berg3.possibleMovements.Add(new Connection(backe6));
@@ -316,6 +321,7 @@ namespace InformationalChartsTool
 
             berg4.possibleMovements.Add(new Connection(backe7));
             berg4.possibleMovements.Add(new Connection(backe8));
+            berg4.possibleMovements.Add(new Connection(restaurant7));
 
             ko1.possibleMovements.Add(new Connection(lift1));
             ko2.possibleMovements.Add(new Connection(lift2));
@@ -350,6 +356,10 @@ namespace InformationalChartsTool
             restaurant1.possibleMovements.Add(new Connection(berg1));
             restaurant2.possibleMovements.Add(new Connection(berg3));
             restaurant3.possibleMovements.Add(new Connection(valley1));
+            restaurant4.possibleMovements.Add(new Connection(valley2));
+            restaurant5.possibleMovements.Add(new Connection(valley3));
+            restaurant6.possibleMovements.Add(new Connection(berg2));
+            restaurant7.possibleMovements.Add(new Connection(berg4));
 
             allLocations.Add(home1);
             allLocations.Add(home2);
@@ -386,6 +396,10 @@ namespace InformationalChartsTool
             allLocations.Add(restaurant1);
             allLocations.Add(restaurant2);
             allLocations.Add(restaurant3);
+            allLocations.Add(restaurant4);
+            allLocations.Add(restaurant5);
+            allLocations.Add(restaurant6);
+            allLocations.Add(restaurant7);
 
             return (allLocations, allOccupants);
         }
@@ -415,6 +429,22 @@ namespace InformationalChartsTool
                 Console.WriteLine("Location: {0} had {1} people in it", l.name, l.occupants.Count);
             }
             Console.WriteLine("\n");
+
+            foreach (Home r in allLocations.Where(x => x is Home))
+            {
+                if (r.hungers.Count != 0)
+                {
+                    Console.WriteLine("{0}: average tired was: {1} with {2} entries", r.name, r.hungers.Average(), r.hungers.Count);
+                }
+            }
+
+            Person p = new Person(5);
+            Home re = new Home("test", new List<Person> { p });
+            for (int i = 0; i < 100; i++)
+            {
+                Console.WriteLine("{0}: {1}", p.hunger, p.WeightTiredness(100, new Decision(re, 0)));
+                p.hunger = i / 100.0;
+            }
         }
     }
 }

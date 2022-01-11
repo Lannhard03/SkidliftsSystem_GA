@@ -8,6 +8,8 @@ namespace InformationalChartsTool
     class Restaurant : Location
     {
         public int maxOccupants;
+        
+        public List<double> hungers = new List<double>();
         public Restaurant(List<Person> occupants, int maxOccupants, string name)
         {
             this.occupants = occupants;
@@ -29,7 +31,7 @@ namespace InformationalChartsTool
                 occupants[i].timeLocation += timeStep;
                 if(eatingTimeMultiple*occupants[i].chill+eatingTimeBase <= occupants[i].timeLocation)
                 {
-                    occupants[i].hunger = 0;
+                    occupants[i].hunger = -2;
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
             }
@@ -51,6 +53,7 @@ namespace InformationalChartsTool
             else
             {
                 base.MovePerson(person, comingFrom);
+                hungers.Add(person.hunger);
             }
         }
     }

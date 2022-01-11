@@ -54,15 +54,15 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
-                    possibleDecision.weight += decisionMaker.WeightHunger(200, possibleDecision); //+ decisionMaker.WeightExplororness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightHunger(210, possibleDecision); //+ decisionMaker.WeightExplororness(50, possibleDecision);
                 }
                 if (possibleDecision.decision is Home)
                 {
-                    possibleDecision.weight += decisionMaker.WeightTiredness(100, possibleDecision) + decisionMaker.WeightHunger(100, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightTiredness(250, possibleDecision);
                 }
                 if (possibleDecision.decision is Slope)
                 {
-                    possibleDecision.weight += decisionMaker.WeightExplororness(50, possibleDecision) + decisionMaker.WeightSkillLevel(75, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(20, possibleDecision) + decisionMaker.WeightSkillLevel(25, possibleDecision);
                 }
             }
 

@@ -8,6 +8,7 @@ namespace InformationalChartsTool
 {
     class Home : Location
     {
+        public List<double> hungers = new List<double>();
         public Home(string name, List<Person> occupants)
         {
             this.name = name;
@@ -36,6 +37,13 @@ namespace InformationalChartsTool
                 return c.leadingTo;
             }
             return possibleMovements[0].leadingTo;
+        }
+
+        public override void MovePerson(Person person, Location comingFrom)
+        {
+            base.MovePerson(person, comingFrom);
+            hungers.Add(person.hunger);
+
         }
     }
 }

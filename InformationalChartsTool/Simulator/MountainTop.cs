@@ -44,11 +44,11 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
-                    possibleDecision.weight += decisionMaker.WeightHunger(200, possibleDecision); //+ decisionMaker.WeightExplororness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightHunger(250, possibleDecision); //+ decisionMaker.WeightExplororness(50, possibleDecision);
                 }
                 if (possibleDecision.decision is Home)
                 {
-                    possibleDecision.weight += decisionMaker.WeightTiredness(200, possibleDecision) + decisionMaker.WeightHunger(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightTiredness(200, possibleDecision);
                 }
                 if (possibleDecision.decision is LiftQueue)
                 {
@@ -61,7 +61,7 @@ namespace InformationalChartsTool
                         }
                     }
 
-                    possibleDecision.weight += decisionMaker.WeightExplororness(175, possibleDecision) + decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(150, possibleDecision) + decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
                 }
             }
 
