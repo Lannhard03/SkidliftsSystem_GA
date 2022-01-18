@@ -127,13 +127,13 @@ namespace InformationalChartsTool
         }
         public double WeightQueueLenght(int queueLenghtWeight, Decision checkingDecision, int liftOccupants)
         {
-            double tendancyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
+            double tendencyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
             if (checkingDecision.decision is LiftQueue)
             {
                 double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1); //what to normalize with??
                 //Console.WriteLine("Lenght (norm): {0}", length);
                 
-                return queueLenghtWeight*((-1 / (1 - Math.Exp(-tendancyTowardsEdges)) * (Math.Exp(tendancyTowardsEdges * (length - 1)) - Math.Exp(-tendancyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01; ;
+                return queueLenghtWeight*((-1 / (1 - Math.Exp(-queuePatients*tendencyTowardsEdges)) * (Math.Exp(queuePatients*tendencyTowardsEdges * (length - 1)) - Math.Exp(-queuePatients*tendencyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01; ;
             }
             else
             {

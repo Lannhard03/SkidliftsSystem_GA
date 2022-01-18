@@ -29,7 +29,12 @@ namespace InformationalChartsTool
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             List<Decision> possibleDecisions = new List<Decision>();
-            foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Restaurant || x.leadingTo is Slope || x.leadingTo is Home || x.leadingTo is LiftQueue) && !x.closed))
+            foreach (Connection c in possibleMovements.Where(x => (
+            x.leadingTo is Restaurant 
+            || x.leadingTo is Slope
+            || x.leadingTo is Home 
+            || x.leadingTo is LiftQueue)
+            && !x.closed))
             {
                 //convert list to decisions and pickout desired locations
                 possibleDecisions.Add(new Decision(c.leadingTo, 0));

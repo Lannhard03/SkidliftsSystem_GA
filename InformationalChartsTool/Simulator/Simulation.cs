@@ -60,7 +60,10 @@ namespace InformationalChartsTool
         }
 
         //Update every Location, add hunger/tiredness and open closed connections
-        static void UpdateSystem(int timeStep, List<Location> allLocations, List<Person> allOccupants)
+        static void UpdateSystem(
+            int timeStep,
+            List<Location> allLocations, 
+            List<Person> allOccupants)
         {
             //update each location
             foreach (Location l in allLocations)
@@ -72,8 +75,13 @@ namespace InformationalChartsTool
             //Hunger and tiredness
             foreach (Person p in allOccupants)
             {
-                p.hunger += 7.937 * Math.Pow(10, -5) + p.hungryness* 0.3228 * Math.Pow(10, -5); //this will result in hunger of 1 at between 12:00 and 12:30 (7,937, 0,3228)
-                p.tired += 3.086* Math.Pow(10, -5) + p.tiredness*0.881* Math.Pow(10, -5); //between 16:00 and 18:00 for 1 (3.086, 0.881)
+                p.hunger += timeStep*(7.937 * Math.Pow(10, -5)
+                         + p.hungryness* 1.3228 * Math.Pow(10, -5));
+                //this will result in hunger of 1 at between 12:00 and 12:30 (7,937, 0,3228)
+
+                p.tired += timeStep*(3.086* Math.Pow(10, -5)
+                        + p.tiredness*0.881* Math.Pow(10, -5));
+                //between 16:00 and 18:00 for 1 (3.086, 0.881)
             }
 
             //open closed restaurants
@@ -87,7 +95,6 @@ namespace InformationalChartsTool
                     }
                 }
             }
-
         }
 
         //Based on "Files" file
