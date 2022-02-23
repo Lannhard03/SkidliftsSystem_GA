@@ -50,7 +50,7 @@ namespace InformationalChartsTool
                         } 
                     }
 
-                    possibleDecision.weight += decisionMaker.WeightExplororness(50, possibleDecision)+decisionMaker.WeightQueueLenght(150, possibleDecision, liftOccupants);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(150, possibleDecision)+decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
@@ -62,7 +62,7 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Slope)
                 {
-                    possibleDecision.weight += decisionMaker.WeightExplororness(20, possibleDecision) + decisionMaker.WeightSkillLevel(25, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(75, possibleDecision) + decisionMaker.WeightSkillLevel(50, possibleDecision);
                 }
             }
 

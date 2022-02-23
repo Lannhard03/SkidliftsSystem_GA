@@ -141,7 +141,7 @@ namespace InformationalChartsTool
             List<Person> allOccupants = new List<Person>();
             List<Location> allLocations = new List<Location>();
 
-            for (int i = 0; i < 700; i++)
+            for (int i = 0; i < 500; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
@@ -166,12 +166,12 @@ namespace InformationalChartsTool
             LiftQueue ko2 = new LiftQueue(4, 8, "springkö");
             LiftQueue ko3 = new LiftQueue(2, 7, "Kortkö");
 
-            Lift lift1 = new Lift(240, "superliften");
+            Lift lift1 = new Lift(300, "superliften");
             Lift lift2 = new Lift(500, "springliften");
-            Lift lift3 = new Lift(150, "Kortaliften");
+            Lift lift3 = new Lift(100, "Kortaliften");
 
-            Slope backe1 = new Slope(100, "superbacken", 0.4);
-            Slope backe2 = new Slope(150, "springBacken", 0.4);
+            Slope backe1 = new Slope(75, "superbacken", 0.4);
+            Slope backe2 = new Slope(125, "springBacken", 0.4);
             Slope backe3 = new Slope(50, "kortabacken", 0.2);
 
             //make connections
@@ -233,12 +233,12 @@ namespace InformationalChartsTool
             List<Location> allLocations = new List<Location>();
 
 
-            for (int i = 0; i < 2600; i++)
+            for (int i = 0; i < 3700; i++)
             {
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
             List<Person> home1Start = new List<Person>();
-            for(int i = 0; i<2200; i++)
+            for(int i = 0; i<3000; i++)
             {
                 home1Start.Add(allOccupants[i]);
             }
@@ -254,10 +254,10 @@ namespace InformationalChartsTool
             Restaurant restaurant1 = new Restaurant(15000, "Mellan Restaurangen");
             Restaurant restaurant2 = new Restaurant(25000, "Top Restaurangen");
             Restaurant restaurant3 = new Restaurant(30000, "Dal Restaurangen");
-            Restaurant restaurant4 = new Restaurant(5000, "Fika plats 1");
-            Restaurant restaurant5 = new Restaurant(5000, "Fika plats 2");
-            Restaurant restaurant6 = new Restaurant(5000, "Fika plats 3");
-            Restaurant restaurant7 = new Restaurant(5000, "Fika plats 4");
+            Restaurant restaurant4 = new Restaurant(50, "Fika plats 1");
+            Restaurant restaurant5 = new Restaurant(50, "Fika plats 2");
+            Restaurant restaurant6 = new Restaurant(50, "Fika plats 3");
+            Restaurant restaurant7 = new Restaurant(50, "Fika plats 4");
 
 
             Valley valley1 = new Valley("Stora dalen");
@@ -269,7 +269,7 @@ namespace InformationalChartsTool
             MountainTop berg3 = new MountainTop("Bortre toppen");
             MountainTop berg4 = new MountainTop("Transport toppen");
 
-            LiftQueue ko1 = new LiftQueue(6, 8, "Stora Kö");
+            LiftQueue ko1 = new LiftQueue(8, 8, "Stora Kö");
             LiftQueue ko2 = new LiftQueue(2, 8, "Mellan kö");
             LiftQueue ko3 = new LiftQueue(8, 8, "Spring kö");
             LiftQueue ko35 = new LiftQueue(2, 8, "Sido kö");
@@ -446,11 +446,12 @@ namespace InformationalChartsTool
             }
 
             Person p = new Person(5);
-            Home re = new Home("test", new List<Person> { p });
+            LiftQueue re = new LiftQueue(2,2, "test");
+            int length = 100;
             for (int i = 0; i < 100; i++)
             {
-                Console.WriteLine("{0}: {1}", p.hunger, p.WeightTiredness(100, new Decision(re, 0)));
-                p.hunger = i / 100.0;
+                Console.WriteLine("{0}: {1}", re.occupants.Count, p.WeightQueueLenght(100, new Decision(re, 0), length));
+                re.occupants.Add(p);
             }
         }
     }

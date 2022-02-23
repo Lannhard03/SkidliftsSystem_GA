@@ -65,7 +65,7 @@ namespace InformationalChartsTool
         //see documentation for each weightfunctions workings
         public double WeightExplororness(int explororWeight, Decision checkingDecision)
         {
-            double explororExponent = 1;
+            double explororExponent = 3;
             double explororMultiple = 1;
 
             int occurences = locationHistory.Where(x => x.Item1.Equals(checkingDecision.decision)).Count(); //gets the amount of times Person has been at location
@@ -130,10 +130,10 @@ namespace InformationalChartsTool
             double tendencyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
             if (checkingDecision.decision is LiftQueue)
             {
-                double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1); //what to normalize with??
+                double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1);//what to normalize with??
                 //Console.WriteLine("Lenght (norm): {0}", length);
                 
-                return queueLenghtWeight*((-1 / (1 - Math.Exp(-queuePatients*tendencyTowardsEdges)) * (Math.Exp(queuePatients*tendencyTowardsEdges * (length - 1)) - Math.Exp(-queuePatients*tendencyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01; ;
+                return queueLenghtWeight*((-1 / (1 - Math.Exp(-queuePatients*tendencyTowardsEdges)) * (Math.Exp(queuePatients*tendencyTowardsEdges * (length - 1)) - Math.Exp(-queuePatients*tendencyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01;
             }
             else
             {

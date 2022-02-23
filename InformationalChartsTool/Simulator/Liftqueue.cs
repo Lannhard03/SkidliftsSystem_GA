@@ -35,7 +35,7 @@ namespace InformationalChartsTool
                 currentWaitTime -= waitTime;
 
                 int actuallLiftAmount = occupants.Count > liftAmount ? liftAmount : occupants.Count; //lifts all people or max liftamount
-                for(int i = actuallLiftAmount-1; i > 0; i--)
+                for(int i = actuallLiftAmount-1; i >= 0; i--)
                 {
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this); //lift always takes from the front of the queue.
                 }
