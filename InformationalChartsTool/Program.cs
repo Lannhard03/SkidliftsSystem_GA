@@ -14,9 +14,7 @@ namespace InformationalChartsTool
         [STAThread]
         static void Main()
         {
-
-            Simulate.BeginSimulation();
-
+            Simulation.RunSimulation();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

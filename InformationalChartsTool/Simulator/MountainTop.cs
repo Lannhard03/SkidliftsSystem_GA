@@ -6,19 +6,19 @@ namespace InformationalChartsTool
 {
     class MountainTop : Location
     {
-        //Many Lifts may lead to this place, and people may spend some time waiting here.
-        public MountainTop(string name)       
+        public MountainTop(string name)
         {
             this.name = name;
         }
+
         public override void Update(int timeStep)
         {
             int waittimeMultiplier = 60;
 
-            for(int i = 0; i<occupants.Count; i++)
+            for (int i = 0; i < occupants.Count; i++)
             {
                 occupants[i].timeLocation += timeStep;
-                if(occupants[i].chill*waittimeMultiplier < occupants[i].timeLocation)
+                if (occupants[i].chill * waittimeMultiplier < occupants[i].timeLocation)
                 {
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
@@ -29,35 +29,49 @@ namespace InformationalChartsTool
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             List<Decision> possibleDecisions = new List<Decision>();
-            foreach (Connection c in possibleMovements.Where(x => x.leadingTo is Restaurant || x.leadingTo is Slope || x.leadingTo is Home))
+            foreach (Connection c in possibleMovements.Where(x => (
+            x.leadingTo is Restaurant 
+            || x.leadingTo is Slope
+            || x.leadingTo is Home 
+            || x.leadingTo is LiftQueue)
+            && !x.closed))
             {
-                if (!c.closed)
-                {
-                    possibleDecisions.Add(new Decision(c.leadingTo, 0));
-                }
+                //convert list to decisions and pickout desired locations
+                possibleDecisions.Add(new Decision(c.leadingTo, 0));
             }
-            //Look for Restaurant, Home, Slopes since MountainTop should have no Liftqueues or Vallys adjacent
 
             foreach (Decision possibleDecision in possibleDecisions)
             {
+                //calculate weight of location types
                 if (possibleDecision.decision is Slope)
                 {
-                    double temp = decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
-                    
-                    possibleDecision.weight += temp;
+                    possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
-                    possibleDecision.weight += decisionMaker.WeightHunger(200, possibleDecision) + decisionMaker.WeightExplororness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightHunger(250, possibleDecision); //+ decisionMaker.WeightExplororness(50, possibleDecision);
                 }
                 if (possibleDecision.decision is Home)
                 {
-                    possibleDecision.weight += decisionMaker.WeightTiredness(200, possibleDecision) + decisionMaker.WeightHunger(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightTiredness(200, possibleDecision);
+                }
+                if (possibleDecision.decision is LiftQueue)
+                {
+                    int liftOccupants = 0; //total occupants of all adjacent lifts
+                    foreach (Decision d in possibleDecisions)
+                    {
+                        if (d.decision is LiftQueue)
+                        {
+                            liftOccupants += d.decision.occupants.Count;
+                        }
+                    }
+
+                    possibleDecision.weight += decisionMaker.WeightExplororness(150, possibleDecision) + decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
                 }
             }
 
-            //Determined way, largest weight wins.
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
+
             //foreach (Decision d in possibleDecisions)
             //{
             //    Console.WriteLine("From {0} to {1} had {2} weight", this.name, d.decision.name, d.weight);
@@ -67,12 +81,6 @@ namespace InformationalChartsTool
             //Console.Write("\n");
 
             return choice.decision;
-
-
-        }
-
-
-
-
         }
     }
+}

@@ -8,7 +8,8 @@ namespace InformationalChartsTool
     class Restaurant : Location
     {
         public int maxOccupants;
-
+        
+        public List<double> hungers = new List<double>();
         public Restaurant(List<Person> occupants, int maxOccupants, string name)
         {
             this.occupants = occupants;
@@ -21,16 +22,16 @@ namespace InformationalChartsTool
             this.name = name;
         }
 
-        //remember that this is movement away from restaurant and that MovePerson overide affects incoming people
         public override void Update(int timeStep) 
         {
-            int eatingTime = 1800;
+            int eatingTimeMultiple = 1800;
+            int eatingTimeBase = 900; //time it takes to eat
             for(int i = 0; i<occupants.Count; i++)
             {
                 occupants[i].timeLocation += timeStep;
-                if(eatingTime*occupants[i].chill <= occupants[i].timeLocation)
+                if(eatingTimeMultiple*occupants[i].chill+eatingTimeBase <= occupants[i].timeLocation)
                 {
-                    occupants[i].hunger = 0;
+                    occupants[i].hunger = -2;
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
             }
@@ -38,20 +39,21 @@ namespace InformationalChartsTool
 
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
+            //only one choice
             return possibleMovements[0].leadingTo;
         }
 
-        public override void MovePerson(Person person, Location comingFrom) //if the restaurant is full we can't let someone enter it.
+        public override void MovePerson(Person person, Location comingFrom) 
         {
             if (occupants.Count > maxOccupants)
             {
-                comingFrom.possibleMovements.Find(x => x.leadingTo == this).closed = true;
-                //Console.WriteLine("Closed Restaurant");
-                comingFrom.MakeDecision(person, comingFrom.possibleMovements).MovePerson(person, comingFrom);
+                comingFrom.possibleMovements.Find(x => x.leadingTo == this).closed = true; //if the restaurant is full we can't let someone enter it.
+                comingFrom.MakeDecision(person, comingFrom.possibleMovements).MovePerson(person, comingFrom); //person makes new decision
             }
             else
             {
                 base.MovePerson(person, comingFrom);
+                hungers.Add(person.hunger);
             }
         }
     }

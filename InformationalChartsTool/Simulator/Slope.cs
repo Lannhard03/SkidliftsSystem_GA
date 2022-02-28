@@ -6,9 +6,9 @@ namespace InformationalChartsTool
 {
     class Slope : Location
     {
-        
-        int slopeTime;
+        int slopeTime; //time it takes to ski
         public double difficulty; //1,2,3,4 -> green, blue, red, black
+
         public Slope(List<Person> occupants, int slopeTime, string name, double difficulty)
         {
             this.name = name;
@@ -22,6 +22,7 @@ namespace InformationalChartsTool
             this.slopeTime = slopeTime;
             this.difficulty = difficulty;
         }
+
         public override void Update(int timeStep)
         {
             for(int i = 0; i < occupants.Count; i++)
@@ -36,18 +37,16 @@ namespace InformationalChartsTool
         }
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
-            //Basically only connects to Valley or Another Slope. 
             List<Decision> possibleDecisions = new List<Decision>();
-            foreach (Connection c in possibleMovements.Where(x => x.leadingTo is Slope || x.leadingTo is Valley))
+            foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Slope || x.leadingTo is Valley || x.leadingTo is MountainTop) && !x.closed))
             {
-                if (!c.closed)
-                {
-                    possibleDecisions.Add(new Decision(c.leadingTo, 0));
-                }
+                //convert list to decisions and pickout desired locations
+                possibleDecisions.Add(new Decision(c.leadingTo, 0));
             }
 
             foreach (Decision possibleDecision in possibleDecisions)
             {
+                //calculate weight of location types
                 if (possibleDecision.decision is Slope)
                 {
                     possibleDecision.weight += decisionMaker.WeightExplororness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
@@ -56,10 +55,13 @@ namespace InformationalChartsTool
                 {
                     possibleDecision.weight += decisionMaker.WeightExplororness(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
                 }
+                if (possibleDecision.decision is MountainTop)
+                {
+                    possibleDecision.weight += decisionMaker.WeightExplororness(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
+                }
             }
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
             return choice.decision;
-
         }
     }
 }

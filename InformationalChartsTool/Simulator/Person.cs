@@ -9,24 +9,28 @@ namespace InformationalChartsTool
 {
     public class Person
     {
-        public string name; //for esthetics?
+        static Random rnd = new Random();
+        
+        public string name; 
         public int personNumber; //for keeping track of who is where.
 
-        public double morningness; //from 0-1? How early do they start skiing.
-        public double hungryness;  //from 0-1? how hungry they are.
+        //range from 0-1, see documentation for purpose
+        public double morningness; 
+        public double hungryness;  
         public double queuePatients;
         public double chill;
         public double tiredness;
-        public double elementalResistance;
+        public double elementalResistance; //unused
+        public double skillLevel; 
+        public double explororness; 
 
-        public double skillLevel; //from 0-1? How good at skiing is the person.
-        public double explororness; //from 0-1? How much they want to visit new lifts.
-
+        //increase overtime
         public double hunger;
         public double tired;
 
-        public bool hungerState; //if true they want to find a restaurant
-        public bool doneSkiingState; //if true they want to go home
+        //unused
+        public bool hungerState; 
+        public bool doneSkiingState; 
 
         public int timeLocation; 
 
@@ -35,8 +39,9 @@ namespace InformationalChartsTool
 
         public Person(int personNumber)
         {
-            Random rnd = new Random();
             this.personNumber = personNumber;
+            this.tiredness = rnd.NextDouble();
+            this.skillLevel = rnd.NextDouble();
             this.morningness = rnd.NextDouble();
             this.hungryness = rnd.NextDouble();
             this.explororness = rnd.NextDouble();
@@ -46,8 +51,9 @@ namespace InformationalChartsTool
 
         public Person(int personNumber, string name)
         {
-            Random rnd = new Random();
             this.personNumber = personNumber;
+            this.tiredness = rnd.NextDouble();
+            this.skillLevel = rnd.NextDouble();
             this.morningness = rnd.NextDouble();
             this.hungryness = rnd.NextDouble();
             this.explororness = rnd.NextDouble();
@@ -55,9 +61,11 @@ namespace InformationalChartsTool
             this.chill = rnd.NextDouble();
             this.name = name;
         }
+
+        //see documentation for each weightfunctions workings
         public double WeightExplororness(int explororWeight, Decision checkingDecision)
         {
-            double explororExponent = 1;
+            double explororExponent = 3;
             double explororMultiple = 1;
 
             int occurences = locationHistory.Where(x => x.Item1.Equals(checkingDecision.decision)).Count(); //gets the amount of times Person has been at location
@@ -65,7 +73,7 @@ namespace InformationalChartsTool
             double temp = (2 * explororWeight * (explororness - 0.5) * Math.Exp(-occurences) +
                         Math.Exp(-occurences) * explororWeight * (1 - explororness) +
                         (1 - Math.Exp(-occurences)) * (explororWeight / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences))));
-            return temp;
+            return temp + (rnd.NextDouble()-0.5)*0.01;
             //Math function to get weight
         }
         public double WeightSkillLevel(int skillLevelWeight, Decision checkingDecision)
@@ -76,7 +84,7 @@ namespace InformationalChartsTool
             if (checkingDecision.decision is Slope slopeDecision)
             {
                 double temp = skillLevelWeight * Math.Exp(-(skillSteepness / (Math.Pow(skillLevel, 2) + 0.1)) * (Math.Pow(Math.Log(skillLevel - slopeDecision.difficulty + 1), skillFlatnessAtMax)));
-                return temp;
+                return temp + (rnd.NextDouble() - 0.5) * 0.01;
             }
             else
             {
@@ -89,11 +97,13 @@ namespace InformationalChartsTool
         }
         public double WeightHunger(int hungerWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 5; //large value towards 1, small linear, negative towards 0
-            if(checkingDecision.decision is Restaurant)
+            double tendancyTowardsEdges = 8; //large value towards 1, small linear, negative towards 0
+            double threshhold = 0.95;
+            if (checkingDecision.decision is Restaurant)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
-                return hungerWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hunger - 1)) + Math.Exp(-tendancyTowardsEdges));
+                //return hungerWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hunger - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
+                return hungerWeight * (1 / (1 + Math.Exp(-100 * (hunger - threshhold))));
             }
             else
             {
@@ -102,12 +112,13 @@ namespace InformationalChartsTool
         }
         public double WeightTiredness(int tirednessWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 5; //large value towards 1, small linear, negative towards 0
-            if (checkingDecision.decision is Restaurant)
+            double tendancyTowardsEdges = 10; //large value towards 1, small linear, negative towards 0
+            double threshhold = 0.9;
+            if (checkingDecision.decision is Home)
             {
                 //Assuming function on x [0,1], y [0,1] and exponential form
-                return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges));
-                
+                //return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
+                return tirednessWeight * (1 / (1 + Math.Exp(-100 * (tired - threshhold))));
             }
             else
             {
@@ -116,13 +127,13 @@ namespace InformationalChartsTool
         }
         public double WeightQueueLenght(int queueLenghtWeight, Decision checkingDecision, int liftOccupants)
         {
-            double tendancyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
+            double tendencyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
             if (checkingDecision.decision is LiftQueue)
             {
-                double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1); //what to normalize with??
+                double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1);//what to normalize with??
                 //Console.WriteLine("Lenght (norm): {0}", length);
                 
-                return queueLenghtWeight*((-1 / (1 - Math.Exp(-tendancyTowardsEdges)) * (Math.Exp(tendancyTowardsEdges * (length - 1)) - Math.Exp(-tendancyTowardsEdges))) + 1);
+                return queueLenghtWeight*((-1 / (1 - Math.Exp(-queuePatients*tendencyTowardsEdges)) * (Math.Exp(queuePatients*tendencyTowardsEdges * (length - 1)) - Math.Exp(-queuePatients*tendencyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01;
             }
             else
             {

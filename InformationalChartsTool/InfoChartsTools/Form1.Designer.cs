@@ -30,12 +30,123 @@ namespace InformationalChartsTool
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.chartWindow = new LiveCharts.WinForms.CartesianChart();
+            this.tempBindingSourceBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.btnClick = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.LoadLocationBased = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.PrintConsoleDataButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.tempBindingSourceBindingSource)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // chartWindow
+            // 
+            this.chartWindow.Location = new System.Drawing.Point(0, 0);
+            this.chartWindow.Name = "chartWindow";
+            this.chartWindow.Size = new System.Drawing.Size(1194, 528);
+            this.chartWindow.TabIndex = 0;
+            this.chartWindow.Text = "cartesianChart1";
+            // 
+            // tempBindingSourceBindingSource
+            // 
+            this.tempBindingSourceBindingSource.DataSource = typeof(InformationalChartsTool.TempBindingSource);
+            // 
+            // btnClick
+            // 
+            this.btnClick.Location = new System.Drawing.Point(1186, 12);
+            this.btnClick.Name = "btnClick";
+            this.btnClick.Size = new System.Drawing.Size(118, 23);
+            this.btnClick.TabIndex = 2;
+            this.btnClick.Text = "Load Lift Graphs";
+            this.btnClick.UseVisualStyleBackColor = true;
+            this.btnClick.Click += new System.EventHandler(this.LoadLifts);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1186, 41);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(118, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Load Slope Graphs";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.LoadSlopes);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1186, 70);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(118, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Load Statics Graphs";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.LoadStatics);
+            // 
+            // LoadLocationBased
+            // 
+            this.LoadLocationBased.Location = new System.Drawing.Point(1186, 127);
+            this.LoadLocationBased.Name = "LoadLocationBased";
+            this.LoadLocationBased.Size = new System.Drawing.Size(118, 23);
+            this.LoadLocationBased.TabIndex = 5;
+            this.LoadLocationBased.Text = "Load All Locations";
+            this.LoadLocationBased.UseVisualStyleBackColor = true;
+            this.LoadLocationBased.Click += new System.EventHandler(this.LoadByLocation);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1186, 98);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(118, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Load Queue Graph";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.LoadQueues);
+            // 
+            // PrintConsoleDataButton
+            // 
+            this.PrintConsoleDataButton.Location = new System.Drawing.Point(1186, 482);
+            this.PrintConsoleDataButton.Name = "PrintConsoleDataButton";
+            this.PrintConsoleDataButton.Size = new System.Drawing.Size(118, 23);
+            this.PrintConsoleDataButton.TabIndex = 7;
+            this.PrintConsoleDataButton.Text = "Print Console Data";
+            this.PrintConsoleDataButton.UseVisualStyleBackColor = true;
+            this.PrintConsoleDataButton.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(1316, 594);
+            this.Controls.Add(this.PrintConsoleDataButton);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.LoadLocationBased);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnClick);
+            this.Controls.Add(this.chartWindow);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Charting Tool";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.tempBindingSourceBindingSource)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private LiveCharts.WinForms.CartesianChart chartWindow;
+        private System.Windows.Forms.Button btnClick;
+        private System.Windows.Forms.BindingSource tempBindingSourceBindingSource;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button LoadLocationBased;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button PrintConsoleDataButton;
     }
 }
 
