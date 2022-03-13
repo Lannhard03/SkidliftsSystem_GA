@@ -31,6 +31,7 @@ namespace InformationalChartsTool
                 if(occupants[i].timeLocation >= slopeTime)
                 {
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
+                    i--;
                 }
             }
 

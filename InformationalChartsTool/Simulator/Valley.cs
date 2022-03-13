@@ -21,6 +21,7 @@ namespace InformationalChartsTool
                 if (occupants[i].chill * waittimeMultiplier < occupants[i].timeLocation)
                 {
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
+                    i--;
                 }
                     //People will chill for a little while
                     //Class may seem unnessecary but it will govern what type of choices Persons make
