@@ -33,6 +33,7 @@ namespace InformationalChartsTool
                 {
                     occupants[i].hunger = -2;
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
+                    i--;
                 }
             }
         }
