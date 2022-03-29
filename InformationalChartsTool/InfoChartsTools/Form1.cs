@@ -24,30 +24,33 @@ namespace InformationalChartsTool
         {
             //Labels have to be placed with equal spacing, since stepsized of seperators is fixed.
 
-            int s = (Simulation.allLocations[1].timeBasedOccupantCounts.Count / 9); //rounds down :(
-            string[] hours = { "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00" };
+            //recalculate regionlength
+            int endTime = 32400; //this should be global
+            int regionLength = endTime / Simulation.allLocations[1].timeBasedOccupantCounts.Count;
+
+            int s = Simulation.allLocations[1].timeBasedOccupantCounts.Count / 9; //rounds down :(
             List<string> labels = new List<string>();
-            int counter = 0;
-            for(int i = 0; i<= Simulation.allLocations[1].timeBasedOccupantCounts.Count; i++)
+
+            //loop over each time
+            for(int i = 0; i<= endTime; i+=regionLength)
             {
-                if(i>=s*counter)
-                {
-                    labels.Add(hours[counter]);
-                    counter++;
-                }
-                else
-                {
-                    labels.Add("");
-                }
+                //convert "timestamp" to AB:CD:EF format, keeping in mind that time begins at 9:00:00
+                int hour = 9 + i / 3600;
+                int minute = (i - 3600 * (hour - 9)) / 60;
+                int second = i - 3600 * (hour - 9) - 60 * minute;
+                string time = string.Format("{0}:{1}:{2}", hour, minute, second);
+
+                labels.Add(time);
             }
 
+            //setup chart/graph
             chartWindow.AxisX.Add(new LiveCharts.Wpf.Axis
             {
                 Title = "Time",
                 Labels = labels,
                 Separator = new LiveCharts.Wpf.Separator
                 {
-                    Step = (int)s, // Assuming all locations "timeBasedOccupantCounts" list share the same List size, which they do
+                    Step = s > 1 ? s : 1, // Assuming all locations "timeBasedOccupantCounts" list share the same List size, which they do
                     IsEnabled = true
                 }
             });
