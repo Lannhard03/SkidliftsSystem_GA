@@ -22,7 +22,7 @@ namespace InformationalChartsTool
             Console.WriteLine("Initializing");
             int timeStep = 1; //one second
             int endTime = 32400; //from 9:00 to 18:00
-            Person susPerson = null;
+            
             (allLocations, allOccupants) = BigSystem(); //SmallSystem();
 
             Console.Clear();
