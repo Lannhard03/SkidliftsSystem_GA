@@ -25,7 +25,7 @@ namespace InformationalChartsTool
             //Labels have to be placed with equal spacing, since stepsized of seperators is fixed.
 
             //recalculate regionlength
-            int endTime = 32400; //this should be global
+            int endTime = 32400;
             int regionLength = endTime / Simulation.allLocations[1].timeBasedOccupantCounts.Count;
 
             int s = Simulation.allLocations[1].timeBasedOccupantCounts.Count / 9; //rounds down :(
@@ -50,7 +50,7 @@ namespace InformationalChartsTool
                 Labels = labels,
                 Separator = new LiveCharts.Wpf.Separator
                 {
-                    Step = s > 1 ? s : 1, // Assuming all locations "timeBasedOccupantCounts" list share the same List size, which they do
+                    Step = s > 1 ? s : 1, // Assumes all locations "timeBasedOccupantCounts" list share the same List size, which they do
                     IsEnabled = true
                 }
             });

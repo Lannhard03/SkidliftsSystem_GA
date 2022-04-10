@@ -10,12 +10,8 @@ namespace InformationalChartsTool
         public int maxOccupants;
         
         public List<double> hungers = new List<double>();
-        public Restaurant(List<Person> occupants, int maxOccupants, string name)
-        {
-            this.occupants = occupants;
-            this.maxOccupants = maxOccupants;
-            this.name = name;
-        }
+
+
         public Restaurant(int maxOccupants, string name)
         {
             this.maxOccupants = maxOccupants;

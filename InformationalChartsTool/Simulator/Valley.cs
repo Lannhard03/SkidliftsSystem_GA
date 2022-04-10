@@ -24,7 +24,6 @@ namespace InformationalChartsTool
                     i--;
                 }
                     //People will chill for a little while
-                    //Class may seem unnessecary but it will govern what type of choices Persons make
             }
         }
 
@@ -55,7 +54,7 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
-                    possibleDecision.weight += decisionMaker.WeightHunger(210, possibleDecision); //+ decisionMaker.WeightExplororness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightHunger(210, possibleDecision);
                 }
                 if (possibleDecision.decision is Home)
                 {
@@ -67,7 +66,6 @@ namespace InformationalChartsTool
                 }
             }
 
-            //Determined way, largest weight wins.
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
 
             return choice.decision;

@@ -16,13 +16,13 @@ namespace InformationalChartsTool
 
         public static void RunSimulation()
         {
-            
+
             Console.OutputEncoding = Encoding.UTF8;
             //initialize
             Console.WriteLine("Initializing");
             int timeStep = 1; //one second
             int endTime = 32400; //from 9:00 to 18:00
-            
+
             (allLocations, allOccupants) = BigSystem(); //SmallSystem();
 
             Console.Clear();
@@ -32,37 +32,37 @@ namespace InformationalChartsTool
             int procentDone = 0;
             Stopwatch sp = new Stopwatch();
             sp.Start();
-            
+
             //update system every timestep
             while (time <= endTime)
             {
-                if(10 * time  >= procentDone*endTime) //create cool progressbar
+                if (10 * time >= procentDone * endTime) //create cool progressbar
                 {
                     Console.Clear();
                     Console.WriteLine(progressBar[procentDone]);
                     procentDone++;
                 }
-                
+
                 UpdateSystem(timeStep, allLocations, allOccupants);
-                
+
                 time += timeStep;
             }
-            
+
             //compress location history
             foreach (Location l in allLocations)
             {
                 l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
             }
             sp.Stop();
-            
-            Console.WriteLine("Execution took {0} seconds",sp.Elapsed.ToString());
+
+            Console.WriteLine("Execution took {0} seconds", sp.Elapsed.ToString());
             Console.WriteLine("Opening LiveCharts");
         }
 
         //Update every Location, add hunger/tiredness and open closed connections
         static void UpdateSystem(
             int timeStep,
-            List<Location> allLocations, 
+            List<Location> allLocations,
             List<Person> allOccupants)
         {
             //update each location
@@ -75,12 +75,12 @@ namespace InformationalChartsTool
             //Hunger and tiredness
             foreach (Person p in allOccupants)
             {
-                p.hunger += timeStep*(7.937 * Math.Pow(10, -5)
-                         + p.hungryness* 1.3228 * Math.Pow(10, -5));
+                p.hunger += timeStep * (7.937 * Math.Pow(10, -5)
+                         + p.hungryness * 1.3228 * Math.Pow(10, -5));
                 //this will result in hunger of 1 at between 12:00 and 12:30 (7,937, 0,3228)
 
-                p.tired += timeStep*(3.086* Math.Pow(10, -5)
-                        + p.tiredness*0.881* Math.Pow(10, -5));
+                p.tired += timeStep * (3.086 * Math.Pow(10, -5)
+                        + p.tiredness * 0.881 * Math.Pow(10, -5));
                 //between 16:00 and 18:00 for 1 (3.086, 0.881)
             }
 
@@ -110,17 +110,17 @@ namespace InformationalChartsTool
 
             return name;
         }
-        
+
         //takes a list and make a shorter "averaged" one
         static public List<int> ListCompressor(List<int> uncompressedData)
         {
-            int regionLenght = 32400/162; //must be a divisor of uncompressedData.Count, 162
+            int regionLenght = 32400 / 162; //must be a divisor of uncompressedData.Count, 162
             int counter = 1;
             int value = 0;
             List<int> compressedData = new List<int>();
             for (int i = 0; i < uncompressedData.Count; i++)
             {
-                if (i + 1 <= regionLenght*counter)
+                if (i + 1 <= regionLenght * counter)
                 {
                     value += uncompressedData[i];
                     //Console.WriteLine(value);
@@ -136,7 +136,7 @@ namespace InformationalChartsTool
         }
 
         //initialize a ski system
-        static (List<Location>,List<Person>) SmallSystem()
+        static (List<Location>, List<Person>) SmallSystem()
         {
             List<Person> allOccupants = new List<Person>();
             List<Location> allLocations = new List<Location>();
@@ -230,7 +230,7 @@ namespace InformationalChartsTool
         static (List<Location>, List<Person>) BigSystem()
         {
             List<Person> allOccupants = new List<Person>();
-            List<Location> allLocations = new List<Location>();
+            List<Location> allLocations;
 
 
             for (int i = 0; i < 3700; i++)
@@ -238,7 +238,7 @@ namespace InformationalChartsTool
                 allOccupants.Add(new Person(i, NameGenerator()));
             }
             List<Person> home1Start = new List<Person>();
-            for(int i = 0; i<3000; i++)
+            for (int i = 0; i < 3000; i++)
             {
                 home1Start.Add(allOccupants[i]);
             }
@@ -282,7 +282,7 @@ namespace InformationalChartsTool
             Lift lift35 = new Lift(250, "Sido lift nedre");
             Lift lift36 = new Lift(350, "Sido lift övre");
             Lift lift4 = new Lift(500, "Ligma Liften");
-            Lift lift5 = new Lift(720, "Transportliften"); //släpplift?
+            Lift lift5 = new Lift(720, "Transportliften");
 
             Slope backe1 = new Slope(150, "Storabacken", 0.33);
             Slope backe2 = new Slope(80, "Mellanbacken", 0.66);
@@ -368,45 +368,47 @@ namespace InformationalChartsTool
             restaurant6.possibleMovements.Add(new Connection(berg2));
             restaurant7.possibleMovements.Add(new Connection(berg4));
 
-            allLocations.Add(home1);
-            allLocations.Add(home2);
-            allLocations.Add(valley1);
-            allLocations.Add(valley2);
-            allLocations.Add(valley3);
-            allLocations.Add(berg1);
-            allLocations.Add(berg2);
-            allLocations.Add(berg3);
-            allLocations.Add(berg4);
-            allLocations.Add(ko1);
-            allLocations.Add(ko2);
-            allLocations.Add(ko3);
-            allLocations.Add(ko35);
-            allLocations.Add(ko4);
-            allLocations.Add(ko5);
-            allLocations.Add(lift1);
-            allLocations.Add(lift2);
-            allLocations.Add(lift3);
-            allLocations.Add(lift35);
-            allLocations.Add(lift36);
-            allLocations.Add(lift4);
-            allLocations.Add(lift5);
-            allLocations.Add(backe1);
-            allLocations.Add(backe2);
-            allLocations.Add(backe3);
-            allLocations.Add(backe45);
-            allLocations.Add(backe46);
-            allLocations.Add(backe5);
-            allLocations.Add(backe6);
-            allLocations.Add(backe7);
-            allLocations.Add(backe8);
-            allLocations.Add(backe9);
-            allLocations.Add(restaurant1);
-            allLocations.Add(restaurant2);
-            allLocations.Add(restaurant3);
-            allLocations.Add(restaurant4);
-            allLocations.Add(restaurant5);
-            allLocations.Add(restaurant6);
-            allLocations.Add(restaurant7);
+            allLocations = new List<Location>()
+            {home1,
+             home2,
+             valley1,
+             valley2,
+             valley3,
+             berg1,
+             berg2,
+             berg3,
+             berg4,
+             ko1,
+             ko2,
+             ko3,
+             ko35,
+             ko4,
+             ko5,
+             lift1,
+             lift2,
+             lift3,
+             lift35,
+             lift36,
+             lift4,
+             lift5,
+             backe1,
+             backe2,
+             backe3,
+             backe45,
+             backe46,
+             backe5,
+             backe6,
+             backe7,
+             backe8,
+             backe9,
+             restaurant1,
+             restaurant2,
+             restaurant3,
+             restaurant4,
+             restaurant5,
+             restaurant6,
+             restaurant7
+            };
 
             return (allLocations, allOccupants);
         }
@@ -446,7 +448,7 @@ namespace InformationalChartsTool
             }
 
             Person p = new Person(5);
-            LiftQueue re = new LiftQueue(2,2, "test");
+            LiftQueue re = new LiftQueue(2, 2, "test");
             int length = 100;
             for (int i = 0; i < 100; i++)
             {

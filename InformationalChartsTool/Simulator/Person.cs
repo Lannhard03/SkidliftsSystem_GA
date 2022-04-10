@@ -12,7 +12,7 @@ namespace InformationalChartsTool
         static Random rnd = new Random();
         
         public string name; 
-        public int personNumber; //for keeping track of who is where.
+        int personNumber; //for keeping track of who is where.
 
         //range from 0-1, see documentation for purpose
         public double morningness; 
@@ -28,37 +28,32 @@ namespace InformationalChartsTool
         public double hunger;
         public double tired;
 
-        //unused
-        public bool hungerState; 
-        public bool doneSkiingState; 
-
         public int timeLocation; 
 
-        List<Decision> futureDecisions = new List<Decision>();
         public List<Tuple<Location, int>> locationHistory = new List<Tuple<Location, int>>();
 
         public Person(int personNumber)
         {
             this.personNumber = personNumber;
-            this.tiredness = rnd.NextDouble();
-            this.skillLevel = rnd.NextDouble();
-            this.morningness = rnd.NextDouble();
-            this.hungryness = rnd.NextDouble();
-            this.explororness = rnd.NextDouble();
-            this.queuePatients = rnd.NextDouble();
-            this.chill = rnd.NextDouble();
+            tiredness = rnd.NextDouble();
+            skillLevel = rnd.NextDouble();
+            morningness = rnd.NextDouble();
+            hungryness = rnd.NextDouble();
+            explororness = rnd.NextDouble();
+            queuePatients = rnd.NextDouble();
+            chill = rnd.NextDouble();
         }
 
         public Person(int personNumber, string name)
         {
             this.personNumber = personNumber;
-            this.tiredness = rnd.NextDouble();
-            this.skillLevel = rnd.NextDouble();
-            this.morningness = rnd.NextDouble();
-            this.hungryness = rnd.NextDouble();
-            this.explororness = rnd.NextDouble();
-            this.queuePatients = rnd.NextDouble();
-            this.chill = rnd.NextDouble();
+            tiredness = rnd.NextDouble();
+            skillLevel = rnd.NextDouble();
+            morningness = rnd.NextDouble();
+            hungryness = rnd.NextDouble();
+            explororness = rnd.NextDouble();
+            queuePatients = rnd.NextDouble();
+            chill = rnd.NextDouble();
             this.name = name;
         }
 
@@ -97,12 +92,9 @@ namespace InformationalChartsTool
         }
         public double WeightHunger(int hungerWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 8; //large value towards 1, small linear, negative towards 0
             double threshhold = 0.95;
             if (checkingDecision.decision is Restaurant)
             {
-                //Assuming function on x [0,1], y [0,1] and exponential form
-                //return hungerWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (hunger - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
                 return hungerWeight * (1 / (1 + Math.Exp(-100 * (hunger - threshhold))));
             }
             else
@@ -112,12 +104,9 @@ namespace InformationalChartsTool
         }
         public double WeightTiredness(int tirednessWeight, Decision checkingDecision)
         {
-            double tendancyTowardsEdges = 10; //large value towards 1, small linear, negative towards 0
             double threshhold = 0.9;
             if (checkingDecision.decision is Home)
             {
-                //Assuming function on x [0,1], y [0,1] and exponential form
-                //return tirednessWeight*(1 / (1 - Math.Exp(-tendancyTowardsEdges))) * (Math.Exp(tendancyTowardsEdges * (tired - 1)) + Math.Exp(-tendancyTowardsEdges)) + (rnd.NextDouble() - 0.5) * 0.01;
                 return tirednessWeight * (1 / (1 + Math.Exp(-100 * (tired - threshhold))));
             }
             else
@@ -130,9 +119,8 @@ namespace InformationalChartsTool
             double tendencyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
             if (checkingDecision.decision is LiftQueue)
             {
-                double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1);//what to normalize with??
-                //Console.WriteLine("Lenght (norm): {0}", length);
-                
+                double length = (double)checkingDecision.decision.occupants.Count/(liftOccupants+1);
+
                 return queueLenghtWeight*((-1 / (1 - Math.Exp(-queuePatients*tendencyTowardsEdges)) * (Math.Exp(queuePatients*tendencyTowardsEdges * (length - 1)) - Math.Exp(-queuePatients*tendencyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01;
             }
             else

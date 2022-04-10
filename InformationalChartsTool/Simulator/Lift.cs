@@ -7,12 +7,7 @@ namespace InformationalChartsTool
     class Lift : Location
     {
         int liftingTime;
-        public Lift(List<Person> occupants, int liftingTime, string name)
-        {
-            this.name = name;
-            this.occupants = occupants;
-            this.liftingTime = liftingTime;
-        }
+
         public Lift(int liftingTime, string name)
         {
             this.name = name;
@@ -38,7 +33,6 @@ namespace InformationalChartsTool
             }
         }
         
-        //poor implementation
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
             //Look for MountainTop or Slopes and Lifts (we may jump off lift in middle)

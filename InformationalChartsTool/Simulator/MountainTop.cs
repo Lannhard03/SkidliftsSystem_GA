@@ -50,7 +50,7 @@ namespace InformationalChartsTool
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
-                    possibleDecision.weight += decisionMaker.WeightHunger(250, possibleDecision); //+ decisionMaker.WeightExplororness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.WeightHunger(250, possibleDecision);
                 }
                 if (possibleDecision.decision is Home)
                 {
@@ -72,14 +72,6 @@ namespace InformationalChartsTool
             }
 
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
-
-            //foreach (Decision d in possibleDecisions)
-            //{
-            //    Console.WriteLine("From {0} to {1} had {2} weight", this.name, d.decision.name, d.weight);
-            //    Console.WriteLine("Occupied {0} times before", decisionMaker.locationHistory.Where(x => x.Item1.Equals(d.decision)).Count());
-            //}
-            //Console.WriteLine("choice was {0}", choice.decision.name);
-            //Console.Write("\n");
 
             return choice.decision;
         }

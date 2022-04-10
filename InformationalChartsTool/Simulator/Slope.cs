@@ -9,13 +9,6 @@ namespace InformationalChartsTool
         int slopeTime; //time it takes to ski
         public double difficulty; //1,2,3,4 -> green, blue, red, black
 
-        public Slope(List<Person> occupants, int slopeTime, string name, double difficulty)
-        {
-            this.name = name;
-            this.occupants = occupants;
-            this.slopeTime = slopeTime;
-            this.difficulty = difficulty;
-        }
         public Slope(int slopeTime, string name, double difficulty)
         {   
             this.name = name;

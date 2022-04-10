@@ -8,16 +8,7 @@ namespace InformationalChartsTool
     {
         int liftAmount; //how much one lifting lifts
         int waitTime;   //Time between each lifting
-        int currentWaitTime; //=waittime;
-
-        public LiftQueue(List<Person> occupants, int liftAmount, int waitTime, string name)
-        {
-            this.name = name;
-            this.occupants = occupants;
-            this.liftAmount = liftAmount;
-            this.waitTime = waitTime;
-            currentWaitTime = 0;
-        }
+        int currentWaitTime;
 
         public LiftQueue(int liftAmount, int waitTime, string name)
         {
@@ -30,7 +21,7 @@ namespace InformationalChartsTool
         public override void Update(int timeStep) 
         {
             currentWaitTime += timeStep;    
-            if (currentWaitTime >= waitTime)   //if the waittime is elapsed we lift people.
+            if (currentWaitTime >= waitTime) //if the waittime is elapsed we lift people.
             {
                 currentWaitTime -= waitTime;
 
