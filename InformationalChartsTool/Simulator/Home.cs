@@ -8,7 +8,9 @@ namespace InformationalChartsTool
 {
     class Home : Location
     {
+        //for debugging
         public List<double> hungers = new List<double>();
+
         public Home(string name, List<Person> occupants)
         {
             this.name = name;
@@ -31,20 +33,11 @@ namespace InformationalChartsTool
             }
         }
 
-        public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
-        {
-            foreach(Connection c in possibleMovements)
-            {
-                return c.leadingTo;
-            }
-            return possibleMovements[0].leadingTo;
-        }
-
+        //overridden for debugging purposes
         public override void MovePerson(Person person, Location comingFrom)
         {
             base.MovePerson(person, comingFrom);
             hungers.Add(person.hunger);
-
         }
     }
 }

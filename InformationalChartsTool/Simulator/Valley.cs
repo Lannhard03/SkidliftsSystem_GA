@@ -13,7 +13,7 @@ namespace InformationalChartsTool
 
         public override void Update(int timeStep)
         {
-            int waittimeMultiplier = 120; //maximum time spent
+            int waittimeMultiplier = 120; //maximum time spent in location
 
             for (int i = 0; i < occupants.Count; i++)
             {
@@ -23,34 +23,34 @@ namespace InformationalChartsTool
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                     i--;
                 }
-                    //People will chill for a little while
             }
         }
 
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
+            //convert list to decisions and pickout desired locations
             List<Decision> possibleDecisions = new List<Decision>();
-            foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Restaurant || x.leadingTo is LiftQueue|| x.leadingTo is Home || x.leadingTo is Slope) && !x.closed))
+            foreach (Connection c in possibleMovements.Where(x => (x.leadingTo is Restaurant || x.leadingTo is LiftQueue || x.leadingTo is Home || x.leadingTo is Slope) && !x.closed))
             {
-                //convert list to decisions and pickout desired locations
                 possibleDecisions.Add(new Decision(c.leadingTo, 0));
             }
 
+            //calculate weight of location types
             foreach (Decision possibleDecision in possibleDecisions)
             {
-                //calculate weight of location types
+                
                 if (possibleDecision.decision is LiftQueue)
                 {
                     int liftOccupants = 0; //total occupants of all adjacent lifts
-                    foreach(Decision d in possibleDecisions)
+                    foreach (Decision d in possibleDecisions)
                     {
                         if (d.decision is LiftQueue)
                         {
                             liftOccupants += d.decision.occupants.Count;
-                        } 
+                        }
                     }
 
-                    possibleDecision.weight += decisionMaker.WeightExplororness(150, possibleDecision)+decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
+                    possibleDecision.weight += decisionMaker.WeightExplororness(150, possibleDecision) + decisionMaker.WeightQueueLenght(50, possibleDecision, liftOccupants);
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
@@ -66,8 +66,8 @@ namespace InformationalChartsTool
                 }
             }
 
+            //pick decision with largest weight
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
-
             return choice.decision;
         }
     }

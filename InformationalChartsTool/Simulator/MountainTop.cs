@@ -13,7 +13,7 @@ namespace InformationalChartsTool
 
         public override void Update(int timeStep)
         {
-            int waittimeMultiplier = 60;
+            int waittimeMultiplier = 60; //maximum waittime of location
 
             for (int i = 0; i < occupants.Count; i++)
             {
@@ -23,21 +23,22 @@ namespace InformationalChartsTool
                     MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                     i--;
                 }
-                //People will chill for a little while
             }
         }
 
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
+            //Filter possibleMovements for desireable Locations while converting connections to decision
             List<Decision> possibleDecisions = new List<Decision>();
-            foreach (Connection c in possibleMovements.Where(x => (
-            x.leadingTo is Restaurant 
+            foreach (Connection c in possibleMovements.Where(x =>
+            (
+            x.leadingTo is Restaurant
             || x.leadingTo is Slope
-            || x.leadingTo is Home 
-            || x.leadingTo is LiftQueue)
+            || x.leadingTo is Home
+            || x.leadingTo is LiftQueue
+            )
             && !x.closed))
             {
-                //convert list to decisions and pickout desired locations
                 possibleDecisions.Add(new Decision(c.leadingTo, 0));
             }
 
@@ -71,8 +72,8 @@ namespace InformationalChartsTool
                 }
             }
 
+            //pick decision with largest weight
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
-
             return choice.decision;
         }
     }

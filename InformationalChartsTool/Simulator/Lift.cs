@@ -6,6 +6,7 @@ namespace InformationalChartsTool
 {
     class Lift : Location
     {
+        //Time Person spends in lift
         int liftingTime;
 
         public Lift(int liftingTime, string name)
@@ -13,41 +14,44 @@ namespace InformationalChartsTool
             this.name = name;
             this.liftingTime = liftingTime;
         }
+
         public override void Update(int timeStep)
         {
-            List<Person> movingPeople = new List<Person>(); //utilized since we want sorted output
+            List<Person> movingPeople = new List<Person>(); //used since we want sorted output
             foreach (Person p in occupants)
             {
-                p.timeLocation += timeStep; 
+                p.timeLocation += timeStep;
                 if (p.timeLocation >= liftingTime)
                 {
                     movingPeople.Add(p);
                 }
             }
 
-            movingPeople.Sort((x,y) => y.timeLocation.CompareTo(x.timeLocation)); //sorts output S.T person with most time exits first
+            movingPeople.Sort((x, y) => y.timeLocation.CompareTo(x.timeLocation)); //sorts output such that person with most time exits first
 
             foreach (Person p in movingPeople)
             {
                 MakeDecision(p, possibleMovements).MovePerson(p, this);
             }
         }
-        
+
         public override Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
-            //Look for MountainTop or Slopes and Lifts (we may jump off lift in middle)
+            //Look for MountainTop, Slopes, or Lifts (we may jump off lift in middle), Note multiple return statements.
+
+            //First MountainTops are always choosen
             Connection temp = possibleMovements.Find(x => x.leadingTo is MountainTop && !x.closed);
             if (temp != null)
             {
                 return temp.leadingTo;
             }
-            
+
+            //If there is a Lift go there
             temp = possibleMovements.Find(x => x.leadingTo is Lift && !x.closed);
             if (temp != null)
             {
                 return temp.leadingTo;
             }
-            //If there is a Lift go there.
 
             return possibleMovements[0].leadingTo;
         }

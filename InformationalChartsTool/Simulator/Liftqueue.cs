@@ -8,7 +8,7 @@ namespace InformationalChartsTool
     {
         int liftAmount; //how much one lifting lifts
         int waitTime;   //Time between each lifting
-        int currentWaitTime;
+        int currentWaitTime; //time since last lifting
 
         public LiftQueue(int liftAmount, int waitTime, string name)
         {
@@ -20,15 +20,16 @@ namespace InformationalChartsTool
 
         public override void Update(int timeStep) 
         {
-            currentWaitTime += timeStep;    
-            if (currentWaitTime >= waitTime) //if the waittime is elapsed we lift people.
+            currentWaitTime += timeStep;
+            //for larger timeSteps currentWaiTtime could be much larger than waittim: lift needs to be updated many times
+            while (currentWaitTime >= waitTime)
             {
-                currentWaitTime -= waitTime;
+                currentWaitTime -= waitTime; 
 
                 int actuallLiftAmount = occupants.Count > liftAmount ? liftAmount : occupants.Count; //lifts all people or max liftamount
                 for(int i = actuallLiftAmount-1; i >= 0; i--)
                 {
-                    MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this); //lift always takes from the front of the queue.
+                    MakeDecision(occupants[i], possibleMovements).MovePerson(occupants[i], this);
                 }
             }
         }

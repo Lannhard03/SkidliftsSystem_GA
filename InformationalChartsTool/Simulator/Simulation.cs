@@ -10,21 +10,25 @@ namespace InformationalChartsTool
 {
     static public class Simulation
     {
+        static Random rnd = new Random();
+
         static public int time = 0; //starting from 9:00
         static public List<Person> allOccupants = new List<Person>();
         static public List<Location> allLocations = new List<Location>();
 
         public static void RunSimulation()
         {
-
             Console.OutputEncoding = Encoding.UTF8;
-            //initialize
+
+            //initialize system
             Console.WriteLine("Initializing");
             int timeStep = 1; //one second
             int endTime = 32400; //from 9:00 to 18:00
 
+            //either Big- or SmallSystem
             (allLocations, allOccupants) = BigSystem(); //SmallSystem();
 
+            //Initilize sanity saving progressbar
             Console.Clear();
             Console.WriteLine("Starting Simulation");
             string[] progressBar = File.ReadAllLines("Files\\ProgressBar.txt");
@@ -36,7 +40,8 @@ namespace InformationalChartsTool
             //update system every timestep
             while (time <= endTime)
             {
-                if (10 * time >= procentDone * endTime) //create cool progressbar
+                //logic of progressbar
+                if (10 * time >= procentDone * endTime)
                 {
                     Console.Clear();
                     Console.WriteLine(progressBar[procentDone]);
@@ -48,7 +53,8 @@ namespace InformationalChartsTool
                 time += timeStep;
             }
 
-            //compress location history
+
+            //compress location history since Live Charts cant handle 30 000+ data points
             foreach (Location l in allLocations)
             {
                 l.timeBasedOccupantCounts = ListCompressor(l.timeBasedOccupantCounts);
@@ -59,7 +65,7 @@ namespace InformationalChartsTool
             Console.WriteLine("Opening LiveCharts");
         }
 
-        //Update every Location, add hunger/tiredness and open closed connections
+        //Update every Location, add hunger/tired and open closed connections
         static void UpdateSystem(
             int timeStep,
             List<Location> allLocations,
@@ -72,7 +78,7 @@ namespace InformationalChartsTool
                 l.Update(timeStep);
             }
 
-            //Hunger and tiredness
+            //Hunger and tired
             foreach (Person p in allOccupants)
             {
                 p.hunger += timeStep * (7.937 * Math.Pow(10, -5)
@@ -97,16 +103,15 @@ namespace InformationalChartsTool
             }
         }
 
-        //Based on "Files" file
+        //Generate First- and Lastname utlizing name list
         static string NameGenerator()
         {
             string[] firstNames = File.ReadAllLines("Files\\FirstNames.txt");
             string[] lastNames = File.ReadAllLines("Files\\LastNames.txt");
 
-            Random rnd = new Random();
-
+            // Concates a random first and lastname from files
             string name = firstNames[rnd.Next(0, firstNames.Length - 1)] + lastNames[rnd.Next(0, lastNames.Length - 1)];
-            //Concates a random first and lastname from files
+            
 
             return name;
         }
@@ -114,7 +119,7 @@ namespace InformationalChartsTool
         //takes a list and make a shorter "averaged" one
         static public List<int> ListCompressor(List<int> uncompressedData)
         {
-            int regionLenght = 32400 / 162; //must be a divisor of uncompressedData.Count, 162
+            int regionLenght = 32400 / 162; //must be a divisor of uncompressedData.Count
             int counter = 1;
             int value = 0;
             List<int> compressedData = new List<int>();
@@ -369,7 +374,8 @@ namespace InformationalChartsTool
             restaurant7.possibleMovements.Add(new Connection(berg4));
 
             allLocations = new List<Location>()
-            {home1,
+            {
+             home1,
              home2,
              valley1,
              valley2,

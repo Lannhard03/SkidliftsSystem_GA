@@ -11,7 +11,8 @@ namespace InformationalChartsTool
         public List<Connection> possibleMovements = new List<Connection>();
         public List<int> timeBasedOccupantCounts = new List<int>();
         
-        public virtual void MovePerson(Person person, Location comingFrom) //Take Person coming from a location and puts it in the one calling the method
+        //Take Person coming from a location and puts it in the one calling the method
+        public virtual void MovePerson(Person person, Location comingFrom)
         {
             AddPerson(person);
             comingFrom.RemovePerson(person);
@@ -26,12 +27,15 @@ namespace InformationalChartsTool
             occupants.Add(people);
             people.timeLocation = 0; //reset time
         }
+
+        //method called every timeStep
         public virtual void Update(int timeStep)
         {
             //overidden in derived locations
         }
         public virtual Location MakeDecision(Person decisionMaker, List<Connection> possibleMovements)
         {
+            //Overridden in most derived types.
             return possibleMovements[0].leadingTo;
         }
     }
