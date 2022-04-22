@@ -82,7 +82,7 @@ namespace InformationalChartsTool
             foreach (Person p in allOccupants)
             {
                 p.hunger += timeStep * (7.937 * Math.Pow(10, -5)
-                         + p.hungryness * 1.3228 * Math.Pow(10, -5));
+                         + p.hungriness * 1.3228 * Math.Pow(10, -5));
                 //this will result in hunger of 1 at between 12:00 and 12:30 (7,937, 0,3228)
 
                 p.tired += timeStep * (3.086 * Math.Pow(10, -5)
@@ -458,7 +458,7 @@ namespace InformationalChartsTool
             int length = 100;
             for (int i = 0; i < 100; i++)
             {
-                Console.WriteLine("{0}: {1}", re.occupants.Count, p.WeightQueueLenght(100, new Decision(re, 0), length));
+                Console.WriteLine("{0}: {1}", re.occupants.Count, p.WeightQueueLength(100, new Decision(re, 0), length));
                 re.occupants.Add(p);
             }
         }

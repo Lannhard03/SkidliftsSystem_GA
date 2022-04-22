@@ -16,12 +16,12 @@ namespace InformationalChartsTool
 
         //range from 0-1, see documentation for purpose
         public double morningness;
-        public double hungryness;
-        public double queuePatients;
+        public double hungriness;
+        public double queuePatience;
         public double chill;
         public double tiredness;
         public double skillLevel;
-        public double explororness;
+        public double curiousness;
 
         //increase overtime
         public double hunger;
@@ -38,9 +38,9 @@ namespace InformationalChartsTool
             tiredness = rnd.NextDouble();
             skillLevel = rnd.NextDouble();
             morningness = rnd.NextDouble();
-            hungryness = rnd.NextDouble();
-            explororness = rnd.NextDouble();
-            queuePatients = rnd.NextDouble();
+            hungriness = rnd.NextDouble();
+            curiousness = rnd.NextDouble();
+            queuePatience = rnd.NextDouble();
             chill = rnd.NextDouble();
         }
 
@@ -50,24 +50,24 @@ namespace InformationalChartsTool
             tiredness = rnd.NextDouble();
             skillLevel = rnd.NextDouble();
             morningness = rnd.NextDouble();
-            hungryness = rnd.NextDouble();
-            explororness = rnd.NextDouble();
-            queuePatients = rnd.NextDouble();
+            hungriness = rnd.NextDouble();
+            curiousness = rnd.NextDouble();
+            queuePatience = rnd.NextDouble();
             chill = rnd.NextDouble();
             this.name = name;
         }
 
         //see documentation for more detail on weightfunction workings
-        public double WeightExplororness(int explororWeight, Decision checkingDecision)
+        public double WeightCuriousness(int curiouWeight, Decision checkingDecision)
         {
             double explororExponent = 3;
             double explororMultiple = 1;
 
             int occurences = locationHistory.Where(x => x.Item1.Equals(checkingDecision.decision)).Count(); //gets the amount of times Person has been at location
 
-            double temp = (2 * explororWeight * (explororness - 0.5) * Math.Exp(-occurences) +
-                        Math.Exp(-occurences) * explororWeight * (1 - explororness) +
-                        (1 - Math.Exp(-occurences)) * (explororWeight / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (explororness - 0.5), explororExponent) * occurences))));
+            double temp = (2 * curiouWeight * (curiousness - 0.5) * Math.Exp(-occurences) +
+                        Math.Exp(-occurences) * curiouWeight * (1 - curiousness) +
+                        (1 - Math.Exp(-occurences)) * (curiouWeight / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (curiousness - 0.5), explororExponent) * occurences))));
             return temp + (rnd.NextDouble() - 0.5) * 0.01;
 
         }
@@ -115,14 +115,14 @@ namespace InformationalChartsTool
             }
         }
 
-        public double WeightQueueLenght(int queueLenghtWeight, Decision checkingDecision, int liftOccupants)
+        public double WeightQueueLength(int queueLengthWeight, Decision checkingDecision, int liftOccupants)
         {
             double tendencyTowardsEdges = -5; //large value towards 1, small linear, negative towards 0
             if (checkingDecision.decision is LiftQueue)
             {
                 double length = (double)checkingDecision.decision.occupants.Count / (liftOccupants + 1);
 
-                return queueLenghtWeight * ((-1 / (1 - Math.Exp(-queuePatients * tendencyTowardsEdges)) * (Math.Exp(queuePatients * tendencyTowardsEdges * (length - 1)) - Math.Exp(-queuePatients * tendencyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01;
+                return queueLengthWeight * ((-1 / (1 - Math.Exp(-queuePatience * tendencyTowardsEdges)) * (Math.Exp(queuePatience * tendencyTowardsEdges * (length - 1)) - Math.Exp(-queuePatience * tendencyTowardsEdges))) + 1) + (rnd.NextDouble() - 0.5) * 0.01;
             }
             else
             {
