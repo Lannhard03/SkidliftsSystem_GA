@@ -21,7 +21,7 @@ namespace InformationalChartsTool
         public double chill;
         public double tiredness;
         public double skillLevel;
-        public double curiousness;
+        public double curiosity;
 
         //increase overtime
         public double hunger;
@@ -39,7 +39,7 @@ namespace InformationalChartsTool
             skillLevel = rnd.NextDouble();
             morningness = rnd.NextDouble();
             hungriness = rnd.NextDouble();
-            curiousness = rnd.NextDouble();
+            curiosity = rnd.NextDouble();
             queuePatience = rnd.NextDouble();
             chill = rnd.NextDouble();
         }
@@ -51,23 +51,23 @@ namespace InformationalChartsTool
             skillLevel = rnd.NextDouble();
             morningness = rnd.NextDouble();
             hungriness = rnd.NextDouble();
-            curiousness = rnd.NextDouble();
+            curiosity = rnd.NextDouble();
             queuePatience = rnd.NextDouble();
             chill = rnd.NextDouble();
             this.name = name;
         }
 
         //see documentation for more detail on weightfunction workings
-        public double WeightCuriousness(int curiouWeight, Decision checkingDecision)
+        public double Weightcuriosity(int curiouWeight, Decision checkingDecision)
         {
             double explororExponent = 3;
             double explororMultiple = 1;
 
             int occurences = locationHistory.Where(x => x.Item1.Equals(checkingDecision.decision)).Count(); //gets the amount of times Person has been at location
 
-            double temp = (2 * curiouWeight * (curiousness - 0.5) * Math.Exp(-occurences) +
-                        Math.Exp(-occurences) * curiouWeight * (1 - curiousness) +
-                        (1 - Math.Exp(-occurences)) * (curiouWeight / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (curiousness - 0.5), explororExponent) * occurences))));
+            double temp = (2 * curiouWeight * (curiosity - 0.5) * Math.Exp(-occurences) +
+                        Math.Exp(-occurences) * curiouWeight * (1 - curiosity) +
+                        (1 - Math.Exp(-occurences)) * (curiouWeight / (1 + Math.Exp(explororMultiple * Math.Pow(2 * (curiosity - 0.5), explororExponent) * occurences))));
             return temp + (rnd.NextDouble() - 0.5) * 0.01;
 
         }

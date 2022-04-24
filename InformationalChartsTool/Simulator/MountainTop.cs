@@ -46,7 +46,7 @@ namespace InformationalChartsTool
                 //calculate weight of location types
                 if (possibleDecision.decision is Slope)
                 {
-                    possibleDecision.weight += decisionMaker.WeightCuriousness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                    possibleDecision.weight += decisionMaker.Weightcuriosity(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
                 }
                 if (possibleDecision.decision is Restaurant)
                 {
@@ -67,7 +67,7 @@ namespace InformationalChartsTool
                         }
                     }
 
-                    possibleDecision.weight += decisionMaker.WeightCuriousness(150, possibleDecision) + decisionMaker.WeightQueueLength(50, possibleDecision, liftOccupants);
+                    possibleDecision.weight += decisionMaker.Weightcuriosity(150, possibleDecision) + decisionMaker.WeightQueueLength(50, possibleDecision, liftOccupants);
                 }
             }
 

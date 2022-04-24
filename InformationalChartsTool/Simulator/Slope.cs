@@ -50,15 +50,15 @@ namespace InformationalChartsTool
                 //calculate weight of location types
                 if (possibleDecision.decision is Slope)
                 {
-                    possibleDecision.weight += decisionMaker.WeightCuriousness(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
+                    possibleDecision.weight += decisionMaker.Weightcuriosity(100, possibleDecision) + decisionMaker.WeightSkillLevel(100, possibleDecision);
                 }
                 if (possibleDecision.decision is Valley)
                 {
-                    possibleDecision.weight += decisionMaker.WeightCuriousness(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.Weightcuriosity(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
                 }
                 if (possibleDecision.decision is MountainTop)
                 {
-                    possibleDecision.weight += decisionMaker.WeightCuriousness(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
+                    possibleDecision.weight += decisionMaker.Weightcuriosity(200, possibleDecision) + decisionMaker.WeightTiredness(50, possibleDecision);
                 }
             }
             Decision choice = possibleDecisions.OrderByDescending(x => x.weight).First();
